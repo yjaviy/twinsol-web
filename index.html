@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Twinsol Decor · Pavimentos continuos industriales</title>
+<meta name="description" content="TWINSOL DECOR: especialistas en pavimentos de hormigón sin juntas y alta planimetría, revestimientos continuos, restauración de soleras y pavimentos artísticos. Torrejón del Rey, Guadalajara.">
+<!-- Quitar la línea siguiente cuando el cliente dé el visto bueno y la web pase a ser la oficial -->
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="TWINSOL DECOR · Pavimentos continuos industriales">
+<meta property="og:description" content="Pavimentos sin juntas reforzados con fibra de acero, alta planimetría, revestimientos continuos y restauración de soleras.">
+<meta property="og:image" content="img/hero-nave.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    color-scheme:light;
+    --hormigon:#F4F5F7;      /* fondo: hormigón recién pulido, blanco roto frío */
+    --papel:#E3E7EC;         /* fondo alterno: papel de plano */
+    --acero:#C9CFD6;         /* reglas, bordes, retícula */
+    --pizarra:#5C6673;       /* texto secundario, etiquetas */
+    --grafito:#14181D;       /* texto principal */
+    --naranja:#E8641B;       /* SOLO llamada a la acción y reglas finas */
+    --sobre-naranja:#14181D;
+    --sobre-oscuro:#F4F5F7;
+    --panel:#14181D;         /* bloques oscuros: hero y ficha de sistemas */
+    --sobre-panel:#F4F5F7;
+    --panel-sec:#AEB6C0;
+    --panel-linea:rgba(244,245,247,.22);
+    --reticula:rgba(20,24,29,.06);
+    --reticula-fuerte:rgba(20,24,29,.11);
+    --foco:#14181D;
+    --error:#B3261E;
+    --display:"Barlow Condensed","Arial Narrow","Roboto Condensed",Impact,sans-serif;
+    --cuerpo:"Source Sans 3","Source Sans Pro","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:"IBM Plex Mono","SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme:dark;
+      --hormigon:#14181D;
+      --papel:#1B2027;
+      --acero:#2E353E;
+      --pizarra:#9AA4B0;
+      --grafito:#EDEFF2;
+      --naranja:#F07A35;
+      --sobre-naranja:#14181D;
+      --sobre-oscuro:#F4F5F7;
+      --panel:#0B0E11;
+      --sobre-panel:#EDEFF2;
+      --panel-sec:#9AA4B0;
+      --panel-linea:rgba(237,239,242,.2);
+      --reticula:rgba(237,239,242,.05);
+      --reticula-fuerte:rgba(237,239,242,.10);
+      --foco:#EDEFF2;
+      --error:#FF8A7A;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --hormigon:#14181D;
+    --papel:#1B2027;
+    --acero:#2E353E;
+    --pizarra:#9AA4B0;
+    --grafito:#EDEFF2;
+    --naranja:#F07A35;
+    --sobre-naranja:#14181D;
+    --sobre-oscuro:#F4F5F7;
+    --panel:#0B0E11;
+    --sobre-panel:#EDEFF2;
+    --panel-sec:#9AA4B0;
+    --panel-linea:rgba(237,239,242,.2);
+    --reticula:rgba(237,239,242,.05);
+    --reticula-fuerte:rgba(237,239,242,.10);
+    --foco:#EDEFF2;
+    --error:#FF8A7A;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{transition:none!important;animation:none!important}
+  }
+  body{
+    margin:0;
+    background:var(--hormigon);
+    color:var(--grafito);
+    font-family:var(--cuerpo);
+    font-size:1.0625rem;
+    line-height:1.55;
+  }
+  [id]{scroll-margin-top:84px}
+  img{max-width:100%;height:auto;display:block}
+  a{color:inherit}
+  h1,h2,h3,h4{font-family:var(--display);font-weight:700;line-height:1;margin:0;text-transform:uppercase;letter-spacing:.01em}
+  p{margin:0 0 1em}
+  button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+  :focus-visible{outline:2px solid var(--foco);outline-offset:3px}
+  .visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+  .wrap{width:min(1280px,100% - 32px);margin-inline:auto}
+  @media (min-width:900px){.wrap{width:min(1280px,100% - 96px)}}
+
+  /* ---- etiquetas de cota (mono) ---- */
+  .cota{
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--pizarra);display:inline-flex;align-items:flex-start;gap:.6em;line-height:1.5;
+  }
+  .cota::before{content:"";width:18px;height:1px;background:currentColor;flex:none;margin-top:.7em}
+  .tag{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;
+    border:1px solid var(--acero);padding:.28em .6em;color:var(--pizarra);white-space:nowrap
+  }
+  .tags{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;padding:0;margin:1.25rem 0 0}
+  .pie-foto{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--pizarra);margin-top:.6rem;display:flex;flex-wrap:wrap;justify-content:space-between;gap:.15rem 1rem}
+  .pie-foto span{white-space:nowrap}
+  .placa{
+    position:absolute;left:0;bottom:0;background:var(--hormigon);color:var(--grafito);
+    padding:.5rem .8rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase
+  }
+
+  /* ---- cabecera de sección: regla + etiqueta ---- */
+  .sec{padding:clamp(3.5rem,7vw,6.5rem) 0}
+  .sec-cab{
+    display:grid;grid-template-columns:1fr;gap:1rem;
+    border-top:1px solid var(--grafito);padding-top:1rem;margin-bottom:clamp(2rem,4vw,3.5rem)
+  }
+  .sec-cab h2{font-size:clamp(2.2rem,4.6vw,3.6rem);letter-spacing:.005em;max-width:20ch;text-wrap:balance}
+  /* el lead va por encima del cuerpo (1.0625rem), no por debajo: es el segundo texto de cada sección */
+  .sec-cab .lead{color:var(--pizarra);max-width:52ch;margin:0;font-size:1.2rem;line-height:1.5}
+  /* jerarquía: la presentación pesa más (por el lead, nunca por encima del h1 del hero), las de cierre (calidad, contacto) menos; en sectores y obras el lead va bajo el h2 */
+  .sec-cab.principal h2{font-size:clamp(2.2rem,4.2vw,3.8rem);max-width:16ch}
+  .sec-cab.principal .lead{font-size:1.3rem;max-width:60ch}
+  .sec-cab.cierre .lead{font-size:1.1rem}
+  .sec-cab.cierre h2{font-size:clamp(1.9rem,3.4vw,2.8rem)}
+  @media (min-width:900px){
+    .sec-cab{grid-template-columns:220px 1fr 1fr;gap:2rem;align-items:start}
+    .sec-cab .lead{padding-top:.4rem}
+    .sec-cab.principal,.sec-cab.apilada{grid-template-columns:220px 1fr}
+    .sec-cab.principal .lead,.sec-cab.apilada .lead{grid-column:2;padding-top:0}
+  }
+  .papel{background:var(--papel)}
+  .reticula{
+    background-color:var(--papel);
+    background-image:
+      linear-gradient(var(--reticula-fuerte) 1px,transparent 1px),
+      linear-gradient(90deg,var(--reticula-fuerte) 1px,transparent 1px),
+      linear-gradient(var(--reticula) 1px,transparent 1px),
+      linear-gradient(90deg,var(--reticula) 1px,transparent 1px);
+    background-size:96px 96px,96px 96px,24px 24px,24px 24px;
+    background-position:-1px -1px;
+  }
+  /* bloque oscuro: redefine los tokens en su interior para que las reglas de siempre sigan valiendo */
+  .bloque{
+    background:var(--panel);color:var(--sobre-panel);
+    --grafito:var(--sobre-panel);--pizarra:var(--panel-sec);--acero:var(--panel-linea);--hormigon:var(--panel);--foco:var(--sobre-panel);
+  }
+  /* rejilla de tres carriles con carril izquierdo reservado a la cota */
+  .carriles{display:grid;grid-template-columns:1fr;gap:2rem}
+  @media (min-width:900px){
+    .carriles{grid-template-columns:220px 1fr 1fr;gap:2rem}
+    .carriles > .col2{grid-column:2}
+  }
+
+  /* ---- botones ---- */
+  .btn{
+    display:inline-flex;align-items:center;gap:.7em;
+    font-family:var(--display);font-weight:700;font-size:1.05rem;letter-spacing:.06em;text-transform:uppercase;
+    padding:.85em 1.4em;border:1px solid currentColor;text-decoration:none;line-height:1;
+    transition:background-color .15s,color .15s,border-color .15s;
+  }
+  .btn svg{width:18px;height:18px;flex:none}
+  .btn-cta{background:var(--naranja);color:var(--sobre-naranja);border-color:var(--naranja)}
+  .btn-cta:hover{background:var(--grafito);color:var(--hormigon);border-color:var(--grafito)}
+  .btn-cta[disabled]{cursor:default;opacity:.7}
+  .btn-linea{background:transparent}
+  .btn-linea:hover{background:var(--grafito);color:var(--hormigon)}
+  .btn-claro{color:var(--sobre-panel);border-color:var(--panel-linea)}
+  .btn-claro:hover{background:var(--sobre-panel);color:#14181D;border-color:var(--sobre-panel)}
+
+  /* ==================== CABECERA ==================== */
+  .cab{
+    position:sticky;top:0;z-index:50;
+    background:color-mix(in srgb,var(--hormigon) 88%,transparent);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--acero);
+  }
+  @supports not (color-mix(in srgb,#000 50%,transparent)){.cab{background:var(--hormigon)}}
+  .cab-in{display:flex;align-items:center;justify-content:space-between;min-height:68px;gap:1rem}
+  .logo{display:inline-flex;align-items:baseline;gap:.4rem;text-decoration:none;position:relative;line-height:1;padding-top:.45rem}
+  .logo .tw{font-family:var(--display);font-weight:700;font-size:1.75rem;letter-spacing:.04em;position:relative;display:inline-block}
+  .logo .tw svg{position:absolute;left:-3%;top:-46%;width:106%;height:58%;overflow:visible;pointer-events:none}
+  .logo .de{font-family:var(--display);font-weight:500;font-size:1.05rem;letter-spacing:.22em;color:var(--pizarra)}
+  .nav{display:flex;align-items:center}
+  .nav-lista{display:none;list-style:none;margin:0;padding:0;gap:1.1rem;align-items:center}
+  .nav-lista a{
+    font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:.08em;text-transform:uppercase;
+    text-decoration:none;color:var(--grafito);padding:.4em 0;border-bottom:1px solid transparent;white-space:nowrap
+  }
+  .nav-lista a:hover{border-bottom-color:var(--grafito)}
+  .nav-lista .tel{display:none;font-family:var(--mono);font-weight:400;font-size:.74rem;letter-spacing:.06em;text-transform:none;color:var(--pizarra);margin-left:.4rem}
+  .nav-lista .btn{padding:.7em 1em;font-size:.9rem;border-bottom:1px solid var(--naranja)}
+  .nav-lista .btn:hover{border-bottom-color:var(--grafito)}
+  /* .nav-lista a pisaba el color del CTA: en oscuro quedaba texto claro sobre naranja */
+  .nav-lista .btn-cta{color:var(--sobre-naranja)}
+  .nav-lista .btn-cta:hover{color:var(--hormigon)}
+  .hamb{display:inline-flex;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;align-items:center;border:1px solid var(--acero)}
+  .hamb span{display:block;width:20px;height:2px;background:var(--grafito);transition:transform .2s,opacity .2s}
+  .hamb[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .hamb[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .hamb[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .nav-movil{
+    display:none;position:absolute;left:0;right:0;top:100%;
+    border-top:1px solid var(--acero);border-bottom:1px solid var(--acero);background:var(--hormigon);
+    max-height:calc(100vh - 69px);max-height:calc(100dvh - 69px);overflow:auto
+  }
+  .nav-movil.abierto{display:block}
+  .nav-movil ul{list-style:none;margin:0 auto;padding:.5rem 0 1.25rem}
+  .nav-movil li{border-bottom:1px solid var(--acero)}
+  .nav-movil a{
+    display:block;padding:.9rem 0;text-decoration:none;
+    font-family:var(--display);font-weight:600;font-size:1.25rem;letter-spacing:.08em;text-transform:uppercase
+  }
+  .nav-movil li.nav-datos{border:0;padding-top:1rem;display:flex;flex-wrap:wrap;gap:.5rem 1.5rem}
+  .nav-movil li.nav-datos a{display:inline-block;padding:.2rem 0;font-family:var(--mono);font-weight:400;font-size:.8rem;letter-spacing:.04em;text-transform:none;color:var(--pizarra)}
+  .nav-movil li.nav-cta{border:0;padding-top:.75rem}
+  /* el CTA recupera el tamaño y el relleno de .btn (la regla .nav-movil a es más específica que .btn) */
+  .nav-movil li.nav-cta a{display:inline-flex;padding:.85em 1.4em;font-size:1.05rem;font-weight:700;letter-spacing:.06em}
+  @media (min-width:1140px){
+    .nav-lista{display:flex}
+    .hamb,.nav-movil,.nav-movil.abierto{display:none}
+  }
+  @media (min-width:1320px){.nav-lista .tel{display:inline-block}}
+
+  /* ==================== HERO (partido: panel grafito + foto sin velo) ==================== */
+  .hero{
+    background:var(--panel);color:var(--sobre-panel);
+    --foco:var(--sobre-panel);
+    display:grid;grid-template-columns:1fr;
+  }
+  .hero-foto{margin:0;position:relative;order:-1;overflow:hidden}
+  .hero-foto img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:center 68%}
+  .hero-foto figcaption{position:absolute;left:0;bottom:0;background:var(--panel);color:var(--panel-sec);padding:.5rem .9rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+  .hero-panel{padding:2.25rem 16px 2rem}
+  .hero .cota{color:var(--panel-sec)}
+  .hero h1{font-size:clamp(2.75rem,10.5vw,4.4rem);margin:.7rem 0 1.1rem}
+  .hero h1 em{font-style:normal;color:var(--panel-sec)}
+  .hero .sub{max-width:48ch;font-size:1.1rem;color:rgba(244,245,247,.88);margin-bottom:1.75rem}
+  .hero-acciones{display:flex;flex-wrap:wrap;gap:.75rem}
+  .hero-ficha{display:grid;grid-template-columns:1fr;margin:2rem 0 0;border-top:1px solid var(--panel-linea)}
+  .hero-ficha > div{padding:.7rem 0 .75rem;border-bottom:1px solid var(--panel-linea)}
+  .hero-ficha dt{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--panel-sec)}
+  .hero-ficha dd{margin:.2rem 0 0;font-size:.95rem;font-weight:600;line-height:1.35}
+  @media (min-width:640px){.hero-ficha{grid-template-columns:1fr 1fr;gap:0 2rem}}
+  @media (min-width:900px){
+    .hero{grid-template-columns:1fr 1fr;min-height:clamp(560px,74vh,780px)}
+    .hero-foto{order:2}
+    .hero-foto img{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;object-position:center 60%}
+    .hero-panel{
+      display:flex;flex-direction:column;justify-content:flex-end;
+      padding:clamp(3rem,6vw,5rem) 2.5rem clamp(2rem,4vw,3rem) max(48px,calc(50vw - 640px))
+    }
+    .hero h1{font-size:clamp(3.4rem,4.9vw,4.6rem)}
+  }
+
+  /* ==================== CREDIBILIDAD ==================== */
+  .cred{border-top:1px solid var(--naranja);border-bottom:1px solid var(--acero)}
+  .cred-in{display:grid;grid-template-columns:1fr 1fr}
+  .cred-in>div{padding:1.5rem 1rem 1.5rem 0;border-right:1px solid var(--acero)}
+  .cred .valor{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,3.2vw,2.6rem);line-height:1;display:block;margin-bottom:.35rem;white-space:nowrap}
+  .cred .valor small{font-size:.6em;font-weight:600;letter-spacing:.03em;margin-left:.25em}
+  .cred .desc{color:var(--pizarra);font-size:.95rem;margin:0}
+  @media (max-width:899px){
+    .cred-in>div:nth-child(2n){padding-left:1rem;border-right:0}
+    .cred-in>div:nth-child(-n+2){border-bottom:1px solid var(--acero)}
+  }
+  @media (min-width:900px){
+    .cred-in{grid-template-columns:repeat(4,1fr)}
+    .cred-in>div{padding:2rem 1.5rem 2rem 0}
+    .cred-in>div+div{padding-left:1.5rem}
+    .cred-in>div:last-child{border-right:0}
+  }
+
+  /* ==================== SERVICIOS ==================== */
+  .linea-serv{
+    display:grid;grid-template-columns:1fr;gap:1.5rem;
+    padding:clamp(2rem,4vw,3.5rem) 0;border-top:1px solid var(--acero)
+  }
+  .linea-serv:first-of-type{border-top:0;padding-top:0}
+  .linea-serv .cab-linea{display:flex;flex-direction:column;gap:.5rem}
+  .linea-serv .cab-linea .cota{white-space:nowrap}
+  .linea-serv .cab-linea h3{font-size:clamp(1.9rem,3.4vw,2.8rem);max-width:14ch;overflow-wrap:anywhere;text-wrap:balance}
+  .linea-serv figure{margin:0;position:relative}
+  .linea-serv figure img{width:100%;aspect-ratio:4/3;object-fit:cover}
+  .linea-serv .texto p{max-width:58ch}
+  /* la regla superior va en la lista, no en el primer elemento: así las dos columnas arrancan con el mismo borde */
+  .lista-tec{columns:1;list-style:none;padding:0;margin:1rem 0 0;font-size:.98rem;border-top:1px solid var(--acero)}
+  .lista-tec li{padding:.4rem 0;border-bottom:1px solid var(--acero);break-inside:avoid}
+  .lista-tec a{text-decoration:none;border-bottom:1px solid var(--acero)}
+  .lista-tec a:hover{border-bottom-color:var(--grafito)}
+  .sublinea{
+    margin-top:1.75rem;padding:.25rem 0 .25rem 1.25rem;border-left:2px solid var(--naranja)
+  }
+  .sublinea h4{font-size:1.4rem;font-weight:600;margin:.5rem 0}
+  .sublinea p{max-width:58ch}
+  .sublinea .lista-tec{margin-top:.5rem}
+  @media (min-width:900px){
+    .linea-serv{grid-template-columns:220px 1fr 1fr;gap:2rem}
+    .linea-serv .cab-linea h3{font-size:clamp(1.7rem,2.3vw,2.15rem);max-width:none}
+    .linea-serv .texto{padding-top:.25rem}
+    /* la foto acompaña al texto cuando la columna de sistemas es más alta que ella (línea 02) */
+    .linea-serv figure{position:sticky;top:88px;align-self:start}
+    .lista-tec{columns:2;column-gap:2rem}
+    .linea-serv.inv figure{order:3}
+    .linea-serv.inv .texto{order:2}
+  }
+
+  /* ==================== SISTEMAS (bloque oscuro, ficha técnica) ==================== */
+  .tabla-sis{border-top:1px solid var(--grafito);margin:0;padding:0;list-style:none}
+  .tabla-sis li{
+    display:grid;grid-template-columns:1fr;gap:.5rem 2rem;padding:1.25rem 0;border-bottom:1px solid var(--acero)
+  }
+  .tabla-sis .nombre{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,2.6vw,2.1rem);text-transform:uppercase;letter-spacing:.01em;line-height:1}
+  .tabla-sis .nombre span{display:block;font-family:var(--mono);font-weight:400;font-size:.7rem;letter-spacing:.08em;color:var(--pizarra);margin-bottom:.4rem;text-transform:uppercase}
+  .tabla-sis .desc{margin:0;max-width:56ch}
+  .tabla-sis-cab{display:none}
+  @media (min-width:900px){
+    /* mismo carril de 220 px que .sec-cab y .sis-foto: un solo eje vertical en el bloque */
+    .tabla-sis li,.tabla-sis-cab{grid-template-columns:220px 1fr;display:grid;gap:2rem;align-items:start}
+    .tabla-sis .nombre{font-size:clamp(1.25rem,1.7vw,1.45rem);padding-top:.25rem}
+    .tabla-sis .nombre span{display:none}
+    .tabla-sis-cab{padding:0 0 .6rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--pizarra)}
+  }
+  .nota-tec{display:flex;gap:.8rem;align-items:flex-start;margin:1.5rem 0 0;color:var(--pizarra);font-size:.95rem;max-width:70ch}
+  .nota-tec svg{width:18px;height:18px;flex:none;margin-top:.25em}
+  /* la foto de fibra es de 900 px: no se estira por encima de su tamaño; se alinea con el carril de contenido */
+  .sis-foto{margin:clamp(2rem,4vw,3rem) 0 0;position:relative}
+  .sis-foto img{width:100%;aspect-ratio:3/2;object-fit:cover}
+  @media (min-width:900px){.sis-foto{margin-left:252px;max-width:900px}}
+
+  /* ==================== PROCESO (foto a sangre + título superpuesto) ==================== */
+  .proceso{padding-top:0}
+  .proceso-foto{margin:0;position:relative}
+  .proceso-foto img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center 45%}
+  .proceso-foto .placa{left:auto;right:0;bottom:0}
+  /* por debajo de 1140 px la cartela del título (que sube sobre la foto) taparía la placa: se lleva arriba */
+  @media (max-width:1139px){.proceso-foto .placa{bottom:auto;top:0}}
+  .proceso-cab{
+    position:relative;display:inline-block;max-width:100%;
+    background:var(--papel);margin-top:calc(-1 * clamp(2.5rem,7vw,6rem));padding:1.25rem 1.5rem 0 0
+  }
+  .proceso-cab h2{font-size:clamp(2.2rem,4.6vw,3.6rem);letter-spacing:.005em;max-width:22ch;text-wrap:balance;margin-top:.6rem}
+  .proceso-lead{color:var(--pizarra);max-width:52ch;margin:1rem 0 clamp(2rem,4vw,3rem);font-size:1.2rem;line-height:1.5}
+  .pasos{
+    display:grid;grid-template-columns:1fr;gap:0;list-style:none;padding:0;margin:0;
+    border-top:1px solid var(--grafito);position:relative
+  }
+  .pasos li{padding:1.5rem 0;border-bottom:1px solid var(--acero);display:grid;grid-template-columns:64px 1fr;gap:1rem;align-items:start}
+  .pasos .num{font-family:var(--display);font-weight:700;font-size:2.4rem;line-height:1;color:var(--pizarra)}
+  .pasos h3{font-size:1.6rem;margin-bottom:.5rem}
+  .pasos p{margin:0;color:var(--pizarra);max-width:34ch}
+  .pasos .cota{margin-top:.75rem}
+  .secuencia{margin-top:clamp(2rem,4vw,3rem)}
+  .tira{display:grid;grid-template-columns:1fr;gap:1.25rem;list-style:none;margin:1rem 0 0;padding:0}
+  .tira figure{margin:0}
+  .tira img{width:100%;aspect-ratio:3/2;object-fit:cover}
+  @media (min-width:640px){.tira{grid-template-columns:repeat(3,1fr);gap:1.5rem}}
+  @media (min-width:900px){
+    .proceso-foto img{aspect-ratio:21/9}
+    .proceso-cab{max-width:min(100%,720px);padding:1.5rem 2.5rem 0 0}
+    .pasos{grid-template-columns:repeat(4,1fr)}
+    .pasos li{display:block;padding:1.75rem 1.5rem 2.25rem 0;border-bottom:0;border-right:1px solid var(--acero)}
+    .pasos li+li{padding-left:1.5rem}
+    .pasos li:last-child{border-right:0}
+    .pasos .num{font-size:3.4rem;margin-bottom:1.25rem}
+  }
+
+  /* ==================== SECTORES ==================== */
+  .sectores{display:grid;grid-template-columns:1fr;gap:2rem}
+  .sectores h3{font-size:1.5rem;margin-bottom:.75rem}
+  .sectores ol{list-style:none;margin:0;padding:0;border-top:1px solid var(--grafito);counter-reset:sector}
+  .sectores li{padding:.55rem 0;border-bottom:1px solid var(--acero);display:grid;grid-template-columns:2.4rem 1fr;gap:.5rem;align-items:baseline}
+  .sectores li::before{counter-increment:sector;content:counter(sector,decimal-leading-zero);font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;color:var(--pizarra)}
+  @media (min-width:640px){.sectores{grid-template-columns:repeat(3,1fr)}}
+  @media (min-width:900px){.sectores{grid-template-columns:220px repeat(3,1fr);gap:2rem}.sectores > .col2{grid-column:2}}
+
+  /* ==================== OBRAS ==================== */
+  .filtros{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.5rem;padding:0;list-style:none}
+  .filtros button{
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;
+    border:1px solid var(--pizarra);padding:.55em .9em;color:var(--pizarra);transition:background-color .15s,color .15s
+  }
+  .filtros button[aria-pressed="true"]{background:var(--grafito);color:var(--hormigon);border-color:var(--grafito)}
+  .filtros button:hover{border-color:var(--grafito);color:var(--grafito)}
+  .filtros button[aria-pressed="true"]:hover{color:var(--hormigon)}
+  .obras{display:grid;grid-template-columns:1fr;gap:1.5rem;list-style:none;padding:0;margin:0}
+  .obras figure{margin:0}
+  .obras img{width:100%;aspect-ratio:4/3;object-fit:cover}
+  .obras figcaption{display:grid;grid-template-columns:auto 1fr;gap:.25rem .9rem;padding:.6rem 0 0;border-top:1px solid var(--acero);margin-top:.6rem;align-items:baseline}
+  .obras figcaption i{font-style:normal;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;color:var(--pizarra);grid-row:1/3;padding-top:.2em}
+  .obras figcaption b{font-family:var(--display);font-weight:600;font-size:1.15rem;text-transform:uppercase;letter-spacing:.03em;line-height:1.1}
+  .obras figcaption span{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--pizarra)}
+  .obras li.oculta{display:none}
+  .obras-pie{margin-top:1.5rem}
+  @media (min-width:640px){.obras{grid-template-columns:1fr 1fr;gap:1.5rem}}
+  @media (min-width:1024px){
+    .obras{grid-template-columns:repeat(12,1fr);gap:2rem 1.5rem;grid-auto-flow:dense}
+    .obras li{grid-column:span 4}
+    .obras li.ancha{grid-column:span 8}
+    /* 8 columnas + 7 huecos frente a 4 + 3 a 4/3: 11/4 iguala la altura de la fila */
+    .obras li.ancha img{aspect-ratio:11/4}
+  }
+
+  /* ==================== EMPRESA ==================== */
+  .empresa .texto p{max-width:58ch}
+  .empresa figure{margin:0}
+  .empresa figure img{width:100%;aspect-ratio:4/3;object-fit:cover}
+  .valores-grupos{display:grid;grid-template-columns:1fr;gap:1.5rem;margin-top:1.5rem}
+  .valores{list-style:none;margin:.6rem 0 0;padding:0;border-top:1px solid var(--grafito)}
+  .valores li{padding:.5rem 0;border-bottom:1px solid var(--acero);font-family:var(--display);font-weight:600;font-size:1.3rem;text-transform:uppercase;letter-spacing:.04em}
+  @media (min-width:640px){.valores-grupos{grid-template-columns:1fr 1fr;gap:2rem}}
+  .cita{
+    margin:clamp(2.5rem,5vw,4rem) 0 0;padding:clamp(1.5rem,3vw,2.5rem) 0 0;border-top:1px solid var(--naranja);
+    display:grid;grid-template-columns:1fr;gap:1rem
+  }
+  .cita blockquote{margin:0;font-family:var(--display);font-weight:600;font-size:clamp(1.5rem,3vw,2.5rem);line-height:1.08;text-transform:uppercase;max-width:34ch;letter-spacing:.005em;text-wrap:balance}
+  @media (min-width:900px){.cita{grid-template-columns:220px 1fr}}
+
+  /* ==================== CALIDAD ==================== */
+  .calidad{display:grid;grid-template-columns:1fr;gap:2rem}
+  .calidad article{border-top:1px solid var(--grafito);padding-top:1rem}
+  .calidad h3{font-size:1.6rem;margin:.5rem 0 .75rem}
+  .calidad article p{color:var(--pizarra);max-width:40ch;font-size:1rem}
+  .calidad ul{margin:.5rem 0 0;padding:0;list-style:none;font-size:.98rem}
+  .calidad ul li{padding:.35rem 0;border-top:1px solid var(--acero)}
+  .sellos{display:grid;grid-template-columns:1fr;gap:1.5rem;margin-top:clamp(2rem,4vw,3rem);padding:1.5rem 0;border-top:1px solid var(--acero);border-bottom:1px solid var(--acero);align-items:center}
+  .sellos-cajas{display:flex;flex-wrap:wrap;gap:1rem;align-items:stretch}
+  .sellos-cajas span{display:flex;align-items:center;background:#fff;border:1px solid var(--acero);padding:.6rem .9rem}
+  .sellos-cajas img{height:86px;width:auto}
+  .sellos .nota{color:var(--pizarra);font-size:.95rem;margin:0;max-width:40ch}
+  @media (min-width:900px){
+    .calidad{grid-template-columns:repeat(3,1fr)}
+    .sellos{grid-template-columns:220px 1fr 1fr}
+    .sellos-cajas img{height:96px}
+  }
+
+  /* ==================== CONTACTO ==================== */
+  .datos dl{margin:0;border-top:1px solid var(--grafito)}
+  .datos div{display:grid;grid-template-columns:110px 1fr;gap:1rem;padding:.75rem 0;border-bottom:1px solid var(--acero)}
+  .datos dt{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--pizarra);padding-top:.3em}
+  .datos dd{margin:0}
+  .datos dd a{text-decoration:none;border-bottom:1px solid var(--acero)}
+  .datos dd a:hover{border-bottom-color:var(--grafito)}
+  .datos dd small{display:block;color:var(--pizarra);font-size:.85rem}
+  .form{display:grid;grid-template-columns:1fr;gap:1.9rem 1.5rem}
+  .form .campo{display:flex;flex-direction:column;gap:.45rem}
+  .form label{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--pizarra)}
+  .form input,.form textarea{
+    font:inherit;color:var(--grafito);background:transparent;border:0;border-bottom:1px solid var(--pizarra);
+    padding:.55em 0;border-radius:0;width:100%
+  }
+  .form input:focus,.form textarea:focus{border-bottom:2px solid var(--grafito)}
+  .form input::placeholder,.form textarea::placeholder{color:var(--pizarra);opacity:1}
+  .form input[readonly],.form textarea[readonly]{color:var(--pizarra)}
+  .form textarea{min-height:120px;resize:vertical}
+  .form .invalido{border-bottom-color:var(--error)}
+  .form .ancho{grid-column:1/-1}
+  .form .consent{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start;font-size:.92rem;color:var(--pizarra)}
+  .form .consent input{width:18px;height:18px;margin:.15em 0 0;border:1px solid var(--pizarra);accent-color:var(--grafito)}
+  .form .consent label{font-family:var(--cuerpo);font-size:.92rem;letter-spacing:0;text-transform:none;color:var(--pizarra)}
+  .form .consent label a{border-bottom:1px solid var(--acero);text-decoration:none}
+  .form .pie{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.5rem;margin-top:.25rem}
+  .form .nota{font-size:.85rem;color:var(--pizarra);margin:0}
+  .form .nota.error{color:var(--error)}
+  .form .ok{
+    grid-column:1/-1;border:1px solid var(--grafito);padding:1rem 1.25rem;display:none;gap:1rem;align-items:flex-start
+  }
+  .form .ok.visible{display:flex}
+  .form .ok svg{width:22px;height:22px;flex:none;margin-top:.15em}
+  .form .ok p{margin:0}
+  @media (min-width:640px){.form{grid-template-columns:1fr 1fr}}
+
+  /* ==================== INFORMACIÓN LEGAL (plegada, en el mismo carril de 220 px) ==================== */
+  .legal-info{padding:clamp(2rem,4vw,3rem) 0;border-top:1px solid var(--acero);background:var(--papel)}
+  .legal-in{display:grid;grid-template-columns:1fr;gap:1.25rem 2rem}
+  .legal-info h2{font-size:1.5rem;margin-top:.5rem;max-width:16ch}
+  .legal-textos{border-top:1px solid var(--grafito)}
+  .legal-textos details{border-bottom:1px solid var(--acero)}
+  .legal-textos summary{
+    list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;
+    padding:.8rem 0;font-family:var(--display);font-weight:600;font-size:1.15rem;letter-spacing:.06em;text-transform:uppercase
+  }
+  .legal-textos summary::-webkit-details-marker{display:none}
+  .legal-textos summary::after{content:"+";font-family:var(--mono);font-weight:400;font-size:1rem;color:var(--pizarra);flex:none}
+  .legal-textos details[open] summary::after{content:"\2013"}
+  .legal-textos summary:hover{color:var(--pizarra)}
+  .legal-cuerpo{padding:0 0 1rem;font-size:.95rem;color:var(--pizarra);max-width:70ch}
+  .legal-cuerpo p{margin:0 0 .75em}
+  .legal-cuerpo a{text-decoration:none;border-bottom:1px solid var(--acero)}
+  .legal-cuerpo a:hover{border-bottom-color:var(--grafito)}
+  @media (min-width:900px){.legal-in{grid-template-columns:220px 1fr}.legal-textos{grid-column:2}}
+
+  /* ==================== PIE ==================== */
+  .pie-web{border-top:1px solid var(--grafito);padding:2.5rem 0 2rem;font-size:.95rem}
+  .pie-in{display:grid;grid-template-columns:1fr;gap:1.5rem}
+  .pie-web .logo .tw{font-size:1.5rem}
+  .pie-web .lema{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--pizarra);margin:.6rem 0 0;line-height:1.7}
+  .pie-web ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.4rem 1.25rem}
+  .pie-web ul a{text-decoration:none;font-family:var(--display);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:.95rem}
+  .pie-web address{font-style:normal;color:var(--pizarra)}
+  .pie-web address a{text-decoration:none}
+  .pie-web .legal{margin-top:2rem;padding-top:1rem;border-top:1px solid var(--acero);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.6rem 1.5rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--pizarra)}
+  .pie-web .legal ul{gap:.4rem 1rem}
+  .pie-web .legal ul a,.pie-web .legal button{font-family:var(--mono);font-weight:400;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid var(--acero);color:var(--pizarra)}
+  .pie-web .legal ul a:hover,.pie-web .legal button:hover{color:var(--grafito);border-bottom-color:var(--grafito)}
+  @media (min-width:900px){.pie-in{grid-template-columns:220px 1fr 1fr}}
+</style>
+<script>
+/* Tema guardado: se aplica antes de pintar nada para que no haya un fotograma con el tema contrario */
+(function(){try{var t=localStorage.getItem('twinsol-tema');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+
+<header class="cab">
+  <div class="wrap cab-in">
+    <a class="logo" href="#inicio" aria-label="Twinsol Decor, inicio">
+      <span class="tw">TWINSOL
+        <svg viewBox="0 0 120 30" aria-hidden="true" focusable="false">
+          <path d="M3 27 C 28 4, 82 2, 117 16" fill="none" style="stroke:var(--naranja)" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="de">DECOR</span>
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <ul class="nav-lista">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#sistemas">Sistemas</a></li>
+        <li><a href="#proceso">Proceso</a></li>
+        <li><a href="#sectores">Sectores</a></li>
+        <li><a href="#obras">Obras</a></li>
+        <li><a href="#empresa">Empresa</a></li>
+        <li><a href="#calidad">Calidad</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <li><a class="tel" href="tel:+34648710497">+34 648 710 497</a></li>
+        <li><a href="#contacto" class="btn btn-cta">Solicitar presupuesto</a></li>
+      </ul>
+      <button class="hamb" id="btn-menu" aria-expanded="false" aria-controls="nav-movil" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-movil" id="nav-movil">
+        <ul class="wrap">
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#sistemas">Sistemas</a></li>
+          <li><a href="#proceso">Proceso</a></li>
+          <li><a href="#sectores">Sectores</a></li>
+          <li><a href="#obras">Obras</a></li>
+          <li><a href="#empresa">Empresa</a></li>
+          <li><a href="#calidad">Calidad</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+          <li class="nav-datos"><a href="tel:+34648710497">+34 648 710 497</a><a href="mailto:info@twinsoldecor.com">info@twinsoldecor.com</a></li>
+          <li class="nav-cta"><a href="#contacto" class="btn btn-cta">Solicitar presupuesto</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" aria-labelledby="titular">
+    <figure class="hero-foto">
+      <img src="img/hero-nave.jpg" alt="Nave industrial vacía con columnas y solera de hormigón pulido que refleja la luz cenital" width="1800" height="1200" fetchpriority="high">
+      <figcaption>Nave industrial · solera de hormigón</figcaption>
+    </figure>
+    <div class="hero-panel">
+      <span class="cota">Torrejón del Rey · Guadalajara · España</span>
+      <h1 id="titular">Pavimentos<br>sin juntas<br><em>y alta tolerancia.</em></h1>
+      <p class="sub">TWINSOL DECOR está a la vanguardia de la tecnología de los pavimentos sin juntas reforzados con fibra de acero para el sector industrial. Con la experiencia del líder mundial.</p>
+      <div class="hero-acciones">
+        <a class="btn btn-cta" href="#contacto">Solicitar presupuesto
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-linea btn-claro" href="#servicios">Ver líneas de servicio</a>
+      </div>
+      <dl class="hero-ficha">
+        <div><dt>Especialidad</dt><dd>Soleras sin juntas · fibra de acero · alta planimetría</dd></div>
+        <div><dt>Ámbito</dt><dd>España · Centroeuropa · Sudamérica · Oriente Medio</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ==================== CREDIBILIDAD ==================== -->
+  <section class="cred" aria-label="Datos de la empresa">
+    <div class="wrap cred-in">
+      <div>
+        <span class="valor">+30<small>años</small></span>
+        <p class="desc">De experiencia del equipo dentro del grupo pionero europeo en pavimentos sin juntas.</p>
+      </div>
+      <div>
+        <span class="valor">4<small>sistemas propios</small></span>
+        <p class="desc">TWINSOL JOINT-FREE, PLAN y PLAN-XT, más juntas de dilatación, ejecutados con medios propios: laser screed y fratasadoras.</p>
+      </div>
+      <div>
+        <span class="valor">4<small>zonas</small></span>
+        <p class="desc">Obras en España, Centroeuropa, Sudamérica y Oriente Medio para industria y logística.</p>
+      </div>
+      <div>
+        <span class="valor">ISO<small>14001</small></span>
+        <p class="desc">Gestión ambiental certificada UNE-EN ISO 14001:2015. Sistema de calidad interno con revisión anual.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PRESENTACIÓN ==================== -->
+  <section class="sec" aria-labelledby="t-pres">
+    <div class="wrap">
+      <div class="sec-cab principal">
+        <span class="cota">Presentación</span>
+        <h2 id="t-pres">Pavimentos de calidad, adaptados a cada necesidad</h2>
+        <p class="lead">Contamos con más de 30 años de experiencia avalados por el grupo pionero y referente europeo en la producción de pavimentos sin juntas y alta planimetría, con resultados reconocidos en el ámbito nacional e internacional.</p>
+      </div>
+      <div class="carriles">
+        <div class="col2">
+          <p>Construimos pavimentos optimizando sus prestaciones y minimizando los costes de mantenimiento a través de la innovación en el diseño, la mejora continua de procesos y equipos específicamente diseñados, entregando un producto personalizado y adaptado a cada necesidad.</p>
+        </div>
+        <div>
+          <p>Como especialistas en el sector, estamos presentes en todos los programas de un pavimento: diseño, planificación y construcción de pavimentos de hormigón para el sector industrial y logístico, diseño y aplicación de revestimientos para uso industrial y comercial, así como en tratamiento de patologías de pavimentos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SERVICIOS ==================== -->
+  <section class="sec papel" id="servicios" aria-labelledby="t-serv">
+    <div class="wrap">
+      <div class="sec-cab">
+        <span class="cota">Servicios</span>
+        <h2 id="t-serv">Cuatro líneas de servicio, un solo responsable del pavimento</h2>
+        <p class="lead">Diseño, planificación e implantación de soluciones específicas para cada caso, asumiendo la responsabilidad integral del pavimento: desde la solera de hormigón hasta el revestimiento final, su restauración y los acabados artísticos.</p>
+      </div>
+
+      <article class="linea-serv" id="hormigon">
+        <div class="cab-linea">
+          <span class="cota">Línea 01</span>
+          <h3>Pavimentos de hormigón sin juntas y alta tolerancia</h3>
+        </div>
+        <figure>
+          <img src="img/hero-racks.jpg" alt="Pasillo entre estanterías de gran altura sobre una solera de hormigón perfectamente plana" width="1600" height="1600" loading="lazy">
+          <figcaption class="pie-foto"><span>Solera de alta planimetría</span><span>Pasillo entre estanterías</span></figcaption>
+        </figure>
+        <div class="texto">
+          <p>Diseño y ejecución de soleras de hormigón con prestaciones especiales. Especialistas en alta planimetría y en pavimentos sin juntas reforzados con fibra de acero.</p>
+          <p>Servicio integral: diseño, planificación y elección de materiales con un equipo de técnicos experimentados y medios propios de extendido y fratasado.</p>
+          <ul class="lista-tec" aria-label="Sistemas propios">
+            <li><a href="#sistemas">TWINSOL JOINT-FREE</a></li>
+            <li><a href="#sistemas">TWINSOL PLAN</a></li>
+            <li><a href="#sistemas">TWINSOL PLAN-XT</a></li>
+            <li><a href="#sistemas">Juntas de dilatación</a></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="linea-serv inv" id="revestimientos">
+        <div class="cab-linea">
+          <span class="cota">Línea 02</span>
+          <h3>Revestimientos continuos</h3>
+        </div>
+        <figure>
+          <img src="img/resina-azul-pasillo.jpg" alt="Pasillo industrial con revestimiento continuo de resina azul y bordes de señalización amarillos" width="1600" height="900" loading="lazy">
+          <figcaption class="pie-foto"><span>Revestimiento de resina</span><span>Pasillo industrial</span></figcaption>
+        </figure>
+        <div class="texto">
+          <p>Revestimientos finales para uso industrial y comercial, atendiendo a las exigencias de cada sector y adaptándonos a las premisas de cada caso, incluso en escenarios muy dinámicos.</p>
+          <ul class="lista-tec" aria-label="Sistemas de revestimiento">
+            <li>Morteros de resinas sintéticas y cementosos</li>
+            <li>Sistemas autonivelantes</li>
+            <li>Revestimientos flexibles</li>
+            <li>Sistemas conductivos</li>
+            <li>Revestimientos multicapa</li>
+            <li>Pavimentos de poliuretano cemento</li>
+            <li>Morteros reforzados con fibras para altas solicitaciones</li>
+            <li>Revestimientos de pintura con resinas</li>
+          </ul>
+          <div class="sublinea" id="impermeabilizaciones">
+            <span class="cota">Sublínea 02.1</span>
+            <h4>Impermeabilizaciones poliméricas</h4>
+            <p>Resinas acrílicas, poliuretano y poliureas, en aplicación en frío o proyección en caliente. Membrana continua adherida al soporte.</p>
+            <ul class="lista-tec" aria-label="Aplicaciones de impermeabilización">
+              <li>Cubiertas metálicas y superficies cementosas</li>
+              <li>Cubiertas transitables y de tráfico rodado</li>
+              <li>Cubiertas invertidas</li>
+              <li>Cubiertas y terrazas con acabado cerámico</li>
+              <li>Cubetos, balsas y aljibes</li>
+              <li>Estructuras de obra civil</li>
+              <li>Depósitos metálicos y de hormigón</li>
+              <li>Tuberías</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="linea-serv" id="restauracion">
+        <div class="cab-linea">
+          <span class="cota">Línea 03</span>
+          <h3>Restauración de soleras</h3>
+        </div>
+        <figure>
+          <img src="img/junta-reparada.jpg" alt="Junta reparada con trazado serpenteante sobre una solera de hormigón existente" width="1400" height="975" loading="lazy">
+          <figcaption class="pie-foto"><span>Tratamiento de junta</span><span>Solera existente</span></figcaption>
+        </figure>
+        <div class="texto">
+          <p>Sistema Twin Cure: restauración de soleras manteniendo la operatividad de su empresa. Una solución definitiva a un problema recurrente.</p>
+          <p>Restauración de planimetrías y nivelación con morteros autonivelantes predosificados de altas prestaciones mecánicas (base cementosa, rápido fraguado) y resinas sintéticas para corregir planimetrías o superficies deterioradas.</p>
+          <ul class="lista-tec" aria-label="Patologías tratadas">
+            <li>Juntas deterioradas</li>
+            <li>Fisuras</li>
+            <li>Desgaste superficial</li>
+            <li>Defectos de planimetría</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="linea-serv inv" id="artisticos">
+        <div class="cab-linea">
+          <span class="cota">Línea 04</span>
+          <h3>Pavimentos continuos artísticos</h3>
+        </div>
+        <figure>
+          <img src="img/terrazo-ondas.jpg" alt="Hall con terrazo continuo in situ de ondas en verde, azul y blanco" width="900" height="598" loading="lazy">
+          <figcaption class="pie-foto"><span>Terrazo continuo in situ</span><span>Hall</span></figcaption>
+        </figure>
+        <div class="texto">
+          <p>Un sello único para enriquecer espacios públicos, comerciales, corporativos o privados. Si los pavimentos industriales son nuestro fuerte, los pavimentos decorativos son nuestra pasión.</p>
+          <ul class="lista-tec" aria-label="Acabados artísticos">
+            <li><strong>Terrazo continuo in situ de resinas.</strong> Exclusivo y artesanal, ideal para espacios de alta concurrencia, hostelería, tiendas o viviendas: belleza, resistencia y bajo mantenimiento.</li>
+            <li><strong>Grafiti y arte urbano.</strong> Morteros cementosos, resinas epoxi o poliuretano combinados con materiales propios del grafiti.</li>
+            <li><strong>Hormigón continuo.</strong> Acabado sobrio, con estilo, para interior y exterior.</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==================== SISTEMAS ==================== -->
+  <section class="sec bloque" id="sistemas" aria-labelledby="t-sis">
+    <div class="wrap">
+      <div class="sec-cab">
+        <span class="cota">Sistemas propios</span>
+        <h2 id="t-sis">Soleras diseñadas para cada uso</h2>
+        <p class="lead">Cuatro sistemas propios para pavimentos de hormigón, definidos en la fase de diseño según el uso, las cargas y la tolerancia de planimetría que exige la instalación.</p>
+      </div>
+      <div class="tabla-sis-cab" aria-hidden="true"><span>Sistema</span><span>Descripción</span></div>
+      <ul class="tabla-sis">
+        <li>
+          <div class="nombre"><span>Sistema 01</span>Twinsol Joint-Free</div>
+          <p class="desc">Solera de hormigón sin juntas reforzada con fibra de acero.</p>
+        </li>
+        <li>
+          <div class="nombre"><span>Sistema 02</span>Twinsol Plan</div>
+          <p class="desc">Solera de hormigón de alta planimetría.</p>
+        </li>
+        <li>
+          <div class="nombre"><span>Sistema 03</span>Twinsol Plan-XT</div>
+          <p class="desc">Solera de muy alta planimetría: pasillos estrechos y estanterías de gran altura.</p>
+        </li>
+        <li>
+          <div class="nombre"><span>Sistema 04</span>Juntas de dilatación</div>
+          <p class="desc">Diseño y ejecución de juntas de dilatación.</p>
+        </li>
+      </ul>
+      <p class="nota-tec">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+        <span>Las prestaciones concretas de cada sistema (espesores, dosificación de fibra, tolerancias de planimetría) se determinan en el proyecto de cada obra.</span>
+      </p>
+      <figure class="sis-foto">
+        <img src="img/fibra-acero.jpg" alt="Primer plano de hormigón fresco con fibras de acero repartidas en la masa" width="900" height="675" loading="lazy">
+        <figcaption class="placa">Detalle · hormigón fresco con fibra de acero en masa</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================== PROCESO ==================== -->
+  <section class="sec reticula proceso" id="proceso" aria-labelledby="t-proc">
+    <figure class="proceso-foto">
+      <img src="img/laser-screed-equipo.jpg" alt="Equipo de cuatro operarios extendiendo hormigón con laser screed en una nave" width="1600" height="900" loading="lazy">
+      <figcaption class="placa">Extendido con laser screed · equipo propio</figcaption>
+    </figure>
+    <div class="wrap">
+      <div class="proceso-cab">
+        <span class="cota">Proceso de obra</span>
+        <h2 id="t-proc">Presentes en todos los programas de un pavimento</h2>
+      </div>
+      <p class="proceso-lead">Del cálculo al fratasado final. Un mismo equipo asume la responsabilidad integral de la solera, con medios propios de extendido y acabado.</p>
+      <ol class="pasos">
+        <li>
+          <span class="num" aria-hidden="true">01</span>
+          <div>
+            <h3>Diseño</h3>
+            <p>Definición de la solera según uso, cargas y tolerancia: espesor, refuerzo de fibra de acero, sistema y tratamiento de juntas.</p>
+            <span class="cota">Cálculo · especificación</span>
+          </div>
+        </li>
+        <li>
+          <span class="num" aria-hidden="true">02</span>
+          <div>
+            <h3>Planificación</h3>
+            <p>Elección de materiales y secuencia de ejecución con técnicos experimentados y maquinaria específicamente diseñada.</p>
+            <span class="cota">Materiales · secuencia</span>
+          </div>
+        </li>
+        <li>
+          <span class="num" aria-hidden="true">03</span>
+          <div>
+            <h3>Ejecución</h3>
+            <p>Vertido, extendido con laser screed y fratasado mecánico con maquinaria y personal propios.</p>
+            <span class="cota">Laser screed · fratasado</span>
+          </div>
+        </li>
+        <li>
+          <span class="num" aria-hidden="true">04</span>
+          <div>
+            <h3>Control</h3>
+            <p>Planimetría y acabado conforme a lo definido en proyecto. Tratamiento posterior de patologías si el uso del pavimento lo exige.</p>
+            <span class="cota">Planimetría · entrega</span>
+          </div>
+        </li>
+      </ol>
+      <div class="secuencia">
+        <span class="cota">Secuencia de ejecución · medios propios</span>
+        <ul class="tira" aria-label="Fotografías de la ejecución">
+          <li><figure>
+            <img src="img/vertido-hormigon.jpg" alt="Camión hormigonera vertiendo hormigón en el interior de una nave" width="1600" height="900" loading="lazy">
+            <figcaption class="pie-foto"><span>Vertido del hormigón</span><span>Nave</span></figcaption></figure></li>
+          <li><figure>
+            <img src="img/laser-screed-maquina.jpg" alt="Regla láser en primer plano extendiendo hormigón fresco" width="1200" height="900" loading="lazy">
+            <figcaption class="pie-foto"><span>Extendido con regla láser</span><span>Hormigón fresco</span></figcaption></figure></li>
+          <li><figure>
+            <img src="img/fratasado.jpg" alt="Operario con casco sobre una fratasadora doble acabando la solera de una nave" width="1600" height="998" loading="lazy">
+            <figcaption class="pie-foto"><span>Fratasado mecánico</span><span>Fratasadora doble</span></figcaption></figure></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SECTORES ==================== -->
+  <section class="sec" id="sectores" aria-labelledby="t-sect">
+    <div class="wrap">
+      <div class="sec-cab apilada">
+        <span class="cota">Sectores</span>
+        <h2 id="t-sect">Un pavimento para cada actividad</h2>
+        <p class="lead">Soleras de hormigón y revestimientos continuos para la industria, la logística y la edificación; espacios públicos, comerciales y privados para la línea artística. El sistema concreto se define en el proyecto de cada instalación.</p>
+      </div>
+      <div class="sectores">
+        <div class="col2">
+          <h3>Soleras de hormigón</h3>
+          <ol aria-label="Sectores de soleras de hormigón">
+            <li>Naves industriales</li>
+            <li>Centros de distribución y logística</li>
+            <li>Automoción</li>
+            <li>Agroalimentaria</li>
+            <li>Hangares</li>
+          </ol>
+        </div>
+        <div>
+          <h3>Revestimientos continuos</h3>
+          <ol aria-label="Sectores de revestimientos continuos">
+            <li>Agroalimentaria y envasadora</li>
+            <li>Hospitalaria y laboratorios</li>
+            <li>Química</li>
+            <li>Energética</li>
+            <li>Logística</li>
+            <li>Automoción y talleres</li>
+            <li>Industria pesada</li>
+            <li>Minería</li>
+            <li>Edificación</li>
+          </ol>
+        </div>
+        <div>
+          <h3>Pavimentos artísticos</h3>
+          <ol aria-label="Espacios de pavimentos artísticos">
+            <li>Espacios públicos y de alta concurrencia</li>
+            <li>Comerciales: tiendas y hostelería</li>
+            <li>Corporativos</li>
+            <li>Privados: viviendas</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== OBRAS ==================== -->
+  <section class="sec papel" id="obras" aria-labelledby="t-obras">
+    <div class="wrap">
+      <div class="sec-cab apilada">
+        <span class="cota">Obras</span>
+        <h2 id="t-obras">Pavimentos ejecutados</h2>
+        <p class="lead">Selección de obras clasificadas por tipo de pavimento. Todas las fotografías corresponden a trabajos ejecutados por TWINSOL DECOR.</p>
+      </div>
+      <ul class="filtros" aria-label="Filtrar obras por tipo de pavimento">
+        <li><button type="button" data-filtro="todos" aria-pressed="true">Todas</button></li>
+        <li><button type="button" data-filtro="hormigon" aria-pressed="false">Hormigón</button></li>
+        <li><button type="button" data-filtro="revestimiento" aria-pressed="false">Revestimientos</button></li>
+        <li><button type="button" data-filtro="restauracion" aria-pressed="false">Restauración</button></li>
+        <li><button type="button" data-filtro="artistico" aria-pressed="false">Artísticos</button></li>
+      </ul>
+      <ul class="obras" id="lista-obras">
+        <li class="ancha" data-tipo="hormigon"><figure>
+          <img src="img/nave-vacia.jpg" alt="Nave logística vacía y terminada con solera de hormigón continua" width="1600" height="1087" loading="lazy">
+          <figcaption><i>OB-01</i><b>Solera de hormigón continua</b><span>Nave logística terminada</span></figcaption></figure></li>
+        <li data-tipo="hormigon"><figure>
+          <img src="img/losa-fresca.jpg" alt="Losa de hormigón recién extendida en una nave de grandes dimensiones" width="1600" height="900" loading="lazy">
+          <figcaption><i>OB-02</i><b>Losa recién extendida</b><span>Nave industrial en ejecución</span></figcaption></figure></li>
+        <li data-tipo="hormigon"><figure>
+          <img src="img/racks-lineas-amarillas.jpg" alt="Almacén con estanterías y señalización amarilla sobre solera de hormigón" width="1400" height="1050" loading="lazy">
+          <figcaption><i>OB-03</i><b>Solera con señalización</b><span>Almacén con estanterías</span></figcaption></figure></li>
+        <li class="ancha" data-tipo="hormigon"><figure>
+          <img src="img/logistica-cajas.jpg" alt="Centro logístico en actividad con carretillas y palés sobre la solera" width="1300" height="867" loading="lazy">
+          <figcaption><i>OB-04</i><b>Solera en servicio</b><span>Centro logístico en actividad</span></figcaption></figure></li>
+        <li data-tipo="hormigon"><figure>
+          <img src="img/bobinas-papel.jpg" alt="Bobinas de papel almacenadas sobre una solera industrial" width="1400" height="788" loading="lazy">
+          <figcaption><i>OB-05</i><b>Solera industrial</b><span>Fábrica de papel</span></figcaption></figure></li>
+        <li data-tipo="hormigon"><figure>
+          <img src="img/exterior-muelles.jpg" alt="Explanada exterior de hormigón con muelles de carga" width="1400" height="788" loading="lazy">
+          <figcaption><i>OB-06</i><b>Pavimento exterior de hormigón</b><span>Explanada con muelles de carga</span></figcaption></figure></li>
+        <li data-tipo="hormigon"><figure>
+          <img src="img/nave-columnas.jpg" alt="Nave con ventanales y solera de hormigón que refleja la luz" width="1400" height="1050" loading="lazy">
+          <figcaption><i>OB-07</i><b>Solera de hormigón</b><span>Nave con iluminación natural</span></figcaption></figure></li>
+        <li data-tipo="hormigon"><figure>
+          <img src="img/racks-naranja-azul.jpg" alt="Estanterías naranjas y azules con líneas amarillas marcadas en la solera" width="900" height="674" loading="lazy">
+          <figcaption><i>OB-08</i><b>Solera de almacén</b><span>Estanterías y señalización en suelo</span></figcaption></figure></li>
+        <li class="ancha" data-tipo="hormigon"><figure>
+          <img src="img/hangar-avion.jpg" alt="Avioneta en un hangar sobre un pavimento continuo blanco brillante" width="1600" height="1066" loading="lazy" style="object-position:center 20%">
+          <figcaption><i>OB-09</i><b>Pavimento de hangar</b><span>Hangar de aviación</span></figcaption></figure></li>
+        <li data-tipo="revestimiento"><figure>
+          <img src="img/epoxi-azul-crema.jpg" alt="Nave con revestimiento epoxi en azul y crema" width="1600" height="900" loading="lazy">
+          <figcaption><i>OB-10</i><b>Revestimiento epoxi</b><span>Nave industrial</span></figcaption></figure></li>
+        <li data-tipo="revestimiento"><figure>
+          <img src="img/sala-verde.jpg" alt="Sala limpia con pavimento continuo verde" width="800" height="600" loading="lazy">
+          <figcaption><i>OB-11</i><b>Revestimiento continuo</b><span>Sala limpia</span></figcaption></figure></li>
+        <li data-tipo="revestimiento"><figure>
+          <img src="img/linea-automocion.jpg" alt="Línea de montaje de automoción sobre suelo gris brillante con marcas amarillas" width="1300" height="975" loading="lazy">
+          <figcaption><i>OB-12</i><b>Revestimiento continuo</b><span>Línea de montaje de automoción</span></figcaption></figure></li>
+        <li data-tipo="revestimiento"><figure>
+          <img src="img/alimentaria-rojo.jpg" alt="Pasillo de industria alimentaria con pavimento de poliuretano cemento rojo" width="900" height="1200" loading="lazy" style="object-position:center 60%">
+          <figcaption><i>OB-13</i><b>Poliuretano cemento</b><span>Industria alimentaria</span></figcaption></figure></li>
+        <li data-tipo="restauracion"><figure>
+          <img src="img/pulido-restauracion.jpg" alt="Operarios puliendo y restaurando una solera existente" width="1400" height="1046" loading="lazy">
+          <figcaption><i>OB-14</i><b>Restauración de solera</b><span>Pulido de solera existente</span></figcaption></figure></li>
+        <li data-tipo="restauracion"><figure>
+          <img src="img/restauracion-nave.jpg" alt="Nave industrial durante la restauración de su solera" width="1400" height="786" loading="lazy">
+          <figcaption><i>OB-15</i><b>Nave en restauración</b><span>Solera existente</span></figcaption></figure></li>
+        <li class="ancha" data-tipo="artistico"><figure>
+          <img src="img/grafiti-cine.jpg" alt="Hall de cine con pavimento artístico en formato grafiti naranja y azul" width="1600" height="1062" loading="lazy" style="object-position:center 82%">
+          <figcaption><i>OB-16</i><b>Pavimento grafiti</b><span>Hall de cine</span></figcaption></figure></li>
+        <li data-tipo="artistico"><figure>
+          <img src="img/terrazo-azul.jpg" alt="Terrazo continuo azul con círculos" width="900" height="556" loading="lazy">
+          <figcaption><i>OB-17</i><b>Terrazo continuo in situ</b><span>Diseño con círculos</span></figcaption></figure></li>
+        <li data-tipo="artistico"><figure>
+          <img src="img/hormigon-pulido-interior.jpg" alt="Interior con hormigón pulido y un sofá" width="1600" height="1066" loading="lazy">
+          <figcaption><i>OB-18</i><b>Hormigón pulido</b><span>Interior</span></figcaption></figure></li>
+        <li data-tipo="artistico"><figure>
+          <img src="img/tienda-terrazo.jpg" alt="Tienda con pavimento de terrazo y grafiti en la pared" width="1400" height="996" loading="lazy">
+          <figcaption><i>OB-19</i><b>Terrazo continuo</b><span>Tienda</span></figcaption></figure></li>
+        <li data-tipo="artistico"><figure>
+          <img src="img/hyundai-suelo.jpg" alt="Suelo de resina con logotipo corporativo incrustado" width="900" height="675" loading="lazy">
+          <figcaption><i>OB-20</i><b>Resina con logotipo corporativo</b><span>Espacio corporativo</span></figcaption></figure></li>
+      </ul>
+      <p class="cota" id="obras-vacio" style="display:none;margin-top:1rem">No hay obras en esta categoría.</p>
+      <p class="cota obras-pie">Fotografías de obras ejecutadas por TWINSOL DECOR</p>
+    </div>
+  </section>
+
+  <!-- ==================== EMPRESA ==================== -->
+  <section class="sec" id="empresa" aria-labelledby="t-emp">
+    <div class="wrap">
+      <div class="sec-cab">
+        <span class="cota">Quiénes somos</span>
+        <h2 id="t-emp">Construcción y tratamiento de pavimentos continuos</h2>
+        <p class="lead">TWINSOL DECOR es una compañía especializada en construcción y tratamiento de pavimentos continuos, con vocación de servicio en tres áreas complementarias: pavimentos de hormigón de alta planimetría y convencionales, aplicación de revestimientos continuos y rehabilitación de pavimentos existentes.</p>
+      </div>
+      <div class="carriles empresa">
+        <div class="texto col2">
+          <p>Está compuesta por profesionales con más de 25 años de experiencia, asistiendo a proyectos de pavimentación industrial y comercial en España, Centroeuropa, Sudamérica y Oriente Medio.</p>
+          <p>Nuestros servicios engloban el diseño, planificación e implantación de soluciones específicas para cada caso, asumiendo la responsabilidad integral, centrando nuestros esfuerzos en proporcionar la máxima calidad y operatividad de sus pavimentos.</p>
+          <div class="valores-grupos">
+            <div>
+              <span class="cota">Valores</span>
+              <ul class="valores" aria-label="Valores">
+                <li>Integridad</li>
+                <li>Experiencia</li>
+                <li>Excelencia</li>
+                <li>Innovación</li>
+                <li>Trabajo en equipo</li>
+              </ul>
+            </div>
+            <div>
+              <span class="cota">Compromisos</span>
+              <ul class="valores" aria-label="Compromisos">
+                <li>Salud y seguridad</li>
+                <li>Medio ambiente</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <figure>
+          <img src="img/operario-twinsol.jpg" alt="Operaria con casco manejando una máquina de la empresa en obra" width="1200" height="900" loading="lazy">
+          <figcaption class="pie-foto"><span>Equipo propio</span><span>Maquinaria de la empresa en obra</span></figcaption>
+        </figure>
+      </div>
+      <div class="cita">
+        <span class="cota">Principio de trabajo</span>
+        <blockquote>«El pavimento es la base, la parte esencial, sobre la que se desarrolla la actividad de cualquier empresa. Por eso, la calidad nunca es una opción.»</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CALIDAD ==================== -->
+  <section class="sec papel" id="calidad" aria-labelledby="t-cal">
+    <div class="wrap">
+      <div class="sec-cab cierre">
+        <span class="cota">Calidad y seguridad</span>
+        <h2 id="t-cal">Calidad, medio ambiente y seguridad en cada obra</h2>
+        <p class="lead">Sistema de dirección de calidad interno con revisión anual, gestión ambiental certificada y una política de seguridad laboral que se aplica en cada obra.</p>
+      </div>
+      <div class="calidad">
+        <article>
+          <span class="cota">Calidad</span>
+          <h3>Política de calidad</h3>
+          <p>Sistema de dirección de calidad interno, orientado a la mejora continua de procesos y equipos, con revisión anual de la política.</p>
+        </article>
+        <article>
+          <span class="cota">Medio ambiente</span>
+          <h3>Responsabilidad medioambiental</h3>
+          <p>Certificación de gestión ambiental UNE-EN ISO 14001:2015. Compromiso con la reducción del impacto ambiental de la actividad.</p>
+        </article>
+        <article>
+          <span class="cota">Seguridad</span>
+          <h3>Seguridad laboral</h3>
+          <ul>
+            <li>Cumplimiento de la legislación vigente</li>
+            <li>EPI homologados</li>
+            <li>Maquinaria con sello CE</li>
+            <li>Formación del personal</li>
+            <li>Revisión anual de la política</li>
+          </ul>
+        </article>
+      </div>
+      <div class="sellos">
+        <span class="cota">Sellos</span>
+        <div class="sellos-cajas">
+          <span><img src="img/cert-aenor-iqnet.png" alt="Sellos AENOR Empresa Registrada, AENOR Gestión Ambiental e IQNet" width="548" height="232" loading="lazy"></span>
+          <span><img src="img/cert-icdq-iso14001.png" alt="Sello ICDQ de certificación UNE-EN ISO 14001:2015" width="297" height="202" loading="lazy"></span>
+        </div>
+        <p class="nota">Certificación de gestión ambiental UNE-EN ISO 14001:2015 y sellos de empresa registrada.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACTO ==================== -->
+  <section class="sec" id="contacto" aria-labelledby="t-con">
+    <div class="wrap">
+      <div class="sec-cab cierre">
+        <span class="cota">Contacto</span>
+        <h2 id="t-con">Cuéntenos su pavimento</h2>
+        <p class="lead">Uso previsto, superficie aproximada, tipo de tráfico y plazos: con eso preparamos una propuesta técnica y un presupuesto ajustados a su instalación.</p>
+      </div>
+      <div class="carriles">
+        <form class="form col2" id="form-contacto" novalidate>
+          <div class="campo">
+            <label for="f-nombre">Nombre</label>
+            <input type="text" id="f-nombre" name="nombre" autocomplete="name" required aria-describedby="f-nota">
+          </div>
+          <div class="campo">
+            <label for="f-empresa">Empresa</label>
+            <input type="text" id="f-empresa" name="empresa" autocomplete="organization">
+          </div>
+          <div class="campo">
+            <label for="f-email">Correo electrónico</label>
+            <input type="email" id="f-email" name="email" autocomplete="email" required aria-describedby="f-nota">
+          </div>
+          <div class="campo">
+            <label for="f-telefono">Teléfono</label>
+            <input type="tel" id="f-telefono" name="telefono" autocomplete="tel">
+          </div>
+          <div class="campo ancho">
+            <label for="f-mensaje">Mensaje</label>
+            <textarea id="f-mensaje" name="mensaje" required aria-describedby="f-nota" placeholder="Tipo de instalación, superficie aproximada, uso previsto y plazo."></textarea>
+          </div>
+          <div class="consent">
+            <input type="checkbox" id="f-consent" name="consentimiento" required aria-describedby="f-nota">
+            <label for="f-consent">He leído la <a href="#privacidad">política de privacidad</a> y consiento el tratamiento de mis datos para responder a esta consulta. No se usarán para ningún otro fin.</label>
+          </div>
+          <div class="pie">
+            <button type="submit" class="btn btn-cta" id="f-enviar"><span>Solicitar presupuesto</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+            </button>
+            <p class="nota" id="f-nota" aria-live="polite">Nombre, correo, mensaje y consentimiento son obligatorios.</p>
+          </div>
+          <div class="ok" id="f-ok" role="status" aria-live="polite">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>
+            <p><strong>Solicitud recibida.</strong> Le responderemos en el correo indicado. Si es urgente, llame al <a href="tel:+34648710497">+34 648 710 497</a>.</p>
+          </div>
+        </form>
+        <div class="datos">
+          <dl>
+            <div>
+              <dt>Oficina</dt>
+              <dd><address style="font-style:normal">Calle Alcolea nº 39<br>19174 Torrejón del Rey<br>Guadalajara</address></dd>
+            </div>
+            <div>
+              <dt>Correo</dt>
+              <dd><a href="mailto:info@twinsoldecor.com">info@twinsoldecor.com</a></dd>
+            </div>
+            <div>
+              <dt>Teléfono</dt>
+              <dd><a href="tel:+34648710497">+34 648 710 497</a><br><a href="tel:+34616052200">+34 616 052 200</a><small>Fax 949 31 82 07</small></dd>
+            </div>
+            <div>
+              <dt>Ámbito</dt>
+              <dd>España · Centroeuropa · Sudamérica · Oriente Medio</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== INFORMACIÓN LEGAL ==================== -->
+  <section class="legal-info" id="informacion-legal" aria-labelledby="t-legal">
+    <div class="wrap legal-in">
+      <div>
+        <span class="cota">Información legal</span>
+        <h2 id="t-legal">Aviso legal, privacidad y cookies</h2>
+      </div>
+      <div class="legal-textos">
+        <!-- PENDIENTE: textos legales a completar y validar por TWINSOL DECOR S.L. y su asesoría antes de publicar. Solo se recogen los datos identificativos que ya figuran en la web actual. -->
+        <details id="aviso-legal">
+          <summary>Aviso legal</summary>
+          <div class="legal-cuerpo">
+            <p>Titular del sitio web: TWINSOL DECOR S.L., Calle Alcolea nº 39, 19174 Torrejón del Rey (Guadalajara), España. Contacto: <a href="mailto:info@twinsoldecor.com">info@twinsoldecor.com</a> · <a href="tel:+34648710497">+34 648 710 497</a>.</p>
+            <p>Datos registrales (NIF e inscripción en el Registro Mercantil) y condiciones de uso: pendientes de incorporar por la empresa.</p>
+          </div>
+        </details>
+        <details id="privacidad">
+          <summary>Política de privacidad</summary>
+          <div class="legal-cuerpo">
+            <p><strong>Responsable del tratamiento.</strong> TWINSOL DECOR S.L., Calle Alcolea nº 39, 19174 Torrejón del Rey (Guadalajara). <a href="mailto:info@twinsoldecor.com">info@twinsoldecor.com</a>.</p>
+            <p><strong>Finalidad.</strong> Los datos enviados desde el formulario de contacto se utilizan para atender la consulta o la solicitud de presupuesto.</p>
+            <p><strong>Derechos.</strong> Puede ejercer los derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a <a href="mailto:info@twinsoldecor.com">info@twinsoldecor.com</a>, y presentar una reclamación ante la Agencia Española de Protección de Datos.</p>
+            <p>Texto completo (base jurídica, plazos de conservación y destinatarios): pendiente de redacción por la asesoría de la empresa.</p>
+          </div>
+        </details>
+        <details id="cookies">
+          <summary>Cookies</summary>
+          <div class="legal-cuerpo">
+            <p>Este sitio no utiliza cookies de análisis, publicidad ni de terceros. Solo guarda en el almacenamiento local del navegador su preferencia de tema de color (claro, oscuro o automático) cuando la cambia desde el pie de página; puede borrarla desde la configuración de su navegador. Las fuentes tipográficas se cargan desde Google Fonts.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pie-web">
+  <div class="wrap">
+    <div class="pie-in">
+      <div>
+        <a class="logo" href="#inicio" aria-label="Twinsol Decor, inicio">
+          <span class="tw">TWINSOL
+            <svg viewBox="0 0 120 30" aria-hidden="true" focusable="false">
+              <path d="M3 27 C 28 4, 82 2, 117 16" fill="none" style="stroke:var(--naranja)" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="de">DECOR</span>
+        </a>
+        <p class="lema">Tecnología en pavimentos industriales y comerciales.<br>Building quality floors.</p>
+      </div>
+      <nav aria-label="Pie">
+        <ul>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#sistemas">Sistemas</a></li>
+          <li><a href="#proceso">Proceso</a></li>
+          <li><a href="#sectores">Sectores</a></li>
+          <li><a href="#obras">Obras</a></li>
+          <li><a href="#empresa">Empresa</a></li>
+          <li><a href="#calidad">Calidad</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      <address>
+        TWINSOL DECOR S.L.<br>
+        Calle Alcolea nº 39 · 19174 Torrejón del Rey (Guadalajara)<br>
+        <a href="mailto:info@twinsoldecor.com">info@twinsoldecor.com</a> · <a href="tel:+34648710497">+34 648 710 497</a>
+      </address>
+    </div>
+    <div class="legal" id="legal">
+      <span>© <span id="anio">2026</span> TWINSOL DECOR S.L.</span>
+      <ul aria-label="Información legal">
+        <li><a href="#aviso-legal">Aviso legal</a></li>
+        <li><a href="#privacidad">Política de privacidad</a></li>
+        <li><a href="#cookies">Cookies</a></li>
+        <li><button type="button" id="btn-tema" title="Cambiar el tema de color">Tema: automático</button></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Menú móvil
+  var btn=document.getElementById('btn-menu'), nav=document.getElementById('nav-movil');
+  function cerrarMenu(){
+    nav.classList.remove('abierto');
+    btn.setAttribute('aria-expanded','false');
+    btn.setAttribute('aria-label','Abrir menú');
+  }
+  if(btn&&nav){
+    btn.addEventListener('click',function(){
+      var abierto=nav.classList.toggle('abierto');
+      btn.setAttribute('aria-expanded',abierto?'true':'false');
+      btn.setAttribute('aria-label',abierto?'Cerrar menú':'Abrir menú');
+    });
+    nav.querySelectorAll('a').forEach(function(a){a.addEventListener('click',cerrarMenu);});
+    document.addEventListener('keydown',function(e){
+      if(e.key==='Escape'&&nav.classList.contains('abierto')){cerrarMenu();btn.focus();}
+    });
+  }
+
+  // Filtro de obras: en "Todas" se respetan las piezas anchas marcadas. Al filtrar, en la retícula de 12 columnas
+  // (piezas de 4, anchas de 8) las filas cierran sin huecos si n + anchas es múltiplo de 3: se marcan las anchas justas.
+  var filtros=document.querySelectorAll('.filtros button'), obras=document.querySelectorAll('#lista-obras > li'), vacio=document.getElementById('obras-vacio');
+  obras.forEach(function(li){if(li.classList.contains('ancha'))li.setAttribute('data-ancha','1');});
+  filtros.forEach(function(b){
+    b.addEventListener('click',function(){
+      var f=b.getAttribute('data-filtro'), visibles=[];
+      filtros.forEach(function(o){o.setAttribute('aria-pressed',o===b?'true':'false');});
+      obras.forEach(function(li){
+        var ver=(f==='todos')||li.getAttribute('data-tipo')===f;
+        li.classList.toggle('oculta',!ver);
+        li.classList.toggle('ancha',f==='todos'&&li.getAttribute('data-ancha')==='1');
+        if(ver)visibles.push(li);
+      });
+      if(f!=='todos'){
+        var n=visibles.length, anchas=(3-(n%3))%3;
+        if(anchas>=1)visibles[0].classList.add('ancha');
+        if(anchas===2&&n>1)visibles[Math.floor(n/2)].classList.add('ancha');
+      }
+      if(vacio)vacio.style.display=visibles.length?'none':'block';
+    });
+  });
+
+  // Formulario simulado
+  var form=document.getElementById('form-contacto');
+  if(form){
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      var faltan=[];
+      ['f-nombre','f-email','f-mensaje','f-consent'].forEach(function(id){
+        var el=document.getElementById(id), valido;
+        if(el.type==='checkbox'){valido=el.checked;}
+        else{valido=el.value.trim()!==''&&(id!=='f-email'||/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value.trim()));}
+        el.setAttribute('aria-invalid',valido?'false':'true');
+        el.classList.toggle('invalido',!valido);
+        if(!valido)faltan.push(el);
+      });
+      var nota=document.getElementById('f-nota');
+      if(faltan.length){
+        nota.textContent='Revise los campos marcados: nombre, correo electrónico válido, mensaje y consentimiento son obligatorios.';
+        nota.classList.add('error');
+        faltan[0].focus();
+        return;
+      }
+      nota.textContent='Nombre, correo, mensaje y consentimiento son obligatorios.';
+      nota.classList.remove('error');
+      var ok=document.getElementById('f-ok'), env=document.getElementById('f-enviar');
+      ok.classList.add('visible');
+      env.setAttribute('disabled','');
+      env.querySelector('span').textContent='Solicitud enviada';
+      form.querySelectorAll('input,textarea').forEach(function(el){if(el.type==='checkbox'){el.disabled=true;}else{el.readOnly=true;}});
+      ok.scrollIntoView({block:'nearest'});
+    });
+  }
+
+  // Tema: automático → claro → oscuro (persistencia opcional)
+  var bt=document.getElementById('btn-tema'), raiz=document.documentElement, modos=['auto','light','dark'], nombres={auto:'automático',light:'claro',dark:'oscuro'};
+  function aplicarTema(m){
+    if(m==='auto'){raiz.removeAttribute('data-theme');}else{raiz.setAttribute('data-theme',m);}
+    if(bt)bt.textContent='Tema: '+nombres[m];
+  }
+  var guardado='auto';
+  try{guardado=localStorage.getItem('twinsol-tema')||'auto';}catch(err){}
+  if(modos.indexOf(guardado)<0)guardado='auto';
+  aplicarTema(guardado);
+  if(bt){
+    bt.addEventListener('click',function(){
+      var actual=raiz.getAttribute('data-theme')||'auto';
+      var siguiente=modos[(modos.indexOf(actual)+1)%modos.length];
+      aplicarTema(siguiente);
+      try{localStorage.setItem('twinsol-tema',siguiente);}catch(err){}
+    });
+  }
+
+  // Textos legales: al llegar por enlace (#privacidad, #aviso-legal, #cookies) el desplegable se abre solo
+  function abrirLegal(){
+    var id=location.hash.replace('#',''), d=id&&document.getElementById(id);
+    if(d&&d.tagName==='DETAILS')d.open=true;
+  }
+  abrirLegal();
+  window.addEventListener('hashchange',abrirLegal);
+  document.querySelectorAll('a[href="#privacidad"],a[href="#aviso-legal"],a[href="#cookies"]').forEach(function(a){
+    a.addEventListener('click',function(){var d=document.getElementById(a.getAttribute('href').slice(1));if(d)d.open=true;});
+  });
+
+  // Año
+  var a=document.getElementById('anio'); if(a)a.textContent=new Date().getFullYear();
+})();
+</script>
+
+</body>
+</html>
