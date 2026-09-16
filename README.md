@@ -6,7 +6,7 @@ Web estática: un solo `index.html` con todo el CSS y JS dentro, y las fotos en 
 ## Ver la propuesta
 
 - Abrir `index.html` en el navegador funciona tal cual (doble clic).
-- Publicada en GitHub Pages: se activa en *Settings → Pages → Branch: main / (root)*. La URL será `https://<usuario>.github.io/twinsol-web/`.
+- Publicada en GitHub Pages (rama `main`, raíz): **https://yjaviy.github.io/twinsol-web/**. Cada push a `main` la actualiza en un minuto.
 
 ## Qué hay dentro
 
