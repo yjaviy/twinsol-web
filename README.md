@@ -6,14 +6,27 @@ Web estática: un solo `index.html` con todo el CSS y JS dentro, y las fotos en 
 ## Ver la propuesta
 
 - Abrir `index.html` en el navegador funciona tal cual (doble clic).
-- Publicada en GitHub Pages (rama `main`, raíz): **https://yjaviy.github.io/twinsol-web/**. Cada push a `main` la actualiza en un minuto.
+- Publicada en GitHub Pages (rama `main`). Cada push a `main` la actualiza en un minuto.
+- **Índice para el cliente, con las cinco propuestas: https://yjaviy.github.io/twinsol-web/propuestas/**
+
+| Propuesta | URL | Línea |
+|---|---|---|
+| Matriz (recomendada) | https://yjaviy.github.io/twinsol-web/matriz/ | La más cercana a la web del grupo: marino + naranja, foto recortada por el arco del logotipo |
+| Arco | https://yjaviy.github.io/twinsol-web/arco/ | Mismo parentesco, composición clara y editorial con una gran curva por sección |
+| Catálogo | https://yjaviy.github.io/twinsol-web/catalogo/ | Catálogo técnico: retícula, tablas de servicios y sistemas |
+| Nave | https://yjaviy.github.io/twinsol-web/nave/ | La más visual: foto a sangre, portada oscura, titulares grandes |
+| Planimetría | https://yjaviy.github.io/twinsol-web/ | Identidad independiente (anterior a la petición de parentesco con el grupo) |
+
+El cliente pidió que la web se inspire en la de la matriz del grupo sin copiarla: las cuatro primeras comparten paleta y tono con ella, con hex, tipografías, textos, composición y motivo gráfico (el arco del logotipo de Twinsol) propios.
 
 ## Qué hay dentro
 
 | Fichero | Qué es |
 |---|---|
-| `index.html` | La página completa (cabecera, hero, servicios, sistemas, proceso, sectores, galería, empresa, calidad, contacto). |
+| `index.html` | Propuesta Planimetría: la página completa (cabecera, hero, servicios, sistemas, proceso, sectores, galería, empresa, calidad, contacto). |
 | `img/` | 31 fotos reales de obra rescatadas del Wix actual, optimizadas (máx. 1600 px, ~5 MB en total), y los sellos de calidad. |
+| `matriz/`, `arco/`, `catalogo/`, `nave/` | Las otras cuatro propuestas, cada una en su `index.html`, compartiendo `img/`. |
+| `propuestas/` | Página índice con miniaturas para que el cliente compare. |
 | `favicon.svg` | Icono de pestaña (arco naranja del logo). |
 | `.nojekyll` | Para que GitHub Pages sirva los ficheros tal cual. |
 
