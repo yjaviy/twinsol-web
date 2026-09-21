@@ -199,7 +199,37 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
 .hero-firma{margin:30px 0 0;padding-top:18px;border-top:1px solid rgba(255,255,255,.2);font-family:var(--f-titular);font-weight:500;font-size:1rem;color:#fff;max-width:40ch}
 .hero-botones{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
 .hero-media{position:relative;margin:18px 0 0 18px}
-.hero-media img{width:100%;aspect-ratio:6/5;object-fit:cover;object-position:50% 72%;border-radius:100% 0 0 0 / 44% 0 0 0}
+.hero-marco{position:relative}
+/* Las cuatro fotos comparten el mismo recorte en arco: solo cambian opacidad y escala */
+.hero-fotos{position:relative;aspect-ratio:6/5;overflow:hidden;isolation:isolate;border-radius:100% 0 0 0 / 44% 0 0 0;background:var(--marino-noche)}
+.hero-fotos img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 72%;opacity:0;transform:scale(1);transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 0s linear 1.2s}
+.hero-fotos img.activa{opacity:1;z-index:1}
+.hero-fotos img.zoom{transform:scale(1.06);transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 6.7s linear}
+.arco-trazo{stroke-dasharray:1 1.1;stroke-dashoffset:0}
+.arco-marco.dibuja .arco-trazo{animation:arco-dibuja 1.6s cubic-bezier(.2,.7,.2,1) both}
+@keyframes arco-dibuja{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.hero-rot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 24px;margin-top:14px;min-height:36px}
+.hero-pie{flex:1 1 240px;margin:0;display:flex;align-items:center;gap:10px;font-family:var(--f-titular);font-weight:500;font-size:.86rem;letter-spacing:.02em;line-height:1.45;color:var(--panel-texto);transition:opacity .2s linear}
+.hero-pie::before{content:"";width:12px;height:2px;background:var(--naranja);flex:none}
+.hero-pie.cambia{opacity:0}
+.hero-rot-ctrl{display:flex;align-items:center;gap:14px;flex:none}
+.hero-marcas{display:flex;gap:6px}
+.hero-marca{position:relative;width:24px;height:32px;padding:0;border:0;border-radius:0;background:transparent;cursor:pointer;flex:none}
+.hero-marca::before,.hero-marca span{content:"";position:absolute;left:0;right:0;top:15px;height:2px}
+.hero-marca::before{background:var(--panel-texto);opacity:.45;transition:opacity .2s}
+.hero-marca:hover::before{opacity:.9}
+.hero-marca span{background:var(--naranja-claro);transform:scaleX(0);transform-origin:0 50%}
+.hero-marca[aria-current="true"] span{transform:scaleX(1)}
+.hero-marcas.corre .hero-marca[aria-current="true"] span{animation:marca-llena 5.5s linear both}
+@keyframes marca-llena{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.hero-pausa{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;padding:0;border:1.5px solid var(--panel-borde);border-radius:0;background:transparent;color:var(--panel-titular);cursor:pointer;flex:none;transition:border-color .2s,color .2s}
+.hero-pausa:hover{border-color:var(--naranja-claro);color:var(--naranja-claro)}
+.hero-pausa svg{width:14px;height:14px}
+.hero-pausa .i-seguir{display:none}
+.hero-pausa[aria-pressed="true"] .i-parar{display:none}
+.hero-pausa[aria-pressed="true"] .i-seguir{display:block}
+@media(max-width:520px){.hero-pie{flex-basis:100%;min-height:2.9em}}
+@media (prefers-reduced-motion: reduce){.hero-pausa{display:none}}
 .arco-marco{position:absolute;left:-18px;top:-18px;width:100%;height:100%;color:var(--naranja);pointer-events:none}
 .hero-ficha{position:absolute;left:-18px;bottom:32px;background:#fff;color:#0A1830;padding:18px 22px;font-family:var(--f-titular);font-weight:600;font-size:.98rem;line-height:1.5}
 .hero-ficha li{display:flex;align-items:center;gap:10px}
@@ -529,14 +559,36 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
       </div>
       <p class="hero-firma">Con la experiencia del líder mundial.</p>
     </div>
-    <div class="hero-media">
-      <img src="../img/hero-nave.jpg" alt="Nave industrial vacía con columnas y solera de hormigón pulida que refleja la luz cenital" width="1800" height="1200">
-      <svg class="arco-marco" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 44A100 44 0 0 1 100 0L100 .45A98.800 43.550 0 0 0 1.200 44Z" fill="currentColor"/></svg>
-      <ul class="hero-ficha" aria-label="Especialidades">
-        <li>Sin juntas</li>
-        <li>Alta planimetría</li>
-        <li>Fibra de acero</li>
-      </ul>
+    <div class="hero-media" id="hero-media">
+      <div class="hero-marco">
+        <div class="hero-fotos" id="hero-fotos">
+          <img class="activa" src="../img/hero-nave.jpg" alt="Nave industrial vacía con columnas y solera de hormigón pulida que refleja la luz cenital" width="1800" height="1200" data-pie="Hormigón pulido · Nave industrial">
+          <img src="../img/fratasado.jpg" alt="Operario con fratasadora doble alisando una solera de hormigón recién extendida" width="1600" height="998" loading="lazy" decoding="async" aria-hidden="true" style="object-position:44% 50%" data-pie="Fratasado mecánico · Obra en ejecución">
+          <img src="../img/racks-lineas-amarillas.jpg" alt="Almacén logístico con estanterías y solera continua con señalización amarilla" width="1400" height="1050" loading="lazy" decoding="async" aria-hidden="true" style="object-position:60% 60%" data-pie="Pavimento sin juntas · Almacén logístico">
+          <img src="../img/epoxi-azul-crema.jpg" alt="Sala amplia con revestimiento de resina brillante en azul y crema" width="1599" height="899" loading="lazy" decoding="async" aria-hidden="true" style="object-position:38% 60%" data-pie="Resina epoxi · Zona de producción">
+        </div>
+        <svg class="arco-marco" id="hero-arco" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><mask id="hero-arco-m" maskUnits="userSpaceOnUse" x="-5" y="-5" width="110" height="110"><path class="arco-trazo" d="M.6 44A99.4 43.78 0 0 1 100 .22" pathLength="1" fill="none" stroke="#fff" stroke-width="5"/></mask></defs><path d="M0 44A100 44 0 0 1 100 0L100 .45A98.800 43.550 0 0 0 1.200 44Z" fill="currentColor" mask="url(#hero-arco-m)"/></svg>
+        <ul class="hero-ficha" aria-label="Especialidades">
+          <li>Sin juntas</li>
+          <li>Alta planimetría</li>
+          <li>Fibra de acero</li>
+        </ul>
+      </div>
+      <div class="hero-rot">
+        <p class="hero-pie" id="hero-pie" aria-live="off">Hormigón pulido · Nave industrial</p>
+        <div class="hero-rot-ctrl" id="hero-rot-ctrl" hidden>
+          <div class="hero-marcas" id="hero-marcas" role="group" aria-label="Fotos de la portada">
+            <button class="hero-marca" type="button" aria-label="Ver foto 1 de 4" aria-current="true"><span></span></button>
+            <button class="hero-marca" type="button" aria-label="Ver foto 2 de 4"><span></span></button>
+            <button class="hero-marca" type="button" aria-label="Ver foto 3 de 4"><span></span></button>
+            <button class="hero-marca" type="button" aria-label="Ver foto 4 de 4"><span></span></button>
+          </div>
+          <button class="hero-pausa" id="hero-pausa" type="button" aria-pressed="false" aria-label="Pausar la rotación de fotos">
+            <svg class="i-parar" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12"/><rect x="9.5" y="2" width="3.5" height="12"/></svg>
+            <svg class="i-seguir" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1154,6 +1206,101 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
     ok.hidden=false;
     ok.focus();
   });
+
+  /* Portada: rotación de fotos bajo el arco. La secuencia va solo con temporizadores. */
+  (function(){
+    var media=document.getElementById('hero-media'),caja=document.getElementById('hero-fotos');
+    if(!media||!caja)return;
+    var fotos=[].slice.call(caja.querySelectorAll('img'));
+    var marcasCaja=document.getElementById('hero-marcas');
+    var marcas=[].slice.call(marcasCaja.querySelectorAll('.hero-marca'));
+    var pausa=document.getElementById('hero-pausa'),pie=document.getElementById('hero-pie');
+    var arco=document.getElementById('hero-arco'),ctrl=document.getElementById('hero-rot-ctrl');
+    var mqQuieto=window.matchMedia('(prefers-reduced-motion: reduce)');
+    var PERIODO=5500,actual=0,tCambio=null,tPrecarga=null,tPie=null;
+    var freno={usuario:false,puntero:false,foco:false,oculta:document.hidden,fuera:false};
+    ctrl.hidden=false;
+
+    function rota(f){return f.complete&&f.naturalWidth===0&&!!f.currentSrc;}
+    fotos.forEach(function(f,i){
+      f.addEventListener('error',function(){f.setAttribute('data-falla','1');marcas[i].hidden=true;});
+    });
+    function vale(i){return !fotos[i].hasAttribute('data-falla')&&!rota(fotos[i]);}
+    function siguiente(){
+      for(var k=1;k<fotos.length;k++){var j=(actual+k)%fotos.length;if(vale(j))return j;}
+      return -1;
+    }
+    function corre(){return !mqQuieto.matches&&!freno.usuario&&!freno.puntero&&!freno.foco&&!freno.oculta&&!freno.fuera;}
+    function relanza(el,clase){el.classList.remove(clase);void el.getBoundingClientRect();el.classList.add(clase);}
+
+    function programa(){
+      clearTimeout(tCambio);clearTimeout(tPrecarga);
+      marcasCaja.classList.remove('corre');
+      if(!corre())return;
+      relanza(marcasCaja,'corre');
+      tPrecarga=setTimeout(function(){
+        var j=siguiente();
+        if(j>=0&&!fotos[j].complete){fotos[j].loading='eager';var pre=new Image();pre.src=fotos[j].getAttribute('src');}
+      },PERIODO-1500);
+      tCambio=setTimeout(function(){var j=siguiente();if(j>=0)ver(j);else programa();},PERIODO);
+    }
+    function ver(i){
+      if(i!==actual&&vale(i)){
+        var quieto=mqQuieto.matches;
+        fotos.forEach(function(f,k){
+          var on=k===i;
+          f.classList.toggle('activa',on);
+          f.classList.toggle('zoom',on&&!quieto);
+          if(on)f.removeAttribute('aria-hidden');else f.setAttribute('aria-hidden','true');
+        });
+        marcas.forEach(function(m,k){if(k===i)m.setAttribute('aria-current','true');else m.removeAttribute('aria-current');});
+        actual=i;
+        clearTimeout(tPie);
+        if(quieto){pie.textContent=fotos[i].getAttribute('data-pie');}
+        else{
+          pie.classList.add('cambia');
+          tPie=setTimeout(function(){pie.textContent=fotos[i].getAttribute('data-pie');pie.classList.remove('cambia');},200);
+          relanza(arco,'dibuja');
+        }
+      }
+      programa();
+    }
+
+    marcas.forEach(function(m,i){m.addEventListener('click',function(){ver(i);});});
+    pausa.addEventListener('click',function(){
+      freno.usuario=!freno.usuario;
+      pausa.setAttribute('aria-pressed',freno.usuario?'true':'false');
+      pausa.setAttribute('aria-label',freno.usuario?'Reanudar la rotación de fotos':'Pausar la rotación de fotos');
+      programa();
+    });
+    media.addEventListener('pointerenter',function(e){if(e.pointerType==='mouse'){freno.puntero=true;programa();}});
+    media.addEventListener('pointerleave',function(){if(freno.puntero){freno.puntero=false;programa();}});
+    /* Solo el foco de teclado frena: tras un clic de ratón el botón conserva el foco y no debe bloquear la reanudación */
+    media.addEventListener('focusin',function(e){
+      var tecla=true;try{tecla=e.target.matches(':focus-visible');}catch(_){}
+      if(tecla&&!freno.foco){freno.foco=true;programa();}
+    });
+    media.addEventListener('focusout',function(e){if(freno.foco&&!media.contains(e.relatedTarget)){freno.foco=false;programa();}});
+    document.addEventListener('visibilitychange',function(){freno.oculta=document.hidden;programa();});
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){
+        var fuera=!es[es.length-1].isIntersecting;
+        if(fuera!==freno.fuera){freno.fuera=fuera;programa();}
+      }).observe(document.getElementById('inicio'));
+    }
+    function alCambiarMovimiento(){
+      if(mqQuieto.matches)fotos.forEach(function(f){f.classList.remove('zoom');});
+      programa();
+    }
+    if(mqQuieto.addEventListener)mqQuieto.addEventListener('change',alCambiarMovimiento);else if(mqQuieto.addListener)mqQuieto.addListener(alCambiarMovimiento);
+
+    /* Arranque: el arco se dibuja una vez y la primera foto empieza su acercamiento */
+    if(!mqQuieto.matches){
+      arco.classList.add('dibuja');
+      setTimeout(function(){if(actual===0)fotos[0].classList.add('zoom');},60);
+    }
+    programa();
+  })();
 })();
 </script>
 

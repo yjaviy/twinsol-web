@@ -238,6 +238,60 @@
   .hero-nota p { font-size: 1.05rem; line-height: 1.45; font-weight: 500; }
   .hero-nota .mono { color: var(--nieve); display: block; margin-top: .8rem; }
 
+  /* Portada viva: fundido cruzado del fondo a sangre, arco que se dibuja, marcas, pausa y pie de foto.
+     Solo se animan opacity, transform y stroke-dashoffset; la secuencia la llevan temporizadores en el script. */
+  .hero-fotos { position: absolute; inset: 0; z-index: -2; overflow: hidden; background: var(--marino); }
+  .hero-fotos .hero-img { z-index: 0; opacity: 0; transform: scale(1); transition: opacity 0s, transform 0s; }
+  /* Encuadre por foto: --pos en ancho, --pos-m en estrecho (elegidos para que el titular caiga sobre zona oscura) */
+  .hero-fotos .hero-img { object-position: var(--pos, center 58%); }
+  @media (max-width: 999px) { .hero-fotos .hero-img { object-position: var(--pos-m, var(--pos, center 58%)); } }
+  .hero-fotos .hero-img.activa { opacity: 1; z-index: 1; }
+  .hero-fotos .hero-img.sale { opacity: 1; z-index: 0; }
+  .hero-fotos .hero-img.fondo { z-index: -1; }
+  /* Vuelta rápida a la foto que aún estaba debajo: la de encima termina de fundirse hacia fuera, sin dejar ver el fondo */
+  .hero-fotos .hero-img.baja { opacity: 0; z-index: 2; }
+  /* Velo propio de las fotos claras (data-velo): solo se anima su opacidad, al compás del fundido */
+  .hero-sombra::after { content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s cubic-bezier(.4,0,.2,1);
+    background: linear-gradient(90deg, rgba(var(--marino-rgb), .62) 0%, rgba(var(--marino-rgb), .58) 50%, rgba(var(--marino-rgb), .2) 72%, rgba(var(--marino-rgb), 0) 90%); }
+  @media (max-width: 999px) { .hero-sombra::after { background: rgba(var(--marino-rgb), .45); } }
+  .hero.velo-extra .hero-sombra::after { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .hero-sombra::after { transition: none; } }
+  .hero-fotos .hero-img.zoom { transform: scale(1.06); transition: opacity 1.2s cubic-bezier(.4,0,.2,1), transform 6.7s linear; }
+  .hero-arco { position: absolute; left: 0; top: 8%; width: 100%; height: auto; z-index: -1; pointer-events: none; overflow: visible; }
+  .hero-arco path { fill: none; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+  .hero-arco .arco-1 { stroke: var(--naranja); stroke-width: 1.6; opacity: .55; }
+  .hero-arco .arco-2 { stroke: var(--nieve); stroke-width: 1; opacity: .2; }
+  .hero-arco.dibuja .arco-1 { animation: hero-trazo 1.6s cubic-bezier(.2,.7,.2,1); }
+  .hero-arco.dibuja .arco-2 { animation: hero-trazo 1.6s cubic-bezier(.2,.7,.2,1) .25s both; }
+  /* El arco escala con el ancho: en pantallas estrechas se compensa el grosor para que siga siendo un hilo visible */
+  @media (max-width: 999px) { .hero-arco .arco-1 { stroke-width: 3; } .hero-arco .arco-2 { stroke-width: 2; } }
+  @media (max-width: 560px) { .hero-arco .arco-1 { stroke-width: 5; } .hero-arco .arco-2 { stroke-width: 3.2; } }
+  @keyframes hero-trazo { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes hero-llenar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  .hero-fx { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.4rem; padding-top: 1rem; border-top: 1px solid rgba(var(--nieve-rgb), .22); }
+  .hero-controles { display: flex; align-items: center; gap: .9rem; flex: none; }
+  .hero-controles[hidden] { display: none; }
+  .hero-marcas { display: flex; align-items: center; gap: 4px; }
+  .hero-marca { position: relative; width: 32px; height: 32px; padding: 0; border: 0; background: transparent; cursor: pointer; flex: none; }
+  .hero-marca::before, .hero-marca i { content: ""; position: absolute; left: 4px; right: 4px; top: 50%; height: 2px; margin-top: -1px; }
+  .hero-marca::before { background: rgba(var(--nieve-rgb), .4); transition: background-color .18s; }
+  .hero-marca:hover::before { background: rgba(var(--nieve-rgb), .75); }
+  .hero-marca i { background: var(--naranja-claro); transform: scaleX(0); transform-origin: left center; }
+  .hero-marca[aria-current="true"] i { transform: scaleX(1); }
+  .hero-fx.en-marcha .hero-marca[aria-current="true"] i { animation: hero-llenar 5.5s linear both; }
+  .hero-pausa { width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; flex: none; background: transparent; color: var(--nieve); border: 1px solid rgba(var(--nieve-rgb), .45); cursor: pointer; transition: border-color .18s, background-color .18s; }
+  .hero-pausa:hover { border-color: var(--nieve); background: rgba(var(--nieve-rgb), .1); }
+  .hero-pausa svg { width: 14px; height: 14px; }
+  .hero-pausa .ico-play { display: none; }
+  .hero-pausa[aria-pressed="true"] .ico-play { display: block; }
+  .hero-pausa[aria-pressed="true"] .ico-pausa { display: none; }
+  .hero-pie { margin: 0; flex: 1 1 16rem; min-width: 0; display: flex; gap: .8rem; align-items: baseline; color: var(--nieve); transition: opacity .2s; }
+  .hero-pie b { font-weight: 500; color: var(--naranja-claro); flex: none; }
+  .hero-pie.cambia { opacity: 0; }
+  @media (max-width: 520px) { .hero-pie { font-size: .72rem; letter-spacing: .04em; } }
+  @media (prefers-reduced-motion: reduce) { .hero-pausa { display: none; } }
+
   /* ---------- Franja de credibilidad ---------- */
   .franja { border-top: 2px solid var(--naranja); background: var(--marino-2); color: var(--nieve); }
   .franja-in { display: grid; grid-template-columns: minmax(0, 1fr); }
@@ -526,8 +580,17 @@
 
   <!-- ===== HERO ===== -->
   <section class="hero" id="inicio" aria-labelledby="h-inicio">
-    <img class="hero-img" src="../img/nave-vacia.jpg" alt="Nave logística de grandes dimensiones con la solera de hormigón recién terminada, continua y brillante bajo la iluminación cenital" width="1600" height="1087" fetchpriority="high">
+    <div class="hero-fotos" id="hero-fotos">
+      <img class="hero-img activa" src="../img/nave-vacia.jpg" alt="Nave logística de grandes dimensiones con la solera de hormigón recién terminada, continua y brillante bajo la iluminación cenital" width="1600" height="1087" fetchpriority="high" data-pie="Solera de hormigón sin juntas · Nave logística">
+      <img class="hero-img" data-src="../img/vertido-hormigon.jpg" data-velo alt="Vertido del hormigón desde el camión hormigonera junto a un paño de solera recién extendido en una nave en construcción" width="1600" height="900" loading="lazy" decoding="async" aria-hidden="true" style="--pos: center 100%; --pos-m: 68% 60%" data-pie="Vertido y extendido del hormigón · Obra en ejecución">
+      <img class="hero-img" data-src="../img/epoxi-azul-crema.jpg" alt="Sala industrial diáfana con revestimiento continuo de resina en azul y crema, brillante y sin juntas" width="1599" height="899" loading="lazy" decoding="async" aria-hidden="true" style="--pos: center 78%; --pos-m: center 78%" data-pie="Revestimiento continuo de resina · Área de producción">
+      <img class="hero-img" data-src="../img/racks-lineas-amarillas.jpg" alt="Almacén en servicio con estanterías de gran altura y solera pulida con señalización de pasillos en amarillo" width="1400" height="1050" loading="lazy" decoding="async" aria-hidden="true" style="--pos: center 96%; --pos-m: center 66%" data-pie="Solera pulida con señalización · Almacén en servicio">
+    </div>
     <div class="hero-sombra" aria-hidden="true"></div>
+    <svg class="hero-arco" id="hero-arco" viewBox="0 0 1440 460" aria-hidden="true" focusable="false">
+      <path class="arco-2" pathLength="1" d="M-30 492 C 300 122 980 22 1470 302"/>
+      <path class="arco-1" pathLength="1" d="M-30 442 C 320 92 980 12 1470 272"/>
+    </svg>
     <div class="wrap hero-body">
       <div>
         <p class="kicker">Pavimentos continuos industriales</p>
@@ -544,6 +607,21 @@
         <p>Con la experiencia del líder mundial. Diseño, planificación y ejecución con medios propios: laser screed y fratasadoras.</p>
         <span class="mono">Torrejón del Rey · Guadalajara</span>
       </aside>
+      <div class="hero-fx" id="hero-fx">
+        <div class="hero-controles" role="group" aria-label="Fotos de la portada" hidden>
+          <div class="hero-marcas">
+            <button type="button" class="hero-marca" id="hero-marca-1" aria-label="Ver foto 1 de 4" aria-current="true"><i aria-hidden="true"></i></button>
+            <button type="button" class="hero-marca" id="hero-marca-2" aria-label="Ver foto 2 de 4"><i aria-hidden="true"></i></button>
+            <button type="button" class="hero-marca" id="hero-marca-3" aria-label="Ver foto 3 de 4"><i aria-hidden="true"></i></button>
+            <button type="button" class="hero-marca" id="hero-marca-4" aria-label="Ver foto 4 de 4"><i aria-hidden="true"></i></button>
+          </div>
+          <button type="button" class="hero-pausa" id="hero-pausa" aria-pressed="false" aria-label="Pausar la rotación de fotos">
+            <svg class="ico-pausa" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><rect x="3" y="2" width="3.5" height="12"/><rect x="9.5" y="2" width="3.5" height="12"/></svg>
+            <svg class="ico-play" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4 2l10 6-10 6z"/></svg>
+          </button>
+        </div>
+        <p class="hero-pie mono" id="hero-pie" aria-live="off"><b id="hero-pie-n">01 / 04</b><span id="hero-pie-txt">Solera de hormigón sin juntas · Nave logística</span></p>
+      </div>
     </div>
   </section>
 
@@ -1114,6 +1192,222 @@
       else if (mq.addListener) { mq.addListener(alCambiar); }
     }
   }
+
+  // Portada: rotación de fotos, arco que se dibuja, marcas, pausa y pie de foto.
+  // La secuencia depende solo de temporizadores (nunca de transitionend/animationend).
+  (function () {
+    var hero = document.getElementById('inicio');
+    var caja = document.getElementById('hero-fotos');
+    var fx = document.getElementById('hero-fx');
+    if (!hero || !caja || !fx) { return; }
+    var fotos = Array.prototype.slice.call(caja.querySelectorAll('.hero-img'));
+    var marcas = Array.prototype.slice.call(fx.querySelectorAll('.hero-marca'));
+    var pausa = document.getElementById('hero-pausa');
+    var arco = document.getElementById('hero-arco');
+    var pie = document.getElementById('hero-pie');
+    var pieN = document.getElementById('hero-pie-n');
+    var pieTxt = document.getElementById('hero-pie-txt');
+    if (fotos.length < 2 || marcas.length !== fotos.length || !pie || !pieN || !pieTxt) { return; }
+
+    var PERIODO = 5500, FUNDIDO = 1200, PRECARGA = 3000;
+    var quieto = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    var actual = 0, rota = [], lista = [true], pedida = [], esperas = 0;
+    var tCambio = null, tPrecarga = null, tLimpia = null, tPie = null;
+    var parado = { usuario: false, encima: false, foco: false, oculta: false, fuera: false };
+
+    function dos(n) { return (n < 10 ? '0' : '') + n; }
+    function siguiente(desde) {
+      for (var k = 1; k <= fotos.length; k++) {
+        var j = (desde + k) % fotos.length;
+        if (!rota[j]) { return j; }
+      }
+      return desde;
+    }
+    function opaca(el) {
+      var o = 1;
+      try { o = parseFloat(window.getComputedStyle(el).opacity); } catch (err) { o = 1; }
+      return !(o < 0.99);
+    }
+    // Pide la foto y su decodificación por adelantado; 'lista' evita retirar la anterior antes de que la nueva pueda pintarse
+    // Las fotos 2-4 no traen src (solo data-src): así no compiten con la primera imagen al cargar la página
+    function llegada(k) { return fotos[k].complete && fotos[k].naturalWidth > 0; }
+    function preparar(k) {
+      if (lista[k] || pedida[k] || rota[k]) { return; }
+      pedida[k] = true;
+      fotos[k].loading = 'eager';
+      var origen = fotos[k].getAttribute('data-src');
+      if (origen && !fotos[k].getAttribute('src')) { fotos[k].src = origen; }
+      var hecho = function () { lista[k] = true; };
+      if (fotos[k].decode) { fotos[k].decode().then(hecho, hecho); } else { hecho(); }
+    }
+    // Pausar lo para todo: el acercamiento se congela donde esté y sigue desde ahí al reanudar
+    function congelar() {
+      if (quieto) { return; }
+      fotos.forEach(function (f) {
+        if (f.hasAttribute('data-quieta') || !f.classList.contains('zoom')) { return; }
+        var t = 'none';
+        try { t = window.getComputedStyle(f).transform; } catch (err) { t = 'none'; }
+        f.style.transform = (t && t !== 'none') ? t : 'scale(1)';
+        f.setAttribute('data-quieta', '');
+      });
+    }
+    function soltar(f) {
+      if (!f.hasAttribute('data-quieta')) { return; }
+      f.removeAttribute('data-quieta');
+      f.style.transform = '';
+    }
+    function reiniciar(el, clase) {
+      el.classList.remove(clase);
+      void el.getBoundingClientRect();
+      el.classList.add(clase);
+    }
+    function mostrar(i) {
+      if (i === actual || rota[i]) { return; }
+      var antes = actual;
+      actual = i;
+      clearTimeout(tLimpia);
+      // Si la que sale aún no había terminado de fundirse, lo que tenía debajo se conserva un cambio más
+      var asentada = opaca(fotos[antes]);
+      // Vuelta rápida a una foto que sigue debajo, opaca: no se reinicia (caería a 0 y se vería el fondo)
+      var vuelve = !asentada && (fotos[i].classList.contains('sale') || fotos[i].classList.contains('fondo')) && opaca(fotos[i]);
+      fotos.forEach(function (f, k) {
+        if (k === antes || k === i) { return; }
+        if (asentada) { f.classList.remove('sale', 'fondo', 'zoom', 'activa', 'baja'); soltar(f); }
+        else if (f.classList.contains('sale')) { f.classList.add('fondo'); }
+      });
+      fotos[antes].classList.remove('activa');
+      fotos[antes].setAttribute('aria-hidden', 'true');
+      preparar(i);
+      if (vuelve) {
+        // La de encima termina de fundirse hacia fuera sobre la que vuelve
+        fotos[antes].classList.add('baja');
+        fotos[i].classList.remove('sale', 'fondo', 'baja');
+        fotos[i].classList.add('activa');
+      } else {
+        // La saliente se queda debajo, opaca, mientras la entrante funde encima: sin bajón al fondo
+        fotos[antes].classList.add('sale');
+        soltar(fotos[i]);
+        fotos[i].classList.remove('sale', 'fondo', 'zoom', 'baja');
+        void fotos[i].getBoundingClientRect();
+        fotos[i].classList.add('activa');
+        if (!quieto) { fotos[i].classList.add('zoom'); }
+      }
+      fotos[i].removeAttribute('aria-hidden');
+      if (fotos[i].hasAttribute('data-velo')) { hero.classList.add('velo-extra'); } else { hero.classList.remove('velo-extra'); }
+      // La saliente no se retira hasta que la entrante está cargada y fundida: nunca se ve el fondo vacío
+      var intentos = 0;
+      var retirar = function () {
+        if (!rota[i] && intentos < 40 && (!llegada(i) || !lista[i] || !opaca(fotos[i]))) { intentos++; tLimpia = setTimeout(retirar, 300); return; }
+        fotos.forEach(function (f, k) { if (k !== i) { f.classList.remove('sale', 'fondo', 'zoom', 'activa', 'baja'); soltar(f); } });
+      };
+      tLimpia = setTimeout(retirar, quieto ? 0 : FUNDIDO);
+
+      marcas.forEach(function (m, k) {
+        if (k === i) { m.setAttribute('aria-current', 'true'); } else { m.removeAttribute('aria-current'); }
+      });
+      if (arco && !quieto) { reiniciar(arco, 'dibuja'); }
+
+      clearTimeout(tPie);
+      var poner = function () {
+        pieN.textContent = dos(i + 1) + ' / ' + dos(fotos.length);
+        pieTxt.textContent = fotos[i].getAttribute('data-pie') || '';
+        pie.classList.remove('cambia');
+      };
+      if (quieto) { poner(); } else { pie.classList.add('cambia'); tPie = setTimeout(poner, 200); }
+    }
+    function detener() {
+      clearTimeout(tCambio); clearTimeout(tPrecarga);
+      tCambio = tPrecarga = null;
+      fx.classList.remove('en-marcha');
+    }
+    function enPausa() {
+      return quieto || parado.usuario || parado.encima || parado.foco || parado.oculta || parado.fuera;
+    }
+    function avanzar() {
+      var j = siguiente(actual);
+      if (j === actual) { detener(); return; }
+      // Si la siguiente aún no ha llegado se espera (hasta 10 s); si no llega, se pasa a la que le sigue
+      if (!llegada(j)) {
+        preparar(j);
+        if (esperas < 20) { esperas++; tCambio = setTimeout(avanzar, 500); return; }
+        esperas = 0;
+        var otra = siguiente(j);
+        if (otra === actual || !llegada(otra)) { if (otra !== actual) { preparar(otra); } programar(); return; }
+        j = otra;
+      }
+      esperas = 0;
+      mostrar(j);
+      programar();
+    }
+    // Al reanudar, el tiempo de la foto activa empieza de cero
+    function programar() {
+      detener();
+      if (enPausa()) { congelar(); return; }
+      fotos.forEach(soltar);
+      reiniciar(fx, 'en-marcha');
+      tPrecarga = setTimeout(function () {
+        var j = siguiente(actual);
+        if (j !== actual) { preparar(j); }
+      }, PERIODO - PRECARGA);
+      tCambio = setTimeout(avanzar, PERIODO);
+    }
+    function revisar() { if (enPausa()) { detener(); congelar(); } else if (tCambio === null) { programar(); } }
+
+    fotos.forEach(function (f, k) {
+      f.addEventListener('error', function () {
+        rota[k] = true;
+        marcas[k].disabled = true;
+        if (k === actual) { avanzar(); }
+      });
+      // Una foto que ya hubiera fallado antes de registrar este aviso también cuenta como rota
+      if (f.getAttribute('src') && f.complete && f.naturalWidth === 0) { rota[k] = true; marcas[k].disabled = true; }
+    });
+    marcas.forEach(function (m, k) {
+      m.addEventListener('click', function () { esperas = 0; mostrar(k); programar(); });
+    });
+    if (pausa) {
+      pausa.addEventListener('click', function () {
+        parado.usuario = !parado.usuario;
+        pausa.setAttribute('aria-pressed', parado.usuario ? 'true' : 'false');
+        pausa.setAttribute('aria-label', parado.usuario ? 'Reanudar la rotación de fotos' : 'Pausar la rotación de fotos');
+        // Al pulsar Reanudar el foco sigue en el botón: deja de contar como pausa, para que lo anunciado coincida con lo que se ve
+        if (!parado.usuario) { parado.foco = false; }
+        revisar();
+      });
+    }
+    // La foto ocupa todo el hero: la pausa por puntero o foco se limita a la barra de control,
+    // para que la rotación no se quede parada solo por tener el ratón sobre la portada.
+    // Solo cuenta un ratón de verdad: en táctil el mouseenter de compatibilidad no trae su mouseleave y la pausa se quedaba pegada
+    if (window.PointerEvent) {
+      fx.addEventListener('pointerenter', function (e) { if (e.pointerType !== 'mouse') { return; } parado.encima = true; revisar(); });
+      fx.addEventListener('pointerleave', function (e) { if (e.pointerType !== 'mouse') { return; } parado.encima = false; revisar(); });
+    } else if (window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      fx.addEventListener('mouseenter', function () { parado.encima = true; revisar(); });
+      fx.addEventListener('mouseleave', function () { parado.encima = false; revisar(); });
+    }
+    // El foco solo para la rotación cuando es de teclado: tras un clic de ratón no se queda colgada
+    fx.addEventListener('focusin', function (e) {
+      var teclado = true;
+      try { teclado = e.target.matches(':focus-visible'); } catch (err) { teclado = true; }
+      parado.foco = teclado; revisar();
+    });
+    fx.addEventListener('focusout', function () { parado.foco = false; revisar(); });
+    document.addEventListener('visibilitychange', function () { parado.oculta = document.hidden; revisar(); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entradas) {
+        parado.fuera = !entradas[entradas.length - 1].isIntersecting;
+        revisar();
+      }, { threshold: 0.15 }).observe(hero);
+    }
+
+    var controles = fx.querySelector('.hero-controles');
+    if (controles) { controles.hidden = false; }
+    if (!quieto) {
+      fotos[0].classList.add('zoom');
+      if (arco) { arco.classList.add('dibuja'); }
+    }
+    if (rota[0]) { avanzar(); } else { programar(); }
+  })();
 
   // Textos legales plegados: se abren al llegar a ellos por un enlace
   var legal = document.getElementById('textos-legales');

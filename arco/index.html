@@ -188,8 +188,38 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
 /* Campo marino en sector, concéntrico con la esquina de la foto: sangra a la derecha y nunca toca el texto */
 .hero .foto{--R:clamp(150px,27vw,390px);--campo-off:clamp(20px,2.8vw,40px);isolation:isolate}
 .hero .foto::before{content:"";position:absolute;z-index:-1;top:calc(var(--campo-off) * -1);left:calc(var(--campo-off) * -1);right:-50vw;bottom:18%;background:var(--panel);border-top-left-radius:calc(var(--R) + var(--campo-off));pointer-events:none}
-.hero .foto::after{content:"";position:absolute;top:calc(var(--campo-off) / -2);left:calc(var(--campo-off) / -2);width:calc(var(--R) + var(--campo-off) / 2);height:calc(var(--R) + var(--campo-off) / 2);border:0 solid var(--naranja-en-panel);border-top-width:1.5px;border-left-width:1.5px;border-top-left-radius:100%;pointer-events:none}
 .hero .foto img{aspect-ratio:5/6;max-height:660px}
+/* Rotación de fotos dentro del mismo recorte en arco, con el trazo naranja que se dibuja en cada cambio */
+.rot-arco{position:absolute;top:calc(var(--campo-off) / -2);left:calc(var(--campo-off) / -2);width:calc(var(--R) + var(--campo-off) / 2);height:calc(var(--R) + var(--campo-off) / 2);overflow:hidden;pointer-events:none}
+.rot-arco circle{fill:none;stroke:var(--naranja-en-panel);stroke-width:1.5px;r:calc(100% - .75px);stroke-dasharray:1 3;stroke-dashoffset:2}
+.rot-arco-eco{top:calc(var(--campo-off) * -1.25);left:calc(var(--campo-off) * -1.25);width:calc(var(--R) + var(--campo-off) * 1.25);height:calc(var(--R) + var(--campo-off) * 1.25)}
+.rot-arco-eco circle{stroke:var(--linea);stroke-width:1px;r:calc(100% - .5px)}
+.rot-arco.rot-traza circle{animation:rot-traza 1.6s cubic-bezier(.2,.7,.2,1) both}
+.rot-arco-eco.rot-traza circle{animation-delay:.25s}
+@keyframes rot-traza{from{stroke-dashoffset:3}to{stroke-dashoffset:2}}
+.hero .rot-marco{position:relative;overflow:hidden;width:100%;aspect-ratio:5/6;max-height:660px;border-top-left-radius:var(--R);background:var(--panel-2)}
+.hero .rot-marco img{position:absolute;inset:0;aspect-ratio:auto;max-height:none;border-radius:0;opacity:0;transform:scale(1);transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 0s linear 1.2s}
+.hero .rot-marco img.activa{opacity:1;z-index:2}
+.hero .rot-marco img.sale{opacity:1;z-index:1}
+.hero .rot.anima .rot-marco img.activa,.hero .rot.anima .rot-marco img.sale{transform:scale(1.06);transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 6.7s linear}
+.hero .rot-barra{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0 20px;min-height:32px}
+.rot-pie{flex:1 1 320px;min-width:0;transition:opacity .4s}
+.rot-pie.fuera{opacity:0}
+.rot-ctrl{display:flex;align-items:center;gap:6px;visibility:hidden}
+.rot.rot-lista .rot-ctrl{visibility:visible}
+.rot-marca{width:24px;height:32px;padding:0;border:0;border-radius:0;background:transparent;cursor:pointer;display:flex;align-items:center}
+.rot-marca[disabled]{opacity:.35;cursor:default}
+.rot-marca span{position:relative;display:block;width:100%;height:2px;background:var(--borde-campo);overflow:hidden}
+.rot-marca span::after{content:"";position:absolute;inset:0;background:var(--naranja);transform:scaleX(0);transform-origin:0 50%}
+.rot-marca:hover span{background:var(--marino)}
+.rot-marca[aria-current="true"] span::after{transform:scaleX(1)}
+.rot.corre .rot-marca[aria-current="true"] span::after{animation:rot-llena 5.5s linear both}
+@keyframes rot-llena{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.rot-pausa{width:32px;height:32px;margin-left:4px;padding:0;border:0;border-radius:0;background:transparent;color:var(--texto-2);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:color .18s}
+.rot-pausa:hover{color:var(--marino)}
+.rot-pausa svg{width:14px;height:14px}
+.rot-pausa .r,.rot-pausa[aria-pressed="true"] .p{display:none}
+.rot-pausa[aria-pressed="true"] .r{display:block}
 .hero .aval{margin:30px 0 0;padding-top:20px;border-top:1px solid var(--linea);font-family:var(--display);font-weight:600;font-size:1rem;color:var(--texto);max-width:50ch}
 
 /* Cifras */
@@ -430,8 +460,9 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
   .fila.inv .foto{order:0}
   .hero .foto{--campo-off:12px}
   .hero .foto::before{bottom:30%;right:calc(var(--gutter) * -1)}
-  .hero .foto::after{display:none}
+  .rot-arco{display:none}
   .hero .foto img{aspect-ratio:4/3}
+  .hero .rot-marco{aspect-ratio:4/3}
   .cifras ul{grid-template-columns:repeat(2,minmax(0,1fr))}
   .cifras li{padding:30px 18px 28px;border-bottom:1px solid var(--linea-panel)}
   .cifras li:nth-child(-n+2){padding-top:58px}
@@ -481,6 +512,8 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   *{transition:none !important;animation:none !important}
+  .hero .rot.anima .rot-marco img{transform:none}
+  .rot-pausa{display:none}
 }
 </style>
 
@@ -539,8 +572,28 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
       </div>
       <p class="aval">Con la experiencia del líder mundial.</p>
     </div>
-    <figure class="foto tl">
-      <img src="../img/hero-nave.jpg" alt="Nave industrial vacía con columnas y una solera pulida que refleja la luz cenital" fetchpriority="high">
+    <figure class="foto tl rot" id="hero-rot">
+      <svg class="rot-arco rot-arco-eco" aria-hidden="true" focusable="false"><circle cx="100%" cy="100%" r="99.8%" pathLength="4"/></svg>
+      <svg class="rot-arco" aria-hidden="true" focusable="false"><circle cx="100%" cy="100%" r="99.8%" pathLength="4"/></svg>
+      <div class="rot-marco" id="hero-rot-marco">
+        <img class="activa" src="../img/hero-nave.jpg" alt="Nave industrial vacía con columnas y una solera pulida que refleja la luz cenital" fetchpriority="high" data-pie="Solera de hormigón pulido · Nave industrial">
+        <img src="../img/fratasado.jpg" alt="Operario con casco y chaleco sobre una fratasadora doble que alisa una losa de hormigón recién vertida" loading="lazy" decoding="async" aria-hidden="true" style="object-position:24% 50%" data-pie="Fratasado del hormigón · Obra en ejecución">
+        <img src="../img/hero-racks.jpg" alt="Pasillo entre estanterías azules y naranjas de gran altura sobre un pavimento pulido que refleja la luz" loading="lazy" decoding="async" aria-hidden="true" style="object-position:12% 60%" data-pie="Pavimento sin juntas · Almacén de gran altura">
+        <img src="../img/resina-azul-pasillo.jpg" alt="Pasillo interior de paredes blancas con revestimiento de resina azul brillante y bandas amarillas" loading="lazy" decoding="async" aria-hidden="true" style="object-position:50% 60%" data-pie="Revestimiento de resina · Pasillo interior">
+      </div>
+      <figcaption class="rot-barra">
+        <span class="rot-pie" id="hero-rot-pie" aria-live="off">Solera de hormigón pulido · Nave industrial</span>
+        <div class="rot-ctrl" role="group" aria-label="Fotos de la portada">
+          <button class="rot-marca" id="hero-rot-m1" type="button" aria-label="Ver foto 1 de 4" aria-current="true"><span></span></button>
+          <button class="rot-marca" id="hero-rot-m2" type="button" aria-label="Ver foto 2 de 4"><span></span></button>
+          <button class="rot-marca" id="hero-rot-m3" type="button" aria-label="Ver foto 3 de 4"><span></span></button>
+          <button class="rot-marca" id="hero-rot-m4" type="button" aria-label="Ver foto 4 de 4"><span></span></button>
+          <button class="rot-pausa" id="hero-rot-pausa" type="button" aria-pressed="false" aria-label="Pausar la rotación de fotos">
+            <svg class="p" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M3 2h3v10H3zM8 2h3v10H8z"/></svg>
+            <svg class="r" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M3.5 1.5 12 7l-8.5 5.5z"/></svg>
+          </button>
+        </div>
+      </figcaption>
     </figure>
   </div>
 </section>
@@ -1077,6 +1130,84 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
   document.getElementById('f-otra').addEventListener('click',function(){form.reset();obligatorios.forEach(revisaLimpia);ok.hidden=true;form.hidden=false;document.getElementById('f-nombre').focus();});
 
   function revisaLimpia(c){var e=document.getElementById(c.getAttribute('data-err'));c.removeAttribute('aria-invalid');c.removeAttribute('aria-describedby');e.hidden=true;}
+  /* Portada: rotación de fotos. La secuencia avanza SOLO con setTimeout (5,5 s); las transiciones son adorno. */
+  (function(){
+    var rot=document.getElementById('hero-rot');if(!rot)return;
+    var fotos=[].slice.call(rot.querySelectorAll('.rot-marco img')),marcas=[].slice.call(rot.querySelectorAll('.rot-marca'));
+    var pie=document.getElementById('hero-rot-pie'),pausa=document.getElementById('hero-rot-pausa'),arcos=[].slice.call(rot.querySelectorAll('.rot-arco'));
+    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+    var PERIODO=5500,FUNDIDO=1200,i=0,tCambio=null,tPre=null,tSale=null,tPie=null,tEspera=null,turno=0,ESPERA=3000;
+    var parado=false,encima=false,foco=false,enVista=true;
+    function reflujo(){void rot.offsetWidth;}
+    function corre(){return !reduce.matches&&!parado&&!encima&&!foco&&!document.hidden&&enVista;}
+    function siguiente(){for(var k=1;k<=fotos.length;k++){var n=(i+k)%fotos.length;if(!fotos[n].rota)return n;}return i;}
+    function precarga(n){var f=fotos[n];if(f&&!f.rota&&f.getAttribute('loading')==='lazy'){f.setAttribute('loading','eager');if(f.decode)f.decode().catch(function(){});}}
+    function lista(f){return f.complete&&f.naturalWidth>0;}
+    function traza(){if(reduce.matches)return;arcos.forEach(function(a){a.classList.remove('rot-traza');});reflujo();arcos.forEach(function(a){a.classList.add('rot-traza');});}
+    function programa(){
+      clearTimeout(tCambio);clearTimeout(tPre);
+      rot.classList.remove('corre');
+      if(!corre())return;
+      reflujo();rot.classList.add('corre');
+      tPre=setTimeout(function(){precarga(siguiente());},PERIODO-1500);
+      tCambio=setTimeout(function(){ir(siguiente());},PERIODO);
+    }
+    function ir(n){
+      var miTurno=++turno;clearTimeout(tEspera);
+      if(n!==i&&!fotos[n].rota&&!lista(fotos[n])){
+        /* Aún no ha llegado: no se funde hacia un hueco. Se espera a que cargue (con tope) y, si no llega, sigue la actual y se reintenta en el ciclo siguiente. */
+        var pend=fotos[n];
+        var sigue=function(){
+          pend.removeEventListener('load',sigue);pend.removeEventListener('error',sigue);clearTimeout(tEspera);
+          if(miTurno!==turno)return;
+          if(lista(pend))ir(n);else programa();
+        };
+        clearTimeout(tCambio);clearTimeout(tPre);
+        pend.addEventListener('load',sigue);pend.addEventListener('error',sigue);
+        tEspera=setTimeout(sigue,ESPERA);
+        precarga(n);
+        return;
+      }
+      if(n!==i&&!fotos[n].rota){
+        var antes=fotos[i],ahora=fotos[n];
+        fotos.forEach(function(f){f.classList.remove('sale');});
+        antes.classList.remove('activa');antes.classList.add('sale');antes.setAttribute('aria-hidden','true');
+        ahora.classList.add('activa');ahora.removeAttribute('aria-hidden');
+        clearTimeout(tSale);tSale=setTimeout(function(){antes.classList.remove('sale');},FUNDIDO);
+        marcas[i].removeAttribute('aria-current');marcas[n].setAttribute('aria-current','true');
+        i=n;
+        clearTimeout(tPie);
+        if(reduce.matches){pie.classList.remove('fuera');pie.textContent=ahora.getAttribute('data-pie');}
+        else{pie.classList.add('fuera');tPie=setTimeout(function(){pie.textContent=ahora.getAttribute('data-pie');pie.classList.remove('fuera');},400);}
+        traza();
+      }
+      programa();
+    }
+    fotos.forEach(function(f,n){
+      f.addEventListener('error',function(){if(f.rota)return;f.rota=true;marcas[n].disabled=true;if(n===i)ir(siguiente());});
+      /* Las que ya fallaron antes de ejecutarse este script (su evento error ya pasó) */
+      if(f.complete&&f.naturalWidth===0&&(f.currentSrc||f.getAttribute('loading')!=='lazy')){f.rota=true;marcas[n].disabled=true;}
+    });
+    if(fotos[i].rota)ir(siguiente());
+    marcas.forEach(function(m,n){m.addEventListener('click',function(){ir(n);});});
+    pausa.addEventListener('click',function(){
+      parado=!parado;
+      pausa.setAttribute('aria-pressed',parado?'true':'false');
+      pausa.setAttribute('aria-label',parado?'Reanudar la rotación de fotos':'Pausar la rotación de fotos');
+      programa();
+    });
+    rot.addEventListener('pointerenter',function(e){if(e.pointerType==='mouse'){encima=true;programa();}});
+    rot.addEventListener('pointerleave',function(){if(encima){encima=false;programa();}});
+    rot.addEventListener('focusin',function(e){var v=true;try{v=e.target.matches(':focus-visible');}catch(_){v=true;}if(v){foco=true;programa();}});
+    rot.addEventListener('focusout',function(e){if(foco&&!rot.contains(e.relatedTarget)){foco=false;programa();}});
+    document.addEventListener('visibilitychange',programa);
+    if(reduce.addEventListener)reduce.addEventListener('change',programa);else if(reduce.addListener)reduce.addListener(programa);
+    if('IntersectionObserver' in window){new IntersectionObserver(function(es){enVista=es[es.length-1].isIntersecting;programa();},{threshold:0}).observe(rot.closest('.hero'));}
+    rot.classList.add('rot-lista');
+    if(!reduce.matches){traza();requestAnimationFrame(function(){requestAnimationFrame(function(){rot.classList.add('anima');});});}
+    programa();
+  })();
+
   var enlaces=document.querySelectorAll('.nav a[href^="#"]');
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){enlaces.forEach(function(a){a.removeAttribute('aria-current');if(a.getAttribute('href')==='#'+en.target.id)a.setAttribute('aria-current','true');});}});},{rootMargin:'-45% 0px -50% 0px'});

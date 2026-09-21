@@ -280,6 +280,53 @@
     .hero-foto{grid-column:7 / span 6;min-height:min(78vh,760px)}
     .hero-foto img{aspect-ratio:auto;position:absolute;inset:0;object-position:center bottom}
   }
+  /* rotación de fotos dentro del recorte en arco (el recorte y su tamaño no cambian) */
+  .hf-marco{position:relative;overflow:hidden}
+  .hero-foto .hf-img{position:relative;z-index:0;opacity:0;object-position:var(--op-m,center 70%);transition:opacity 1.2s cubic-bezier(.4,0,.2,1)}
+  .hero-foto .hf-img ~ .hf-img{position:absolute;inset:0;aspect-ratio:auto}
+  .hero-foto .hf-img.previa{opacity:1;z-index:1}
+  .hero-foto .hf-img.activa{opacity:1;z-index:2}
+  .hero-foto .hf-img.zoom{transform:scale(1.06);transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 6.7s linear}
+  @media (min-width:900px){ .hf-marco{position:absolute;inset:0} .hero-foto .hf-img{position:absolute;object-position:var(--op-d,center bottom)} }
+  .hero-foto .arco-corte{z-index:3}
+  /* el trazo se dibuja en cada cambio; en reposo está completo (sin guiones) */
+  .arco-corte.px path{vector-effect:none}
+  .arco-corte.px .trazo,.arco-corte.px .trazo-fino{stroke-dasharray:1;stroke-dashoffset:0;transition:stroke-dashoffset 1.6s cubic-bezier(.2,.7,.2,1)}
+  .arco-corte.px .trazo-fino{transition-delay:.25s}
+  .arco-corte.px.sin-trazo .trazo,.arco-corte.px.sin-trazo .trazo-fino{stroke-dashoffset:1;transition:none}
+  /* plaquita: pie de foto rotatorio + marcas + pausa */
+  /* en móvil va como regleta bajo la foto (no tapa nada); en escritorio, plaquita sobre la esquina */
+  .hero-foto .pie-foto{position:static;z-index:4;padding:0;display:flex;align-items:stretch;border-left:0}
+  .hf-pies{display:grid;align-items:center;flex:1 1 auto;min-width:0;padding:9px 8px 9px 13px}
+  .hf-cap{grid-area:1 / 1;opacity:0;transition:opacity .4s ease}
+  .hf-cap.activa{opacity:1}
+  .hf-ctl{display:flex;flex:none;align-items:center;justify-content:flex-end;gap:0;padding:0 0 0 4px;border-left:1px solid var(--hair)}
+  .hf-ctl[hidden]{display:none}
+  .hf-num{display:none;font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;color:var(--grafito);margin-right:auto;padding-right:8px}
+  .hf-marca{position:relative;width:24px;height:32px;flex:none}
+  .hf-marca::before,.hf-marca i{content:"";position:absolute;left:4px;top:15px;width:calc(100% - 8px);height:2px;background:var(--borde-campo)}
+  .hf-marca i{background:var(--naranja);transform:scaleX(0);transform-origin:left center}
+  .hf-marca:hover::before{background:var(--tinta)}
+  .hf-marca.activa i{transform:scaleX(1);transition:transform 5.5s linear}
+  .hf-ctl.en-pausa .hf-marca.activa i,.hf-ctl.manual .hf-marca.activa i{transition:none}
+  .hf-marca:focus-visible,.hf-pausa:focus-visible{outline-offset:-2px}
+  .hf-pausa{width:32px;height:32px;flex:none;display:flex;align-items:center;justify-content:center;border-left:1px solid var(--hair);margin-left:0;color:var(--tinta)}
+  .hf-pausa:hover{background:var(--lamina)}
+  .hf-pausa svg{width:14px;height:14px;fill:currentColor}
+  .hf-pausa .ico-reanudar{display:none}
+  .hf-pausa[aria-pressed="true"] .ico-pausar{display:none}
+  .hf-pausa[aria-pressed="true"] .ico-reanudar{display:block}
+  @media (min-width:900px){
+    .hero-foto .pie-foto{position:absolute;border-left:1px solid var(--hair)}
+    .hf-cap{white-space:nowrap}
+    .hf-pies{padding-right:13px}
+    .hf-ctl{gap:6px;padding-left:13px}
+    .hf-num{display:block}
+    .hf-marca::before,.hf-marca i{left:0;width:100%}
+    .hf-pausa{margin-left:6px}
+  }
+  @media (prefers-reduced-motion: reduce){ .hf-pausa{display:none} .hf-ctl{padding-right:13px} }
+
   .hero .lbl{color:var(--naranja-tinta)}
   .hero h1{
     font-size:clamp(38px,5.6vw,80px);line-height:1;letter-spacing:-.03em;font-weight:600;
@@ -732,14 +779,37 @@ document.documentElement.lang='es';
             <p class="tel-linea">O llámenos: <a href="tel:+34648710497">+34 648 710 497</a></p>
           </div>
         </div>
-        <figure class="hero-foto">
-          <img src="../img/hero-nave.jpg" alt="Nave industrial vacía con pilares metálicos: la solera pulida, continua y brillante, refleja las luminarias del techo" width="1800" height="1200" fetchpriority="high">
-          <svg class="arco-corte" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <figure class="hero-foto" id="hero-foto">
+          <div class="hf-marco" id="hf-marco">
+          <img class="hf-img activa" src="../img/hero-nave.jpg" alt="Nave industrial vacía con pilares metálicos: la solera pulida, continua y brillante, refleja las luminarias del techo" width="1800" height="1200" fetchpriority="high">
+          <img class="hf-img" data-src="../img/fratasado.jpg" alt="Operario con casco y chaleco sobre una fratasadora doble, dando el acabado a una solera de hormigón recién extendida" width="1600" height="998" loading="lazy" decoding="async" aria-hidden="true" style="--op-m:center 45%;--op-d:15% center">
+          <img class="hf-img" data-src="../img/resina-azul-pasillo.jpg" alt="Pasillo técnico con revestimiento continuo de resina azul brillante y bordes de señalización amarillos" width="1600" height="900" loading="lazy" decoding="async" aria-hidden="true" style="--op-m:center 65%;--op-d:58% center">
+          <img class="hf-img" data-src="../img/hero-racks.jpg" alt="Pasillo entre estanterías de gran altura, azules y naranjas, con la solera de hormigón reflejando la luz" width="1600" height="1600" loading="lazy" decoding="async" aria-hidden="true" style="--op-m:center 68%;--op-d:0% center">
+          <svg class="arco-corte" id="hf-arco" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             <path class="relleno" d="M0 0 H34 C 16 20, 3 56, 0 100 Z"/>
-            <path class="trazo-fino" d="M45 0 C 26 22, 11 58, 7 100"/>
-            <path class="trazo" d="M34 0 C 16 20, 3 56, 0 100"/>
+            <path class="trazo-fino" pathLength="1" d="M45 0 C 26 22, 11 58, 7 100"/>
+            <path class="trazo" pathLength="1" d="M34 0 C 16 20, 3 56, 0 100"/>
           </svg>
-          <figcaption class="pie-foto">Solera pulida · nave industrial</figcaption>
+          </div>
+          <figcaption class="pie-foto">
+            <span class="hf-pies" id="hf-pies" aria-live="off">
+              <span class="hf-cap activa">Solera pulida · nave industrial</span>
+              <span class="hf-cap" aria-hidden="true">Fratasado · solera en ejecución</span>
+              <span class="hf-cap" aria-hidden="true">Resina continua · pasillo técnico</span>
+              <span class="hf-cap" aria-hidden="true">Hormigón pulido · almacén en altura</span>
+            </span>
+            <span class="hf-ctl" id="hf-ctl" role="group" aria-label="Fotos de la portada" hidden>
+              <span class="hf-num" id="hf-num" aria-hidden="true">01/04</span>
+              <button type="button" class="hf-marca activa" id="hf-marca-1" aria-label="Ver foto 1 de 4" aria-current="true"><i></i></button>
+              <button type="button" class="hf-marca" id="hf-marca-2" aria-label="Ver foto 2 de 4"><i></i></button>
+              <button type="button" class="hf-marca" id="hf-marca-3" aria-label="Ver foto 3 de 4"><i></i></button>
+              <button type="button" class="hf-marca" id="hf-marca-4" aria-label="Ver foto 4 de 4"><i></i></button>
+              <button type="button" class="hf-pausa" id="hf-pausa" aria-pressed="false" aria-label="Pausar la rotación de fotos">
+                <svg class="ico-pausar" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M3 2h3v10H3zM8 2h3v10H8z"/></svg>
+                <svg class="ico-reanudar" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M3 1.5v11l9-5.5z"/></svg>
+              </button>
+            </span>
+          </figcaption>
         </figure>
       </div>
     </div>
@@ -1517,6 +1587,213 @@ document.documentElement.lang='es';
       if(env)env.disabled=true;
     });
   }
+
+  /* portada: rotación de fotos en el arco + trazo que se dibuja (solo temporizadores, nunca transitionend) */
+  (function(){
+    var fig=document.getElementById('hero-foto');
+    var ctl=document.getElementById('hf-ctl');
+    if(!fig||!ctl)return;
+    var fotos=[].slice.call(fig.querySelectorAll('.hf-img'));
+    var pies=[].slice.call(fig.querySelectorAll('.hf-cap'));
+    var marcas=[].slice.call(fig.querySelectorAll('.hf-marca'));
+    var pausa=document.getElementById('hf-pausa');
+    var num=document.getElementById('hf-num');
+    var arco=document.getElementById('hf-arco');
+    var marco=document.getElementById('hf-marco')||fig;
+    if(fotos.length<2||marcas.length!==fotos.length)return;
+    var PERIODO=5500,FUNDIDO=1200;
+    var mqr=window.matchMedia?window.matchMedia('(prefers-reduced-motion: reduce)'):null;
+    var reducido=!!(mqr&&mqr.matches);
+    var actual=0,tCambio=null,tPrecarga=null,tPrevia=null,tSalto=null,esperas=0;
+    var rota=fotos.map(function(){return false;});
+    var freno={usuario:false,puntero:false,foco:false,oculta:false,fuera:false};
+
+    fotos.forEach(function(im,i){
+      im.addEventListener('error',function(){rota[i]=true;});
+    });
+
+    /* el arco pasa a coordenadas en píxeles: con vector-effect el guion no respeta pathLength */
+    function mideArco(){
+      if(!arco)return;
+      var r=marco.getBoundingClientRect(),w=r.width,h=r.height;
+      if(!w||!h)return;
+      var x=function(p){return (p*w/100).toFixed(2);},y=function(p){return (p*h/100).toFixed(2);};
+      arco.setAttribute('viewBox','0 0 '+w.toFixed(2)+' '+h.toFixed(2));
+      arco.querySelector('.relleno').setAttribute('d','M0 0 H'+x(34)+' C '+x(16)+' '+y(20)+', '+x(3)+' '+y(56)+', 0 '+y(100)+' Z');
+      arco.querySelector('.trazo').setAttribute('d','M'+x(34)+' 0 C '+x(16)+' '+y(20)+', '+x(3)+' '+y(56)+', 0 '+y(100));
+      arco.querySelector('.trazo-fino').setAttribute('d','M'+x(45)+' 0 C '+x(26)+' '+y(22)+', '+x(11)+' '+y(58)+', '+x(7)+' '+y(100));
+      arco.classList.add('px');
+    }
+    function dibujaArco(){
+      if(reducido||!arco||!arco.classList.contains('px'))return;
+      arco.classList.add('sin-trazo');
+      void window.getComputedStyle(arco.querySelector('.trazo')).strokeDashoffset;
+      arco.classList.remove('sin-trazo');
+    }
+
+    /* las fotos 2-4 llegan con data-src: no se descargan hasta la precarga o hasta que se pulsa su marca */
+    function carga(j){
+      var im=fotos[j],u=im.getAttribute('data-src');
+      im.loading='eager';
+      if(u){im.removeAttribute('data-src');im.src=u;}
+    }
+    /* en pausa el acercamiento se congela donde va; al reanudar sigue desde ahí, sin salto */
+    function congela(si){
+      var im=fotos[actual];
+      if(si){
+        if(reducido||!im.classList.contains('zoom')||im.style.transform)return;
+        var t=window.getComputedStyle(im).transform;
+        if(!t||t==='none')return;
+        im.style.transition='opacity 1.2s cubic-bezier(.4,0,.2,1)';
+        im.style.transform=t;
+      }else if(im.style.transform){
+        void im.offsetWidth;
+        im.style.transition='';im.style.transform='';
+      }
+    }
+    function enMarcha(){
+      if(reducido)return false;
+      for(var k in freno){if(freno[k])return false;}
+      return true;
+    }
+    function para(){
+      clearTimeout(tCambio);clearTimeout(tPrecarga);tCambio=tPrecarga=null;
+    }
+    function siguiente(){
+      for(var p=1;p<fotos.length;p++){
+        var j=(actual+p)%fotos.length;
+        if(!rota[j])return j;
+      }
+      return -1;
+    }
+    function llenaMarca(){
+      var m=marcas[actual];
+      m.classList.remove('activa');
+      void m.offsetWidth;
+      m.classList.add('activa');
+    }
+    function programa(){
+      para();
+      var marcha=enMarcha();
+      ctl.classList.toggle('en-pausa',!marcha);
+      congela(!marcha);
+      if(!marcha)return;
+      llenaMarca();
+      tPrecarga=setTimeout(function(){
+        var j=siguiente();
+        if(j<0)return;
+        carga(j);
+        if(fotos[j].decode)fotos[j].decode().catch(function(){});
+      },PERIODO-1500);
+      tCambio=setTimeout(avanza,PERIODO);
+    }
+    function avanza(){
+      var j=siguiente();
+      if(j<0){para();return;}
+      carga(j);
+      if(!fotos[j].complete&&esperas<10){
+        esperas++;
+        tCambio=setTimeout(avanza,400);return;
+      }
+      if(!fotos[j].complete||fotos[j].naturalWidth===0){rota[j]=true;esperas=0;avanza();return;}
+      esperas=0;
+      muestra(j);
+      programa();
+    }
+    function muestra(j){
+      if(j===actual||rota[j])return;
+      var antes=fotos[actual],ahora=fotos[j];
+      clearTimeout(tPrevia);
+      if(antes.style.transform){antes.style.transition='';antes.style.transform='';}
+      fotos.forEach(function(im){if(im!==antes){im.classList.remove('previa');if(im!==ahora)im.classList.remove('zoom');}});
+      antes.classList.remove('activa');antes.classList.add('previa');antes.setAttribute('aria-hidden','true');
+      ahora.classList.remove('zoom');
+      void ahora.offsetWidth;
+      ahora.classList.add('activa');ahora.removeAttribute('aria-hidden');
+      if(!reducido)ahora.classList.add('zoom');
+      tPrevia=setTimeout(function(){antes.classList.remove('previa');antes.classList.remove('zoom');},reducido?0:FUNDIDO+100);
+      pies.forEach(function(c,i){
+        c.classList.toggle('activa',i===j);
+        if(i===j)c.removeAttribute('aria-hidden');else c.setAttribute('aria-hidden','true');
+      });
+      marcas.forEach(function(m,i){
+        m.classList.toggle('activa',i===j);
+        if(i===j)m.setAttribute('aria-current','true');else m.removeAttribute('aria-current');
+      });
+      if(num)num.textContent='0'+(j+1)+'/0'+fotos.length;
+      actual=j;
+      dibujaArco();
+    }
+
+    /* salto manual: nunca enseña una foto rota ni a medio cargar (espera hasta 4 s con temporizador propio) */
+    function salta(i,n){
+      clearTimeout(tSalto);tSalto=null;
+      if(rota[i]){programa();return;}
+      carga(i);
+      var im=fotos[i];
+      if(!im.complete&&n<10){tSalto=setTimeout(function(){salta(i,n+1);},400);return;}
+      if(!im.complete||im.naturalWidth===0){rota[i]=true;programa();return;}
+      esperas=0;
+      muestra(i);
+      programa();
+    }
+    marcas.forEach(function(m,i){
+      m.addEventListener('click',function(){para();salta(i,0);});
+    });
+    if(pausa){
+      pausa.addEventListener('click',function(){
+        freno.usuario=!freno.usuario;
+        pausa.setAttribute('aria-pressed',freno.usuario?'true':'false');
+        pausa.setAttribute('aria-label',freno.usuario?'Reanudar la rotación de fotos':'Pausar la rotación de fotos');
+        programa();
+      });
+    }
+    function pon(clave,valor){
+      if(freno[clave]===valor)return;
+      freno[clave]=valor;
+      programa();
+    }
+    fig.addEventListener('pointerenter',function(e){if(e.pointerType==='mouse')pon('puntero',true);});
+    fig.addEventListener('pointerleave',function(){pon('puntero',false);});
+    fig.addEventListener('focusin',function(e){
+      var visible=true;
+      try{visible=e.target.matches(':focus-visible');}catch(err){}
+      /* en el propio botón de pausa el foco no frena: así su estado dice la verdad */
+      if(e.target===pausa){pon('foco',false);return;}
+      if(visible)pon('foco',true);
+    });
+    fig.addEventListener('focusout',function(e){
+      if(!e.relatedTarget||!fig.contains(e.relatedTarget))pon('foco',false);
+    });
+    document.addEventListener('visibilitychange',function(){pon('oculta',document.hidden);});
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){
+        pon('fuera',!es[es.length-1].isIntersecting);
+      },{threshold:.15}).observe(fig);
+    }
+    if(mqr){
+      var alReducir=function(e){
+        reducido=e.matches;
+        ctl.classList.toggle('manual',reducido);
+        if(reducido)fotos.forEach(function(im){im.classList.remove('zoom');});
+        programa();
+      };
+      if(mqr.addEventListener)mqr.addEventListener('change',alReducir);else if(mqr.addListener)mqr.addListener(alReducir);
+    }
+
+    mideArco();
+    if('ResizeObserver' in window){new ResizeObserver(mideArco).observe(marco);}
+    else{window.addEventListener('resize',mideArco);}
+    ctl.hidden=false;
+    ctl.classList.toggle('manual',reducido);
+    freno.oculta=!!document.hidden;
+    if(!reducido){
+      void fotos[0].offsetWidth;
+      fotos[0].classList.add('zoom');
+      dibujaArco();
+    }
+    programa();
+  })();
 
   /* tema */
   var bt=document.getElementById('btn-tema');
