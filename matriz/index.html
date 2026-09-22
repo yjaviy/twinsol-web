@@ -260,8 +260,7 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
 @media(min-width:900px){.tarjetas{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}}
 .tarjeta{position:relative;overflow:hidden;display:block;width:100%;padding:0;border:0;border-radius:0;background:var(--marino);color:#fff;text-align:left;cursor:pointer;aspect-ratio:3/4;font:inherit}
 @media(max-width:899px){.tarjeta{aspect-ratio:4/5}}
-.tarjeta img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s}
-.tarjeta:hover img{transform:scale(1.04)}
+.tarjeta img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .tarjeta::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,24,48,.62) 0%,rgba(18,40,74,.10) 34%,rgba(18,40,74,.12) 50%,rgba(10,24,48,.94) 100%)}
 .tarjeta-num{position:absolute;z-index:3;left:16px;top:12px;font-family:var(--f-titular);font-weight:500;font-size:2.4rem;line-height:1;letter-spacing:0;color:#fff}
 .tarjeta[aria-selected="true"] .tarjeta-num{color:var(--naranja-claro)}
@@ -379,6 +378,7 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
   .galeria.todas .obra-g{grid-column:span 2;grid-row:span 2}
   .galeria.todas .obra-g.der{grid-column:3/5}
   .galeria.todas .obra-a{grid-column:span 2}
+  .galeria.todas .obra-g .marco,.galeria.todas .obra-a .marco{flex:1 1 0;height:0;min-height:0;display:flex;flex-direction:column}
   .galeria.todas .obra-g img,.galeria.todas .obra-a img{flex:1 1 0;height:0;min-height:0;aspect-ratio:auto}
 }
 .obras .cab-seccion{grid-template-columns:minmax(0,1fr);gap:16px}
@@ -422,6 +422,23 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
 .sello{background:#fff;padding:10px 14px;border:1px solid var(--borde);display:flex;align-items:center;justify-content:center;justify-self:start}
 @media(min-width:900px){.sello{justify-self:end}}
 .sello img{height:76px;width:auto;max-width:100%;object-fit:contain}
+/* Sello ICDQ enlazado al certificado: realce sutil, sin subrayado */
+.sello-cert{display:block;line-height:0;text-decoration:none;transition:box-shadow .3s}
+.sello-cert img{transition:transform .3s}
+.sello-cert:hover img,.sello-cert:focus-visible img{transform:scale(1.02)}
+.sello:has(.sello-cert:hover){border-color:var(--naranja);box-shadow:0 6px 18px rgba(10,24,48,.10)}
+.enlace-cert{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-family:var(--f-titular);font-weight:600;color:var(--acento-texto);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px;transition:color .3s,border-color .3s}
+.enlace-cert svg{width:13px;height:13px;flex:none}
+.enlace-cert:hover{color:var(--titular);border-bottom-color:var(--naranja)}
+
+/* Acercamiento de fotos al pasar el ratón: el marco recorta, el pie no se mueve */
+.marco{display:block;position:relative}
+.sistemas-foto .marco{border-radius:9999px 9999px 0 0}
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+  .marco,.tarjeta,.tile,.empresa-foto{overflow:hidden}
+  .marco img,.tarjeta img,.tile img,.empresa-foto img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+  .marco:hover img,.marco:focus-within img,.tarjeta:hover img,.tarjeta:focus-within img,.tile:hover img,.tile:focus-within img,.empresa-foto:hover img,.empresa-foto:focus-within img{transform:scale(1.04)}
+}
 
 /* Contacto: banda sobre foto + único degradado marino-naranja en un sector circular */
 .contacto{padding:0;background:var(--fondo)}
@@ -652,8 +669,8 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
 
     <div class="panel-servicio" role="tabpanel" id="panel-hormigon" aria-labelledby="tab-hormigon" tabindex="0">
       <div class="panel-fotos">
-        <figure><img class="f-grande" src="../img/racks-lineas-amarillas.jpg" alt="Almacén con estanterías y señalización amarilla sobre solera de hormigón" loading="lazy"><figcaption>Solera de hormigón en almacén con estanterías.</figcaption></figure>
-        <figure><img class="f-peq" src="../img/losa-fresca.jpg" alt="Losa de hormigón recién extendida en una nave de gran superficie" loading="lazy"><figcaption>Losa recién extendida en nave.</figcaption></figure>
+        <figure><span class="marco"><img class="f-grande" src="../img/racks-lineas-amarillas.jpg" alt="Almacén con estanterías y señalización amarilla sobre solera de hormigón" loading="lazy"></span><figcaption>Solera de hormigón en almacén con estanterías.</figcaption></figure>
+        <figure><span class="marco"><img class="f-peq" src="../img/losa-fresca.jpg" alt="Losa de hormigón recién extendida en una nave de gran superficie" loading="lazy"></span><figcaption>Losa recién extendida en nave.</figcaption></figure>
       </div>
       <div>
         <h3>Pavimentos de hormigón sin juntas y alta tolerancia</h3>
@@ -677,8 +694,8 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
 
     <div class="panel-servicio" role="tabpanel" id="panel-revestimientos" aria-labelledby="tab-revestimientos" tabindex="0">
       <div class="panel-fotos">
-        <figure><img class="f-grande" src="../img/epoxi-azul-crema.jpg" alt="Nave industrial con revestimiento epoxi en azul y crema" loading="lazy"><figcaption>Revestimiento epoxi en nave industrial.</figcaption></figure>
-        <figure><img class="f-peq" src="../img/sala-verde.jpg" alt="Sala limpia con revestimiento continuo de color verde" loading="lazy"><figcaption>Revestimiento continuo en sala limpia.</figcaption></figure>
+        <figure><span class="marco"><img class="f-grande" src="../img/epoxi-azul-crema.jpg" alt="Nave industrial con revestimiento epoxi en azul y crema" loading="lazy"></span><figcaption>Revestimiento epoxi en nave industrial.</figcaption></figure>
+        <figure><span class="marco"><img class="f-peq" src="../img/sala-verde.jpg" alt="Sala limpia con revestimiento continuo de color verde" loading="lazy"></span><figcaption>Revestimiento continuo en sala limpia.</figcaption></figure>
       </div>
       <div>
         <h3>Revestimientos continuos</h3>
@@ -713,8 +730,8 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
 
     <div class="panel-servicio" role="tabpanel" id="panel-restauracion" aria-labelledby="tab-restauracion" tabindex="0">
       <div class="panel-fotos">
-        <figure><img class="f-grande" src="../img/pulido-restauracion.jpg" alt="Operarios puliendo una solera existente" loading="lazy"><figcaption>Pulido de solera existente.</figcaption></figure>
-        <figure><img class="f-peq" src="../img/restauracion-nave.jpg" alt="Interior de una nave industrial durante los trabajos de restauración del pavimento" loading="lazy"><figcaption>Nave en restauración.</figcaption></figure>
+        <figure><span class="marco"><img class="f-grande" src="../img/pulido-restauracion.jpg" alt="Operarios puliendo una solera existente" loading="lazy"></span><figcaption>Pulido de solera existente.</figcaption></figure>
+        <figure><span class="marco"><img class="f-peq" src="../img/restauracion-nave.jpg" alt="Interior de una nave industrial durante los trabajos de restauración del pavimento" loading="lazy"></span><figcaption>Nave en restauración.</figcaption></figure>
       </div>
       <div>
         <h3>Restauración de soleras. Sistema Twin Cure</h3>
@@ -735,8 +752,8 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
 
     <div class="panel-servicio" role="tabpanel" id="panel-artisticos" aria-labelledby="tab-artisticos" tabindex="0">
       <div class="panel-fotos">
-        <figure><img class="f-grande" src="../img/tienda-terrazo.jpg" alt="Tienda con pavimento de terrazo continuo y grafiti en la pared" loading="lazy"><figcaption>Terrazo continuo en tienda.</figcaption></figure>
-        <figure><img class="f-peq" src="../img/grafiti-cine.jpg" alt="Vestíbulo de cine con pavimento artístico tipo grafiti en naranja y azul" loading="lazy"><figcaption>Pavimento grafiti en vestíbulo de cine.</figcaption></figure>
+        <figure><span class="marco"><img class="f-grande" src="../img/tienda-terrazo.jpg" alt="Tienda con pavimento de terrazo continuo y grafiti en la pared" loading="lazy"></span><figcaption>Terrazo continuo en tienda.</figcaption></figure>
+        <figure><span class="marco"><img class="f-peq" src="../img/grafiti-cine.jpg" alt="Vestíbulo de cine con pavimento artístico tipo grafiti en naranja y azul" loading="lazy"></span><figcaption>Pavimento grafiti en vestíbulo de cine.</figcaption></figure>
       </div>
       <div>
         <h3>Pavimentos continuos artísticos</h3>
@@ -762,7 +779,7 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
     </div>
     <div class="sistemas-grid">
       <figure class="sistemas-foto">
-        <img src="../img/hero-racks.jpg" alt="Pasillo simétrico entre estanterías de gran altura en azul y naranja sobre una solera continua" loading="lazy">
+        <span class="marco"><img src="../img/hero-racks.jpg" alt="Pasillo simétrico entre estanterías de gran altura en azul y naranja sobre una solera continua" loading="lazy"></span>
         <figcaption>Solera en pasillo entre estanterías de gran altura.</figcaption>
       </figure>
       <div class="sistemas-col">
@@ -804,7 +821,7 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
         <p class="entrada" style="margin-top:20px">Del diseño al control final, con responsabilidad integral y con equipos específicamente diseñados para el trabajo: regla láser (laser screed) y fratasadoras.</p>
       </div>
       <figure class="proceso-foto">
-        <img src="../img/fratasado.jpg" alt="Operario con casco sobre una fratasadora doble trabajando la solera de una nave" loading="lazy">
+        <span class="marco"><img src="../img/fratasado.jpg" alt="Operario con casco sobre una fratasadora doble trabajando la solera de una nave" loading="lazy"></span>
         <figcaption>Fratasado mecánico de la solera en nave.</figcaption>
       </figure>
     </div>
@@ -833,10 +850,10 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
     <div class="medios">
       <h3>En obra</h3>
       <div class="medios-tira">
-        <figure><img src="../img/vertido-hormigon.jpg" alt="Camión hormigonera vertiendo hormigón en el interior de una nave" loading="lazy"><figcaption>Vertido de hormigón en nave.</figcaption></figure>
-        <figure><img src="../img/fibra-acero.jpg" alt="Primer plano de hormigón fresco con fibras de acero" loading="lazy"><figcaption>Hormigón fresco con fibra de acero.</figcaption></figure>
-        <figure><img src="../img/laser-screed-equipo.jpg" alt="Equipo de cuatro operarios extendiendo hormigón con una regla láser" loading="lazy"><figcaption>Extendido con regla láser.</figcaption></figure>
-        <figure><img src="../img/laser-screed-maquina.jpg" alt="Regla láser en primer plano sobre hormigón fresco" loading="lazy"><figcaption>Regla láser sobre hormigón fresco.</figcaption></figure>
+        <figure><span class="marco"><img src="../img/vertido-hormigon.jpg" alt="Camión hormigonera vertiendo hormigón en el interior de una nave" loading="lazy"></span><figcaption>Vertido de hormigón en nave.</figcaption></figure>
+        <figure><span class="marco"><img src="../img/fibra-acero.jpg" alt="Primer plano de hormigón fresco con fibras de acero" loading="lazy"></span><figcaption>Hormigón fresco con fibra de acero.</figcaption></figure>
+        <figure><span class="marco"><img src="../img/laser-screed-equipo.jpg" alt="Equipo de cuatro operarios extendiendo hormigón con una regla láser" loading="lazy"></span><figcaption>Extendido con regla láser.</figcaption></figure>
+        <figure><span class="marco"><img src="../img/laser-screed-maquina.jpg" alt="Regla láser en primer plano sobre hormigón fresco" loading="lazy"></span><figcaption>Regla láser sobre hormigón fresco.</figcaption></figure>
       </div>
     </div>
   </div>
@@ -881,22 +898,22 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
       <button class="filtro" type="button" data-filtro="artisticos" aria-pressed="false">Artísticos</button>
     </div>
     <div class="galeria todas" id="galeria">
-      <figure class="obra obra-g" data-tipo="hormigon"><img src="../img/nave-vacia.jpg" alt="Nave logística vacía y terminada con solera de hormigón" loading="lazy"><figcaption><span class="pildora">Hormigón</span><span class="pie">Solera en nave logística</span></figcaption></figure>
-      <figure class="obra" data-tipo="hormigon"><img src="../img/racks-naranja-azul.jpg" alt="Estanterías en naranja y azul con líneas amarillas en el suelo" loading="lazy"><figcaption><span class="pildora">Hormigón</span><span class="pie">Solera en almacén con estanterías</span></figcaption></figure>
-      <figure class="obra" data-tipo="revestimientos"><img src="../img/epoxi-azul-crema.jpg" alt="Nave con revestimiento epoxi azul y crema" loading="lazy"><figcaption><span class="pildora">Revestimientos</span><span class="pie">Epoxi en nave industrial</span></figcaption></figure>
-      <figure class="obra" data-tipo="revestimientos"><img src="../img/resina-azul-pasillo.jpg" alt="Pasillo industrial con resina azul y bordes amarillos" loading="lazy"><figcaption><span class="pildora">Revestimientos</span><span class="pie">Resina en pasillo industrial</span></figcaption></figure>
-      <figure class="obra" data-tipo="restauracion"><img src="../img/junta-reparada.jpg" alt="Junta reparada en una solera industrial" loading="lazy"><figcaption><span class="pildora">Restauración</span><span class="pie">Junta reparada en solera</span></figcaption></figure>
-      <figure class="obra obra-a" data-tipo="hormigon"><img src="../img/exterior-muelles.jpg" alt="Explanada exterior de hormigón junto a muelles de carga" loading="lazy"><figcaption><span class="pildora">Hormigón</span><span class="pie">Explanada exterior con muelles de carga</span></figcaption></figure>
-      <figure class="obra" data-tipo="revestimientos"><img src="../img/alimentaria-rojo.jpg" alt="Pasillo de industria alimentaria con poliuretano cemento rojo" loading="lazy"><figcaption><span class="pildora">Revestimientos</span><span class="pie">Poliuretano cemento en industria alimentaria</span></figcaption></figure>
-      <figure class="obra" data-tipo="restauracion"><img src="../img/restauracion-nave.jpg" alt="Nave industrial durante la restauración de su pavimento" loading="lazy"><figcaption><span class="pildora">Restauración</span><span class="pie">Nave en restauración</span></figcaption></figure>
-      <figure class="obra obra-g der" data-tipo="revestimientos"><img src="../img/linea-automocion.jpg" alt="Línea de montaje con pavimento gris brillante y marcas amarillas" loading="lazy"><figcaption><span class="pildora">Revestimientos</span><span class="pie">Pavimento en línea de montaje</span></figcaption></figure>
-      <figure class="obra" data-tipo="restauracion"><img src="../img/pulido-restauracion.jpg" alt="Operarios puliendo una solera existente" loading="lazy"><figcaption><span class="pildora">Restauración</span><span class="pie">Pulido de solera existente</span></figcaption></figure>
-      <figure class="obra" data-tipo="artisticos"><img src="../img/hormigon-pulido-interior.jpg" alt="Interior con pavimento de hormigón pulido y un sofá" loading="lazy"><figcaption><span class="pildora">Artísticos</span><span class="pie">Hormigón pulido en interior</span></figcaption></figure>
-      <figure class="obra" data-tipo="artisticos"><img src="../img/terrazo-azul.jpg" alt="Terrazo continuo azul con círculos" loading="lazy"><figcaption><span class="pildora">Artísticos</span><span class="pie">Terrazo in situ con círculos</span></figcaption></figure>
-      <figure class="obra" data-tipo="artisticos"><img src="../img/tienda-terrazo.jpg" alt="Tienda con pavimento de terrazo continuo y grafiti en la pared" loading="lazy"><figcaption><span class="pildora">Artísticos</span><span class="pie">Terrazo continuo en tienda</span></figcaption></figure>
-      <figure class="obra obra-a" data-tipo="hormigon"><img src="../img/bobinas-papel.jpg" alt="Bobinas de papel almacenadas sobre una solera en una fábrica" loading="lazy"><figcaption><span class="pildora">Hormigón</span><span class="pie">Solera en fábrica de papel</span></figcaption></figure>
-      <figure class="obra" data-tipo="artisticos"><img src="../img/grafiti-cine.jpg" alt="Vestíbulo de cine con pavimento artístico tipo grafiti en naranja y azul" loading="lazy"><figcaption><span class="pildora">Artísticos</span><span class="pie">Pavimento grafiti en vestíbulo de cine</span></figcaption></figure>
-      <figure class="obra" data-tipo="artisticos"><img src="../img/terrazo-ondas.jpg" alt="Terrazo in situ con ondas en verde, azul y blanco" loading="lazy"><figcaption><span class="pildora">Artísticos</span><span class="pie">Terrazo in situ con ondas</span></figcaption></figure>
+      <figure class="obra obra-g" data-tipo="hormigon"><span class="marco"><img src="../img/nave-vacia.jpg" alt="Nave logística vacía y terminada con solera de hormigón" loading="lazy"></span><figcaption><span class="pildora">Hormigón</span><span class="pie">Solera en nave logística</span></figcaption></figure>
+      <figure class="obra" data-tipo="hormigon"><span class="marco"><img src="../img/racks-naranja-azul.jpg" alt="Estanterías en naranja y azul con líneas amarillas en el suelo" loading="lazy"></span><figcaption><span class="pildora">Hormigón</span><span class="pie">Solera en almacén con estanterías</span></figcaption></figure>
+      <figure class="obra" data-tipo="revestimientos"><span class="marco"><img src="../img/epoxi-azul-crema.jpg" alt="Nave con revestimiento epoxi azul y crema" loading="lazy"></span><figcaption><span class="pildora">Revestimientos</span><span class="pie">Epoxi en nave industrial</span></figcaption></figure>
+      <figure class="obra" data-tipo="revestimientos"><span class="marco"><img src="../img/resina-azul-pasillo.jpg" alt="Pasillo industrial con resina azul y bordes amarillos" loading="lazy"></span><figcaption><span class="pildora">Revestimientos</span><span class="pie">Resina en pasillo industrial</span></figcaption></figure>
+      <figure class="obra" data-tipo="restauracion"><span class="marco"><img src="../img/junta-reparada.jpg" alt="Junta reparada en una solera industrial" loading="lazy"></span><figcaption><span class="pildora">Restauración</span><span class="pie">Junta reparada en solera</span></figcaption></figure>
+      <figure class="obra obra-a" data-tipo="hormigon"><span class="marco"><img src="../img/exterior-muelles.jpg" alt="Explanada exterior de hormigón junto a muelles de carga" loading="lazy"></span><figcaption><span class="pildora">Hormigón</span><span class="pie">Explanada exterior con muelles de carga</span></figcaption></figure>
+      <figure class="obra" data-tipo="revestimientos"><span class="marco"><img src="../img/alimentaria-rojo.jpg" alt="Pasillo de industria alimentaria con poliuretano cemento rojo" loading="lazy"></span><figcaption><span class="pildora">Revestimientos</span><span class="pie">Poliuretano cemento en industria alimentaria</span></figcaption></figure>
+      <figure class="obra" data-tipo="restauracion"><span class="marco"><img src="../img/restauracion-nave.jpg" alt="Nave industrial durante la restauración de su pavimento" loading="lazy"></span><figcaption><span class="pildora">Restauración</span><span class="pie">Nave en restauración</span></figcaption></figure>
+      <figure class="obra obra-g der" data-tipo="revestimientos"><span class="marco"><img src="../img/linea-automocion.jpg" alt="Línea de montaje con pavimento gris brillante y marcas amarillas" loading="lazy"></span><figcaption><span class="pildora">Revestimientos</span><span class="pie">Pavimento en línea de montaje</span></figcaption></figure>
+      <figure class="obra" data-tipo="restauracion"><span class="marco"><img src="../img/pulido-restauracion.jpg" alt="Operarios puliendo una solera existente" loading="lazy"></span><figcaption><span class="pildora">Restauración</span><span class="pie">Pulido de solera existente</span></figcaption></figure>
+      <figure class="obra" data-tipo="artisticos"><span class="marco"><img src="../img/hormigon-pulido-interior.jpg" alt="Interior con pavimento de hormigón pulido y un sofá" loading="lazy"></span><figcaption><span class="pildora">Artísticos</span><span class="pie">Hormigón pulido en interior</span></figcaption></figure>
+      <figure class="obra" data-tipo="artisticos"><span class="marco"><img src="../img/terrazo-azul.jpg" alt="Terrazo continuo azul con círculos" loading="lazy"></span><figcaption><span class="pildora">Artísticos</span><span class="pie">Terrazo in situ con círculos</span></figcaption></figure>
+      <figure class="obra" data-tipo="artisticos"><span class="marco"><img src="../img/tienda-terrazo.jpg" alt="Tienda con pavimento de terrazo continuo y grafiti en la pared" loading="lazy"></span><figcaption><span class="pildora">Artísticos</span><span class="pie">Terrazo continuo en tienda</span></figcaption></figure>
+      <figure class="obra obra-a" data-tipo="hormigon"><span class="marco"><img src="../img/bobinas-papel.jpg" alt="Bobinas de papel almacenadas sobre una solera en una fábrica" loading="lazy"></span><figcaption><span class="pildora">Hormigón</span><span class="pie">Solera en fábrica de papel</span></figcaption></figure>
+      <figure class="obra" data-tipo="artisticos"><span class="marco"><img src="../img/grafiti-cine.jpg" alt="Vestíbulo de cine con pavimento artístico tipo grafiti en naranja y azul" loading="lazy"></span><figcaption><span class="pildora">Artísticos</span><span class="pie">Pavimento grafiti en vestíbulo de cine</span></figcaption></figure>
+      <figure class="obra" data-tipo="artisticos"><span class="marco"><img src="../img/terrazo-ondas.jpg" alt="Terrazo in situ con ondas en verde, azul y blanco" loading="lazy"></span><figcaption><span class="pildora">Artísticos</span><span class="pie">Terrazo in situ con ondas</span></figcaption></figure>
     </div>
     <p class="galeria-estado" id="galeria-estado" aria-live="polite">Mostrando 16 obras.</p>
   </div>
@@ -953,8 +970,8 @@ h2{font-size:clamp(1.8rem,3.1vw,2.7rem);max-width:20ch}
       </article>
       <article class="compromiso">
         <h3>Responsabilidad medioambiental</h3>
-        <p>Gestión ambiental certificada conforme a la norma UNE-EN ISO 14001:2015.<small>Sello ICDQ UNE-EN ISO 14001:2015.</small></p>
-        <div class="sello"><img src="../img/cert-icdq-iso14001.png" alt="Sello ICDQ de gestión ambiental UNE-EN ISO 14001:2015" loading="lazy"></div>
+        <p>Sistema de gestión ambiental certificado según UNE-EN ISO 14001:2015 por ICDQ, entidad acreditada por ENAC.<small>Certificado n.º 1455/26, para la instalación de pavimentos industriales, vigente hasta marzo de 2029.<br><a class="enlace-cert" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener">Ver el certificado (PDF, 1,2 MB)<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M18 13v6H5V6h6"/></svg></a></small></p>
+        <div class="sello"><a class="sello-cert" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener" aria-label="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)"><img src="../img/cert-icdq-iso14001.png" alt="Sello ICDQ de gestión ambiental UNE-EN ISO 14001:2015" loading="lazy"></a></div>
       </article>
       <article class="compromiso">
         <h3>Seguridad laboral</h3>

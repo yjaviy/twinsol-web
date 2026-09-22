@@ -137,14 +137,24 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
 .arco-regla{display:block;width:100%;height:30px;color:var(--linea)}
 .arco-regla path{fill:none;stroke:currentColor;stroke-width:1.25;vector-effect:non-scaling-stroke}
 .arco-regla .acento{stroke:var(--naranja);stroke-width:2}
+/* Trazo de los arcos de sección al entrar en pantalla. El JS mide la longitud real en pantalla (non-scaling-stroke +
+   escala no uniforme hacen inservible pathLength) y la deja en --traza; sin JS o con reduced-motion, el arco está completo */
+.arco-regla.traza path,.pasos-arco.traza path,.zonas-arco.traza path{animation:traza-arco 1.2s cubic-bezier(.2,.7,.2,1) both}
+@keyframes traza-arco{from{stroke-dashoffset:var(--traza,0)}to{stroke-dashoffset:0}}
 
 /* Fotos con UNA esquina en cuarto de círculo */
 .foto{position:relative;margin:0}
 .foto img{width:100%;height:100%;object-fit:cover}
-.foto.tl img{border-top-left-radius:var(--R)}
-.foto.tr img{border-top-right-radius:var(--R)}
-.foto.bl img{border-bottom-left-radius:var(--R)}
-.foto.br img{border-bottom-right-radius:var(--R)}
+.foto.tl img,.foto.tl .marco{border-top-left-radius:var(--R)}
+.foto.tr img,.foto.tr .marco{border-top-right-radius:var(--R)}
+.foto.bl img,.foto.bl .marco{border-bottom-left-radius:var(--R)}
+.foto.br img,.foto.br .marco{border-bottom-right-radius:var(--R)}
+/* Marco que recorta la foto: la proporción sigue en la <img>; el acercamiento al pasar el ratón no mueve nada */
+.marco{display:block;overflow:hidden}
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+  .marco img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+  figure:hover .marco img,figure:focus-within .marco img{transform:scale(1.04)}
+}
 .foto.traza::before{content:"";position:absolute;width:calc(var(--R) + var(--off));height:calc(var(--R) + var(--off));border:0 solid var(--naranja);pointer-events:none}
 .foto.traza.tl::before{top:calc(var(--off) * -1);left:calc(var(--off) * -1);border-top-width:2px;border-left-width:2px;border-top-left-radius:100%}
 .foto.traza.tr::before{top:calc(var(--off) * -1);right:calc(var(--off) * -1);border-top-width:2px;border-right-width:2px;border-top-right-radius:100%}
@@ -233,6 +243,11 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
 .cifras b{display:block;font-family:var(--display);font-weight:500;font-size:clamp(2rem,3.4vw,2.9rem);line-height:1;color:var(--sobre-panel);letter-spacing:-.02em;margin-bottom:12px}
 .cifras b small{font-size:.5em;font-weight:600;letter-spacing:0}
 .cifras span{display:block;font-size:.93rem;color:var(--sobre-panel-2);line-height:1.4}
+/* La cifra ISO 14001 enlaza con el certificado: sigue pareciendo una cifra */
+.cifras a.cifra-enlace{display:block;width:fit-content;color:inherit;text-decoration:none}
+.cifras a.cifra-enlace b{transition:color .3s}
+.cifras a.cifra-enlace:hover b,.cifras a.cifra-enlace:focus-visible b{color:var(--naranja-en-panel)}
+.cifras a.cifra-enlace:focus-visible{outline:3px solid var(--naranja-en-panel);outline-offset:6px}
 
 /* Presentación */
 .presenta{padding-block:clamp(48px,6vw,88px)}
@@ -342,14 +357,15 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
 .mosaico figure[hidden]{display:none}
 .mosaico .g2{grid-column:span 2}
 .mosaico .a2{grid-row:span 2}
-.mosaico img{flex:1;min-height:0;width:100%;object-fit:cover}
+.mosaico .marco{flex:1;min-height:0;position:relative}
+.mosaico img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .mosaico figcaption{padding-top:10px;font-size:.88rem;line-height:1.35;color:var(--texto);display:flex;flex-direction:column-reverse;justify-content:flex-end;gap:2px;min-height:72px}
 .mosaico figcaption em{font-style:normal;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--naranja-texto);white-space:nowrap}
 /* Teselas anchas: pie dentro de la foto, sobre velo marino */
 .mosaico .g2{position:relative}
 .mosaico .g2 figcaption{position:absolute;left:0;right:0;bottom:0;min-height:0;padding:64px 20px 18px;font-family:var(--display);font-weight:500;font-size:1.08rem;color:#FFFFFF;background:linear-gradient(to top,rgba(11,26,48,.92) 0,rgba(11,26,48,.8) 52%,rgba(11,26,48,0) 100%);pointer-events:none}
 .mosaico .g2 figcaption em{color:#F9A772}
-.mosaico .curva img{border-top-left-radius:clamp(120px,16vw,230px)}
+.mosaico .curva .marco{border-top-left-radius:clamp(120px,16vw,230px)}
 .cuenta{font-size:.9rem;color:var(--texto-2);margin:22px 0 0}
 
 /* Empresa */
@@ -377,7 +393,15 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
 .sellos{display:flex;flex-wrap:wrap;gap:20px 28px;align-items:center;margin-top:48px;padding-top:32px;border-top:1px solid var(--linea)}
 .sellos .placa{background:var(--placa);padding:14px 18px;border:1px solid var(--linea)}
 .sellos img{height:84px;width:auto}
-.sellos p{flex:1 1 300px;margin:0;font-size:.92rem;color:var(--texto-2);max-width:52ch}
+.sellos p{flex:1 1 300px;margin:0;font-size:.92rem;color:var(--texto-2);max-width:56ch}
+/* El sello ICDQ enlaza con el certificado (PDF en pestaña nueva): realce sutil, sin subrayado */
+.sellos a.placa-enlace{display:block;text-decoration:none;transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s}
+.sellos a.placa-enlace:hover,.sellos a.placa-enlace:focus-visible{border-color:var(--naranja);box-shadow:0 8px 22px rgba(11,26,48,.10);transform:scale(1.02)}
+.sellos a.placa-enlace:focus-visible{outline:3px solid var(--naranja);outline-offset:3px}
+.enlace-cert{display:flex;width:fit-content;align-items:center;gap:6px;margin-top:10px;font-family:var(--display);font-weight:600;color:var(--texto);text-decoration:none;border-bottom:1.5px solid var(--naranja);padding-bottom:2px;transition:color .18s,border-color .18s}
+.enlace-cert svg{width:13px;height:13px;flex:none;color:var(--naranja-texto)}
+.enlace-cert:hover{color:var(--naranja-texto)}
+.enlace-cert:focus-visible{outline:3px solid var(--naranja);outline-offset:3px}
 
 /* Contacto: banda marina con un sector naranja de borde duro y un arco concéntrico */
 .contacto{position:relative;overflow:hidden;color:var(--sobre-panel);background:radial-gradient(circle at 88% 108%,var(--naranja) 0 22%,transparent 22.1%),var(--panel)}
@@ -604,7 +628,7 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
     <ul role="list">
       <li><b>+30 <small>años</small></b><span>de experiencia del equipo dentro del grupo pionero europeo en pavimentos sin juntas</span></li>
       <li><b>4 <small>líneas</small></b><span>de servicio, del hormigón de alta planimetría al pavimento artístico, con 4 sistemas propios para soleras</span></li>
-      <li><b>ISO <small>14001</small></b><span>gestión ambiental certificada</span></li>
+      <li><a class="cifra-enlace" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener" aria-label="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)"><b>ISO <small>14001</small></b></a><span>gestión ambiental certificada por ICDQ&nbsp;· n.º&nbsp;1455/26&nbsp;· vigente hasta 2029</span></li>
       <li><b>4 <small>zonas</small></b><span>España, Centroeuropa, Sudamérica y Oriente Medio</span></li>
     </ul>
   </div>
@@ -637,7 +661,7 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
 
     <article class="fila ancha" id="s-hormigon">
       <figure class="foto tl traza">
-        <img src="../img/racks-lineas-amarillas.jpg" alt="Almacén con estanterías altas y señalización amarilla sobre una solera de hormigón" loading="lazy">
+        <div class="marco"><img src="../img/racks-lineas-amarillas.jpg" alt="Almacén con estanterías altas y señalización amarilla sobre una solera de hormigón" loading="lazy"></div>
         <figcaption>Pavimento en almacén con estanterías.</figcaption>
       </figure>
       <div class="panel">
@@ -660,7 +684,7 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
 
     <article class="fila inv" id="s-revestimientos">
       <figure class="foto tr traza">
-        <img src="../img/resina-azul-pasillo.jpg" alt="Pasillo industrial con revestimiento de resina azul y bordes amarillos" loading="lazy">
+        <div class="marco"><img src="../img/resina-azul-pasillo.jpg" alt="Pasillo industrial con revestimiento de resina azul y bordes amarillos" loading="lazy"></div>
       </figure>
       <div>
         <span class="num">02</span>
@@ -703,7 +727,7 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
 
     <article class="fila" id="s-restauracion">
       <figure class="foto bl traza">
-        <img src="../img/junta-reparada.jpg" alt="Junta serpenteante reparada sobre una solera industrial" loading="lazy">
+        <div class="marco"><img src="../img/junta-reparada.jpg" alt="Junta serpenteante reparada sobre una solera industrial" loading="lazy"></div>
       </figure>
       <div>
         <span class="num">03</span>
@@ -722,7 +746,7 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
 
     <article class="fila inv" id="s-artisticos">
       <figure class="foto tr traza">
-        <img src="../img/tienda-terrazo.jpg" alt="Tienda con pavimento de terrazo continuo y un grafiti en la pared" loading="lazy">
+        <div class="marco"><img src="../img/tienda-terrazo.jpg" alt="Tienda con pavimento de terrazo continuo y un grafiti en la pared" loading="lazy"></div>
       </figure>
       <div>
         <span class="num">04</span>
@@ -746,7 +770,7 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
       <h2 class="tit" id="h-sist">Cuatro sistemas <span class="ac">para soleras de hormigón</span></h2>
       <p class="entrada" style="margin-top:20px">Dentro de la línea de pavimentos de hormigón, TWINSOL DECOR trabaja con sistemas propios que cubren desde la solera sin juntas hasta el diseño de las juntas de dilatación.</p>
       <figure class="foto br">
-        <img src="../img/fibra-acero.jpg" alt="Primer plano de hormigón fresco con fibras de acero" loading="lazy">
+        <div class="marco"><img src="../img/fibra-acero.jpg" alt="Primer plano de hormigón fresco con fibras de acero" loading="lazy"></div>
         <figcaption>Hormigón fresco reforzado con fibra de acero.</figcaption>
       </figure>
     </div>
@@ -798,10 +822,10 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
     </div>
     <h3 class="sub-t medios-t">Medios propios en obra</h3>
     <div class="medios">
-      <figure><img src="../img/vertido-hormigon.jpg" alt="Camión hormigonera vertiendo hormigón dentro de una nave" loading="lazy"><figcaption>Vertido de hormigón en nave.</figcaption></figure>
-      <figure><img src="../img/laser-screed-equipo.jpg" alt="Equipo de cuatro operarios extendiendo hormigón con una laser screed" loading="lazy"><figcaption>Extendido de hormigón con laser screed.</figcaption></figure>
-      <figure><img src="../img/laser-screed-maquina.jpg" alt="Regla láser en primer plano sobre hormigón fresco" loading="lazy"><figcaption>Regla láser sobre hormigón fresco.</figcaption></figure>
-      <figure><img src="../img/fratasado.jpg" alt="Operario con casco sobre una fratasadora doble en una nave" loading="lazy"><figcaption>Fratasadora doble en nave.</figcaption></figure>
+      <figure><div class="marco"><img src="../img/vertido-hormigon.jpg" alt="Camión hormigonera vertiendo hormigón dentro de una nave" loading="lazy"></div><figcaption>Vertido de hormigón en nave.</figcaption></figure>
+      <figure><div class="marco"><img src="../img/laser-screed-equipo.jpg" alt="Equipo de cuatro operarios extendiendo hormigón con una laser screed" loading="lazy"></div><figcaption>Extendido de hormigón con laser screed.</figcaption></figure>
+      <figure><div class="marco"><img src="../img/laser-screed-maquina.jpg" alt="Regla láser en primer plano sobre hormigón fresco" loading="lazy"></div><figcaption>Regla láser sobre hormigón fresco.</figcaption></figure>
+      <figure><div class="marco"><img src="../img/fratasado.jpg" alt="Operario con casco sobre una fratasadora doble en una nave" loading="lazy"></div><figcaption>Fratasadora doble en nave.</figcaption></figure>
     </div>
   </div>
 </section>
@@ -827,7 +851,7 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
       </ul>
     </div>
     <figure class="foto tl traza">
-      <img src="../img/hangar-avion.jpg" alt="Avioneta estacionada en un hangar con pavimento blanco brillante" loading="lazy">
+      <div class="marco"><img src="../img/hangar-avion.jpg" alt="Avioneta estacionada en un hangar con pavimento blanco brillante" loading="lazy"></div>
       <figcaption>Pavimento de hangar.</figcaption>
     </figure>
     <h3 class="sub-t zonas-t">Asistimos a proyectos de pavimentación industrial y comercial en cuatro zonas</h3>
@@ -860,25 +884,25 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
       <button class="pil" type="button" data-f="artisticos" aria-pressed="false">Artísticos</button>
     </div>
     <div class="mosaico" id="mosaico">
-      <figure class="g2 a2 curva" data-c="hormigon"><img src="../img/nave-vacia.jpg" alt="Nave logística vacía y recién terminada con solera de hormigón" loading="lazy"><figcaption>Solera de hormigón en nave logística <em>Hormigón</em></figcaption></figure>
-      <figure data-c="revestimientos"><img src="../img/epoxi-azul-crema.jpg" alt="Nave con revestimiento epoxi en azul y crema" loading="lazy"><figcaption>Revestimiento epoxi en nave <em>Revestimientos</em></figcaption></figure>
-      <figure data-c="artisticos"><img src="../img/terrazo-ondas.jpg" alt="Vestíbulo con terrazo continuo in situ con ondas en verde, azul y blanco" loading="lazy"><figcaption>Terrazo in situ en vestíbulo <em>Artísticos</em></figcaption></figure>
-      <figure class="g2" data-c="hormigon"><img src="../img/hero-racks.jpg" alt="Pasillo simétrico entre estanterías muy altas en azul y naranja" loading="lazy"><figcaption>Pavimento en pasillo de estanterías de gran altura <em>Hormigón</em></figcaption></figure>
-      <figure class="a2" data-c="revestimientos"><img src="../img/alimentaria-rojo.jpg" alt="Pasillo de industria alimentaria con pavimento rojo" loading="lazy"><figcaption>Poliuretano cemento en industria alimentaria <em>Revestimientos</em></figcaption></figure>
-      <figure data-c="restauracion"><img src="../img/pulido-restauracion.jpg" alt="Operarios puliendo una solera existente" loading="lazy"><figcaption>Pulido de una solera existente <em>Restauración</em></figcaption></figure>
-      <figure class="g2" data-c="hormigon"><img src="../img/nave-columnas.jpg" alt="Nave con ventanales y solera reflectante" loading="lazy"><figcaption>Solera pulida en nave industrial <em>Hormigón</em></figcaption></figure>
-      <figure data-c="artisticos"><img src="../img/hormigon-pulido-interior.jpg" alt="Interior con sofá sobre pavimento de hormigón pulido" loading="lazy"><figcaption>Hormigón pulido en interior <em>Artísticos</em></figcaption></figure>
-      <figure data-c="hormigon"><img src="../img/bobinas-papel.jpg" alt="Bobinas de papel sobre la solera de una fábrica" loading="lazy"><figcaption>Pavimento en fábrica de papel <em>Hormigón</em></figcaption></figure>
-      <figure data-c="revestimientos"><img src="../img/linea-automocion.jpg" alt="Línea de montaje de automoción con suelo gris brillante y marcas amarillas" loading="lazy"><figcaption>Pavimento en línea de montaje de automoción <em>Revestimientos</em></figcaption></figure>
-      <figure class="g2" data-c="restauracion"><img src="../img/restauracion-nave.jpg" alt="Interior de una nave durante los trabajos de restauración del pavimento" loading="lazy"><figcaption>Nave en restauración <em>Restauración</em></figcaption></figure>
-      <figure data-c="artisticos"><img src="../img/grafiti-cine.jpg" alt="Vestíbulo de un cine con pavimento continuo de estilo grafiti en naranja y azul" loading="lazy"><figcaption>Pavimento de estilo grafiti en vestíbulo de cine <em>Artísticos</em></figcaption></figure>
-      <figure class="g2" data-c="hormigon"><img src="../img/logistica-cajas.jpg" alt="Centro logístico en actividad con carretillas y palés" loading="lazy"><figcaption>Pavimento en centro logístico en actividad <em>Hormigón</em></figcaption></figure>
-      <figure data-c="hormigon"><img src="../img/exterior-muelles.jpg" alt="Explanada exterior de hormigón junto a muelles de carga" loading="lazy"><figcaption>Explanada exterior con muelles de carga <em>Hormigón</em></figcaption></figure>
-      <figure data-c="artisticos"><img src="../img/terrazo-azul.jpg" alt="Terrazo continuo azul con círculos" loading="lazy"><figcaption>Terrazo in situ con círculos <em>Artísticos</em></figcaption></figure>
-      <figure data-c="revestimientos"><img src="../img/sala-verde.jpg" alt="Sala limpia con revestimiento continuo verde" loading="lazy"><figcaption>Revestimiento continuo en sala limpia <em>Revestimientos</em></figcaption></figure>
-      <figure class="g2" data-c="hormigon"><img src="../img/losa-fresca.jpg" alt="Losa de hormigón recién extendida en una nave grande" loading="lazy"><figcaption>Losa recién extendida en nave <em>Hormigón</em></figcaption></figure>
-      <figure data-c="hormigon"><img src="../img/racks-naranja-azul.jpg" alt="Estanterías en naranja y azul con líneas amarillas en el suelo" loading="lazy"><figcaption>Pavimento en almacén con estanterías <em>Hormigón</em></figcaption></figure>
-      <figure data-c="artisticos"><img src="../img/hyundai-suelo.jpg" alt="Pavimento de resina con un logotipo corporativo integrado" loading="lazy"><figcaption>Pavimento de resina con logotipo corporativo <em>Artísticos</em></figcaption></figure>
+      <figure class="g2 a2 curva" data-c="hormigon"><div class="marco"><img src="../img/nave-vacia.jpg" alt="Nave logística vacía y recién terminada con solera de hormigón" loading="lazy"></div><figcaption>Solera de hormigón en nave logística <em>Hormigón</em></figcaption></figure>
+      <figure data-c="revestimientos"><div class="marco"><img src="../img/epoxi-azul-crema.jpg" alt="Nave con revestimiento epoxi en azul y crema" loading="lazy"></div><figcaption>Revestimiento epoxi en nave <em>Revestimientos</em></figcaption></figure>
+      <figure data-c="artisticos"><div class="marco"><img src="../img/terrazo-ondas.jpg" alt="Vestíbulo con terrazo continuo in situ con ondas en verde, azul y blanco" loading="lazy"></div><figcaption>Terrazo in situ en vestíbulo <em>Artísticos</em></figcaption></figure>
+      <figure class="g2" data-c="hormigon"><div class="marco"><img src="../img/hero-racks.jpg" alt="Pasillo simétrico entre estanterías muy altas en azul y naranja" loading="lazy"></div><figcaption>Pavimento en pasillo de estanterías de gran altura <em>Hormigón</em></figcaption></figure>
+      <figure class="a2" data-c="revestimientos"><div class="marco"><img src="../img/alimentaria-rojo.jpg" alt="Pasillo de industria alimentaria con pavimento rojo" loading="lazy"></div><figcaption>Poliuretano cemento en industria alimentaria <em>Revestimientos</em></figcaption></figure>
+      <figure data-c="restauracion"><div class="marco"><img src="../img/pulido-restauracion.jpg" alt="Operarios puliendo una solera existente" loading="lazy"></div><figcaption>Pulido de una solera existente <em>Restauración</em></figcaption></figure>
+      <figure class="g2" data-c="hormigon"><div class="marco"><img src="../img/nave-columnas.jpg" alt="Nave con ventanales y solera reflectante" loading="lazy"></div><figcaption>Solera pulida en nave industrial <em>Hormigón</em></figcaption></figure>
+      <figure data-c="artisticos"><div class="marco"><img src="../img/hormigon-pulido-interior.jpg" alt="Interior con sofá sobre pavimento de hormigón pulido" loading="lazy"></div><figcaption>Hormigón pulido en interior <em>Artísticos</em></figcaption></figure>
+      <figure data-c="hormigon"><div class="marco"><img src="../img/bobinas-papel.jpg" alt="Bobinas de papel sobre la solera de una fábrica" loading="lazy"></div><figcaption>Pavimento en fábrica de papel <em>Hormigón</em></figcaption></figure>
+      <figure data-c="revestimientos"><div class="marco"><img src="../img/linea-automocion.jpg" alt="Línea de montaje de automoción con suelo gris brillante y marcas amarillas" loading="lazy"></div><figcaption>Pavimento en línea de montaje de automoción <em>Revestimientos</em></figcaption></figure>
+      <figure class="g2" data-c="restauracion"><div class="marco"><img src="../img/restauracion-nave.jpg" alt="Interior de una nave durante los trabajos de restauración del pavimento" loading="lazy"></div><figcaption>Nave en restauración <em>Restauración</em></figcaption></figure>
+      <figure data-c="artisticos"><div class="marco"><img src="../img/grafiti-cine.jpg" alt="Vestíbulo de un cine con pavimento continuo de estilo grafiti en naranja y azul" loading="lazy"></div><figcaption>Pavimento de estilo grafiti en vestíbulo de cine <em>Artísticos</em></figcaption></figure>
+      <figure class="g2" data-c="hormigon"><div class="marco"><img src="../img/logistica-cajas.jpg" alt="Centro logístico en actividad con carretillas y palés" loading="lazy"></div><figcaption>Pavimento en centro logístico en actividad <em>Hormigón</em></figcaption></figure>
+      <figure data-c="hormigon"><div class="marco"><img src="../img/exterior-muelles.jpg" alt="Explanada exterior de hormigón junto a muelles de carga" loading="lazy"></div><figcaption>Explanada exterior con muelles de carga <em>Hormigón</em></figcaption></figure>
+      <figure data-c="artisticos"><div class="marco"><img src="../img/terrazo-azul.jpg" alt="Terrazo continuo azul con círculos" loading="lazy"></div><figcaption>Terrazo in situ con círculos <em>Artísticos</em></figcaption></figure>
+      <figure data-c="revestimientos"><div class="marco"><img src="../img/sala-verde.jpg" alt="Sala limpia con revestimiento continuo verde" loading="lazy"></div><figcaption>Revestimiento continuo en sala limpia <em>Revestimientos</em></figcaption></figure>
+      <figure class="g2" data-c="hormigon"><div class="marco"><img src="../img/losa-fresca.jpg" alt="Losa de hormigón recién extendida en una nave grande" loading="lazy"></div><figcaption>Losa recién extendida en nave <em>Hormigón</em></figcaption></figure>
+      <figure data-c="hormigon"><div class="marco"><img src="../img/racks-naranja-azul.jpg" alt="Estanterías en naranja y azul con líneas amarillas en el suelo" loading="lazy"></div><figcaption>Pavimento en almacén con estanterías <em>Hormigón</em></figcaption></figure>
+      <figure data-c="artisticos"><div class="marco"><img src="../img/hyundai-suelo.jpg" alt="Pavimento de resina con un logotipo corporativo integrado" loading="lazy"></div><figcaption>Pavimento de resina con logotipo corporativo <em>Artísticos</em></figcaption></figure>
     </div>
     <p class="cuenta" id="cuenta" role="status" aria-live="polite">Se muestran 19 fotografías.</p>
   </div>
@@ -887,7 +911,7 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
 <section class="empresa" id="empresa" aria-labelledby="h-emp">
   <div class="wrap">
     <figure class="foto tr traza">
-      <img src="../img/operario-twinsol.jpg" alt="Operaria con casco manejando una máquina de obra que lleva el rótulo de TWINSOL DECOR" loading="lazy">
+      <div class="marco"><img src="../img/operario-twinsol.jpg" alt="Operaria con casco manejando una máquina de obra que lleva el rótulo de TWINSOL DECOR" loading="lazy"></div>
       <figcaption>Maquinaria de TWINSOL DECOR en obra.</figcaption>
     </figure>
     <div class="cuerpo">
@@ -931,7 +955,7 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
       <article>
         <p class="norma">UNE-EN ISO 14001:2015</p>
         <h3>Responsabilidad medioambiental</h3>
-        <p>Gestión ambiental certificada conforme a la norma UNE-EN ISO 14001:2015.</p>
+        <p>Gestión ambiental certificada por ICDQ, entidad acreditada por ENAC. Certificado n.º 1455/26, vigente hasta marzo de 2029.</p>
       </article>
       <article>
         <p class="norma">Sello CE · EPI homologados</p>
@@ -941,8 +965,8 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
     </div>
     <div class="sellos">
       <div class="placa"><img src="../img/cert-aenor-iqnet.png" alt="Sellos AENOR Empresa Registrada, AENOR Gestión Ambiental e IQNet" loading="lazy"></div>
-      <div class="placa"><img src="../img/cert-icdq-iso14001.png" alt="Sello ICDQ de certificación UNE-EN ISO 14001:2015" loading="lazy"></div>
-      <p>Sellos de certificación de la empresa: AENOR Empresa Registrada, AENOR Gestión Ambiental, IQNet e ICDQ UNE-EN ISO 14001:2015.</p>
+      <a class="placa placa-enlace" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener" aria-label="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)"><img src="../img/cert-icdq-iso14001.png" alt="Sello ICDQ de certificación UNE-EN ISO 14001:2015" loading="lazy"></a>
+      <p>Sistema de gestión ambiental certificado según UNE-EN ISO 14001:2015 por ICDQ, entidad acreditada por ENAC. Certificado n.º 1455/26, para la instalación de pavimentos industriales, vigente hasta marzo de 2029. <a class="enlace-cert" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener">Ver el certificado (PDF, 1,2 MB)<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5H2.5v9h9V8"/><path d="M8 2.5h3.5V6M11.5 2.5 6.5 7.5"/></svg></a></p>
     </div>
   </div>
 </section>
@@ -1206,6 +1230,34 @@ section[id],div[id],article[id]{scroll-margin-top:96px}
     rot.classList.add('rot-lista');
     if(!reduce.matches){traza();requestAnimationFrame(function(){requestAnimationFrame(function(){rot.classList.add('anima');});});}
     programa();
+  })();
+
+  /* Trazo de los arcos de sección al entrar en pantalla (una vez por arco; los del hero llevan su propia animación) */
+  (function(){
+    if(!('IntersectionObserver' in window)||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    var arcos=[].slice.call(document.querySelectorAll('.arco-regla,.pasos-arco,.zonas-arco'));
+    function longitud(p){
+      var m=p.getScreenCTM(),t=p.getTotalLength(),n=48,L=0,px,py;
+      if(!m||!t)return 0;
+      for(var i=0;i<=n;i++){var q=p.getPointAtLength(t*i/n),x=m.a*q.x+m.c*q.y,y=m.b*q.x+m.d*q.y;if(i)L+=Math.sqrt((x-px)*(x-px)+(y-py)*(y-py));px=x;py=y;}
+      return L;
+    }
+    function traza(svg){
+      [].slice.call(svg.querySelectorAll('path')).forEach(function(p){
+        var L=Math.ceil(longitud(p));
+        if(!L)return;
+        p.style.strokeDasharray=L+'px';
+        p.style.setProperty('--traza',L+'px');
+        p.addEventListener('animationend',function(){p.style.strokeDasharray='';p.style.removeProperty('--traza');},{once:true});
+      });
+      svg.classList.add('traza');
+    }
+    var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){io.unobserve(en.target);traza(en.target);}});},{threshold:.35});
+    arcos.forEach(function(svg){
+      var r=svg.getBoundingClientRect();
+      if(r.bottom>0&&r.top<window.innerHeight)return;
+      io.observe(svg);
+    });
   })();
 
   var enlaces=document.querySelectorAll('.nav a[href^="#"]');

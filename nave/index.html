@@ -306,6 +306,9 @@
   .cifra { font-size: clamp(1.9rem, 3.2vw, 2.8rem); line-height: 1.05; color: var(--nieve); display: block; white-space: nowrap; }
   .cifra small { font-size: .55em; font-weight: 600; color: var(--naranja-claro); vertical-align: top; margin-right: .1em; }
   .dato p { margin: .5rem 0 0; color: var(--nieve-2); font-size: .95rem; line-height: 1.45; max-width: 40ch; }
+  /* La cifra ISO 14001 enlaza al certificado sin dejar de parecer una cifra */
+  a.cifra { text-decoration: none; color: var(--nieve); transition: color .3s; }
+  a.cifra:hover, a.cifra:focus-visible { color: var(--naranja-claro); }
 
   /* ---------- Servicios ---------- */
   .svc-lista { display: grid; gap: clamp(3rem, 7vw, 6rem); }
@@ -438,6 +441,10 @@
   /* El arco vive en el hueco libre junto al botón, sin cruzar nunca el texto; en móvil no hay hueco y se omite */
   .panel-arco { display: none; position: absolute; right: -4%; bottom: 1.2rem; width: 45%; height: auto; color: var(--naranja); opacity: .9; pointer-events: none; }
   @media (min-width: 760px) { .panel-arco { display: block; } }
+  /* Trazo del arco al entrar en pantalla: en reposo está completo; solo se dibuja cuando el observador añade .traza */
+  .panel-arco path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+  .panel-arco.traza path { animation: traza-arco 1.2s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes traza-arco { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
   .panel-marino blockquote { margin: 0; position: relative; }
   .panel-marino blockquote p { font-family: var(--f-titular); font-stretch: 110%; font-weight: 500; font-size: clamp(1.25rem, 2vw, 1.7rem); line-height: 1.25; }
   .panel-marino .cita-firma { font-family: var(--f-mono); font-size: .74rem; font-weight: 400; letter-spacing: .1em; text-transform: uppercase; color: var(--nieve-2); margin-top: 1rem; }
@@ -456,9 +463,21 @@
   .arco-foto { margin: 0; position: relative; padding: 16px 0 0 16px; }
   @media (min-width: 960px) { .arco-foto { position: sticky; top: 100px; } }
   .arco-foto::before { content: ""; position: absolute; left: 0; top: 0; right: 16px; height: 70%; border: 2px solid transparent; border-top-color: var(--naranja); border-radius: 72% 28% 0 0 / 34% 14% 0 0; pointer-events: none; }
-  .arco-foto img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 60% top; border-radius: 72% 28% 0 0 / 26% 11% 0 0; }
+  .arco-foto .foto, .arco-foto img { border-radius: 72% 28% 0 0 / 26% 11% 0 0; }
+  .arco-foto img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 60% top; }
   .arco-foto figcaption { padding-top: .7rem; }
-  @media (max-width: 959px) { .arco-foto { order: -1; max-width: 30rem; } .arco-foto img { aspect-ratio: 16 / 10; border-radius: 72% 28% 0 0 / 34% 14% 0 0; } }
+  @media (max-width: 959px) { .arco-foto { order: -1; max-width: 30rem; } .arco-foto img { aspect-ratio: 16 / 10; } .arco-foto .foto, .arco-foto img { border-radius: 72% 28% 0 0 / 34% 14% 0 0; } }
+
+  /* ---------- Acercamiento de fotos al pasar el ratón ----------
+     El marco .foto recorta (la proporción vive en la img y el pie va en flujo, así el zoom no mueve nada);
+     en el mosaico de sectores el marco es la propia figura, que ya recorta y lleva el pie superpuesto. */
+  .foto { display: block; overflow: hidden; }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .foto, .sector-fotos figure { overflow: hidden; }
+    .foto img, .sector-fotos figure img { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+    .galeria .foto img { transition: filter .25s, transform .6s cubic-bezier(.2,.7,.2,1); }
+    .foto:hover img, .foto:focus-within img, .sector-fotos figure:hover img, .sector-fotos figure:focus-within img { transform: scale(1.04); }
+  }
 
   /* ---------- Calidad / Medio ambiente / Seguridad ---------- */
   .calidad-grid { display: grid; gap: 0; border-top: 2px solid var(--txt); }
@@ -473,6 +492,15 @@
   .sello img.sobre-blanco { mix-blend-mode: multiply; }
   .sello img { max-height: 92px; width: auto; }
   .sellos-nota { flex: 0 0 100%; color: var(--txt-2); font-size: .88rem; max-width: 70ch; }
+  /* El sello ICDQ abre el certificado (PDF) en pestaña nueva: realce sutil del marco y de la imagen */
+  .sello { transition: border-color .3s, box-shadow .3s; }
+  .sello-enlace { display: flex; align-items: center; text-decoration: none; }
+  .sello-enlace img { transition: transform .3s; }
+  .sello-enlace:hover img, .sello-enlace:focus-visible img { transform: scale(1.02); }
+  .sello:has(.sello-enlace:hover), .sello:has(.sello-enlace:focus-visible) { border-color: var(--naranja-tinta); box-shadow: 0 2px 12px rgba(0, 0, 0, .08); }
+  .cert-enlace { display: inline-flex; align-items: center; gap: .35em; white-space: nowrap; color: var(--acento-txt); font-weight: 600; text-decoration: none; box-shadow: inset 0 -1px 0 currentColor; transition: box-shadow .3s; }
+  .cert-enlace:hover, .cert-enlace:focus-visible { box-shadow: inset 0 -2px 0 currentColor; }
+  .cert-enlace svg { width: 13px; height: 13px; flex: none; }
 
   /* ---------- Contacto ---------- */
   .contacto { display: grid; gap: 2.5rem; }
@@ -637,8 +665,8 @@
         <p>de trabajo: España, Centroeuropa, Sudamérica y Oriente Medio</p>
       </div>
       <div class="dato">
-        <span class="cifra">ISO 14001</span>
-        <p>gestión ambiental certificada según UNE-EN ISO 14001:2015</p>
+        <a class="cifra" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener" title="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)" aria-label="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)">ISO 14001</a>
+        <p>gestión ambiental certificada por ICDQ · n.º 1455/26 · vigente hasta 2029</p>
       </div>
     </div>
   </section>
@@ -658,7 +686,7 @@
         <!-- 01 -->
         <article class="svc" id="s-hormigon">
           <figure class="svc-media">
-            <img src="../img/laser-screed-equipo.jpg" alt="Equipo de cuatro operarios extendiendo hormigón con una laser screed en el interior de una nave" width="1600" height="900" loading="lazy">
+            <div class="foto"><img src="../img/laser-screed-equipo.jpg" alt="Equipo de cuatro operarios extendiendo hormigón con una laser screed en el interior de una nave" width="1600" height="900" loading="lazy"></div>
             <figcaption><b>Ejecución</b> Extendido con laser screed</figcaption>
           </figure>
           <div>
@@ -678,7 +706,7 @@
         <!-- 02 -->
         <article class="svc" id="s-revestimientos">
           <figure class="svc-media">
-            <img src="../img/resina-azul-pasillo.jpg" alt="Pasillo industrial con revestimiento continuo de resina azul y bandas amarillas de señalización" width="1600" height="900" loading="lazy">
+            <div class="foto"><img src="../img/resina-azul-pasillo.jpg" alt="Pasillo industrial con revestimiento continuo de resina azul y bandas amarillas de señalización" width="1600" height="900" loading="lazy"></div>
             <figcaption><b>Revestimiento</b> Resina en pasillo industrial</figcaption>
           </figure>
           <div>
@@ -705,7 +733,7 @@
         <!-- 03 -->
         <article class="svc" id="s-restauracion">
           <figure class="svc-media">
-            <img src="../img/junta-reparada.jpg" alt="Junta serpenteante reparada en una solera de hormigón existente" width="1400" height="975" loading="lazy">
+            <div class="foto"><img src="../img/junta-reparada.jpg" alt="Junta serpenteante reparada en una solera de hormigón existente" width="1400" height="975" loading="lazy"></div>
             <figcaption><b>Restauración</b> Junta reparada en solera existente</figcaption>
           </figure>
           <div>
@@ -724,7 +752,7 @@
         <!-- 04 -->
         <article class="svc" id="s-artisticos">
           <figure class="svc-media">
-            <img src="../img/terrazo-ondas.jpg" alt="Hall con terrazo continuo in situ de resinas en ondas verdes, azules y blancas" width="900" height="598" loading="lazy">
+            <div class="foto"><img src="../img/terrazo-ondas.jpg" alt="Hall con terrazo continuo in situ de resinas en ondas verdes, azules y blancas" width="900" height="598" loading="lazy"></div>
             <figcaption><b>Artístico</b> Terrazo continuo in situ</figcaption>
           </figure>
           <div>
@@ -744,7 +772,7 @@
       <div class="proceso" id="proceso">
         <div class="proceso-cab">
           <figure class="proceso-foto">
-            <img src="../img/fratasado.jpg" alt="Operario con casco y chaleco sobre una fratasadora doble, acabando la superficie de una solera de hormigón en una nave" width="1600" height="998" loading="lazy">
+            <div class="foto"><img src="../img/fratasado.jpg" alt="Operario con casco y chaleco sobre una fratasadora doble, acabando la superficie de una solera de hormigón en una nave" width="1600" height="998" loading="lazy"></div>
             <figcaption><b>Ejecución</b> Fratasado mecánico de la solera</figcaption>
           </figure>
           <div>
@@ -785,7 +813,7 @@
   <section class="seccion oscuro" id="sistemas" aria-labelledby="h-sistemas">
     <div class="wrap sistemas">
       <figure class="sistemas-foto">
-        <img src="../img/hero-racks.jpg" alt="Pasillo estrecho entre estanterías metálicas de gran altura sobre una solera de hormigón" width="1600" height="1600" loading="lazy">
+        <div class="foto"><img src="../img/hero-racks.jpg" alt="Pasillo estrecho entre estanterías metálicas de gran altura sobre una solera de hormigón" width="1600" height="1600" loading="lazy"></div>
         <figcaption><b>Almacén</b> Solera entre estanterías de gran altura</figcaption>
       </figure>
 
@@ -912,47 +940,47 @@
         <!-- Obra destacada. PENDIENTE DEL CLIENTE: localidad, superficie (m²), sector del cliente y año de 3-4 obras
              para convertir estas piezas en fichas de referencia. No se rellena con datos supuestos. -->
         <figure class="destacada">
-          <img src="../img/epoxi-azul-crema.jpg" alt="Nave con revestimiento epoxi en azul y crema" width="1600" height="900" loading="lazy">
+          <div class="foto"><img src="../img/epoxi-azul-crema.jpg" alt="Nave con revestimiento epoxi en azul y crema" width="1600" height="900" loading="lazy"></div>
           <figcaption><b>Revestimiento</b> Epoxi azul y crema, nave</figcaption>
         </figure>
         <figure class="ancha">
-          <img src="../img/racks-lineas-amarillas.jpg" alt="Almacén con estanterías y señalización amarilla pintada sobre la solera" width="1400" height="1050" loading="lazy">
+          <div class="foto"><img src="../img/racks-lineas-amarillas.jpg" alt="Almacén con estanterías y señalización amarilla pintada sobre la solera" width="1400" height="1050" loading="lazy"></div>
           <figcaption><b>Hormigón</b> Almacén con estanterías y señalización</figcaption>
         </figure>
         <figure class="ancha">
-          <img src="../img/logistica-cajas.jpg" alt="Centro logístico en actividad con carretillas y palés sobre la solera" width="1300" height="867" loading="lazy">
+          <div class="foto"><img src="../img/logistica-cajas.jpg" alt="Centro logístico en actividad con carretillas y palés sobre la solera" width="1300" height="867" loading="lazy"></div>
           <figcaption><b>Hormigón</b> Centro logístico en actividad</figcaption>
         </figure>
         <figure>
-          <img src="../img/hormigon-pulido-interior.jpg" alt="Interior con hormigón pulido continuo y un sofá" width="1600" height="1066" loading="lazy">
+          <div class="foto"><img src="../img/hormigon-pulido-interior.jpg" alt="Interior con hormigón pulido continuo y un sofá" width="1600" height="1066" loading="lazy"></div>
           <figcaption><b>Artístico</b> Hormigón pulido, interior</figcaption>
         </figure>
         <figure>
-          <img src="../img/sala-verde.jpg" alt="Sala limpia con revestimiento continuo de color verde" width="800" height="600" loading="lazy">
+          <div class="foto"><img src="../img/sala-verde.jpg" alt="Sala limpia con revestimiento continuo de color verde" width="800" height="600" loading="lazy"></div>
           <figcaption><b>Revestimiento</b> Sala limpia</figcaption>
         </figure>
         <figure>
-          <img src="../img/terrazo-azul.jpg" alt="Terrazo continuo azul con círculos de color" width="900" height="556" loading="lazy">
+          <div class="foto"><img src="../img/terrazo-azul.jpg" alt="Terrazo continuo azul con círculos de color" width="900" height="556" loading="lazy"></div>
           <figcaption><b>Artístico</b> Terrazo in situ</figcaption>
         </figure>
         <figure class="ancha">
-          <img src="../img/pulido-restauracion.jpg" alt="Operarios puliendo y restaurando una solera existente" width="1400" height="1046" loading="lazy">
+          <div class="foto"><img src="../img/pulido-restauracion.jpg" alt="Operarios puliendo y restaurando una solera existente" width="1400" height="1046" loading="lazy"></div>
           <figcaption><b>Restauración</b> Pulido de solera existente</figcaption>
         </figure>
         <figure class="ancha">
-          <img src="../img/exterior-muelles.jpg" alt="Explanada exterior de hormigón con muelles de carga" width="1400" height="788" loading="lazy">
+          <div class="foto"><img src="../img/exterior-muelles.jpg" alt="Explanada exterior de hormigón con muelles de carga" width="1400" height="788" loading="lazy"></div>
           <figcaption><b>Hormigón</b> Explanada exterior y muelles de carga</figcaption>
         </figure>
         <figure>
-          <img src="../img/tienda-terrazo.jpg" alt="Local comercial con terrazo continuo en el suelo y grafiti en la pared" width="1400" height="996" loading="lazy">
+          <div class="foto"><img src="../img/tienda-terrazo.jpg" alt="Local comercial con terrazo continuo en el suelo y grafiti en la pared" width="1400" height="996" loading="lazy"></div>
           <figcaption><b>Artístico</b> Terrazo, local comercial</figcaption>
         </figure>
         <figure>
-          <img src="../img/nave-columnas.jpg" alt="Nave con ventanales y solera reflectante" width="1400" height="1050" loading="lazy">
+          <div class="foto"><img src="../img/nave-columnas.jpg" alt="Nave con ventanales y solera reflectante" width="1400" height="1050" loading="lazy"></div>
           <figcaption><b>Hormigón</b> Solera reflectante, nave con ventanales</figcaption>
         </figure>
         <figure>
-          <img src="../img/racks-naranja-azul.jpg" alt="Estanterías naranjas y azules con líneas amarillas pintadas en la solera" width="900" height="674" loading="lazy">
+          <div class="foto"><img src="../img/racks-naranja-azul.jpg" alt="Estanterías naranjas y azules con líneas amarillas pintadas en la solera" width="900" height="674" loading="lazy"></div>
           <figcaption><b>Hormigón</b> Solera con estanterías y líneas amarillas</figcaption>
         </figure>
       </div>
@@ -967,7 +995,7 @@
     </figure>
     <div class="wrap">
       <div class="panel-marino">
-        <svg class="panel-arco" viewBox="0 0 300 120" fill="none" aria-hidden="true" focusable="false"><path d="M2 118 C 70 10, 210 -10, 298 70" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <svg class="panel-arco" viewBox="0 0 300 120" fill="none" aria-hidden="true" focusable="false"><path d="M2 118 C 70 10, 210 -10, 298 70" pathLength="1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         <p class="kicker">Forma de trabajar</p>
         <blockquote>
           <p>Identificamos las prioridades de cada encargo. Nos gusta asumir su esencia, hacerlo nuestro, llevarlo a cabo con un trabajo bien desarrollado de principio a fin.</p>
@@ -995,7 +1023,7 @@
         <p class="valores-nota">Con compromiso con la salud y la seguridad y preocupación por el medio ambiente: véase <a href="#calidad">Calidad, medio ambiente y seguridad laboral</a>.</p>
       </div>
       <figure class="arco-foto">
-        <img src="../img/operario-twinsol.jpg" alt="Operaria con casco y chaleco reflectante a los mandos de una máquina durante la ejecución de una solera en una nave" width="1200" height="900" loading="lazy">
+        <div class="foto"><img src="../img/operario-twinsol.jpg" alt="Operaria con casco y chaleco reflectante a los mandos de una máquina durante la ejecución de una solera en una nave" width="1200" height="900" loading="lazy"></div>
         <figcaption><b>Obra</b> Operaria a los mandos de la maquinaria, en nave</figcaption>
       </figure>
     </div>
@@ -1030,8 +1058,8 @@
       </div>
       <div class="sellos">
         <div class="sello"><img src="../img/cert-aenor-iqnet.png" alt="Sellos AENOR Empresa Registrada, AENOR Gestión Ambiental e IQNet" width="548" height="232" loading="lazy"></div>
-        <div class="sello"><img class="sobre-blanco" src="../img/cert-icdq-iso14001.png" alt="Sello ICDQ de certificación UNE-EN ISO 14001:2015" width="297" height="202" loading="lazy"></div>
-        <p class="sellos-nota">Sellos AENOR Empresa Registrada, AENOR Gestión Ambiental e IQNet, y sello ICDQ de gestión ambiental.</p>
+        <div class="sello"><a class="sello-enlace" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener" aria-label="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)"><img class="sobre-blanco" src="../img/cert-icdq-iso14001.png" alt="Sello ICDQ de certificación UNE-EN ISO 14001:2015" width="297" height="202" loading="lazy"></a></div>
+        <p class="sellos-nota">Sellos AENOR Empresa Registrada, AENOR Gestión Ambiental e IQNet. Sistema de gestión ambiental certificado según UNE-EN ISO 14001:2015 por ICDQ, entidad acreditada por ENAC. Certificado n.º 1455/26, para la instalación de pavimentos industriales, vigente hasta marzo de 2029. <a class="cert-enlace" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener">Ver el certificado (PDF, 1,2 MB)<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"/></svg></a></p>
       </div>
     </div>
   </section>
@@ -1407,6 +1435,28 @@
       if (arco) { arco.classList.add('dibuja'); }
     }
     if (rota[0]) { avanzar(); } else { programar(); }
+  })();
+
+  // Arco del panel: se traza al entrar en pantalla (una sola vez). En reposo está completo;
+  // si ya está a la vista al cargar, con movimiento reducido o sin observador, no se anima.
+  (function () {
+    if (!('IntersectionObserver' in window)) { return; }
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
+    var arcos = Array.prototype.slice.call(document.querySelectorAll('.panel-arco'));
+    var alto = window.innerHeight || document.documentElement.clientHeight || 0;
+    var pendientes = arcos.filter(function (el) {
+      var r = el.getBoundingClientRect();
+      return !(r.bottom > 0 && r.top < alto);
+    });
+    if (!pendientes.length) { return; }
+    var io = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (!en.isIntersecting) { return; }
+        en.target.classList.add('traza');
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0.35 });
+    pendientes.forEach(function (el) { io.observe(el); });
   })();
 
   // Textos legales plegados: se abren al llegar a ellos por un enlace

@@ -27,6 +27,7 @@ El cliente pidió que la web se inspire en la de la matriz del grupo sin copiarl
 | `img/` | 31 fotos reales de obra rescatadas del Wix actual, optimizadas (máx. 1600 px, ~5 MB en total), y los sellos de calidad. |
 | `matriz/`, `arco/`, `catalogo/`, `nave/` | Las otras cuatro propuestas, cada una en su `index.html`, compartiendo `img/`. |
 | `propuestas/` | Página índice con miniaturas para que el cliente compare. |
+| `docs/` | Certificado UNE-EN ISO 14001:2015 de la empresa (ICDQ, n.º 1455/26, vigente hasta el 23/03/2029), enlazado desde el sello ICDQ y la cifra ISO 14001 de cada propuesta; se abre en pestaña nueva. |
 | `favicon.svg` | Icono de pestaña (arco naranja del logo). |
 | `.nojekyll` | Para que GitHub Pages sirva los ficheros tal cual. |
 

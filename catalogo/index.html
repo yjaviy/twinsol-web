@@ -356,6 +356,9 @@
   .cred .dato--txt{font-size:19px;line-height:1.25;letter-spacing:-.005em;font-weight:600}
   .cred .dato.mono{font-family:var(--f-mono);font-size:clamp(20px,2vw,26px);line-height:1.2;letter-spacing:0;font-weight:500}
   .cred p{font-size:14px;color:var(--grafito)}
+  /* la cifra ISO 14001 abre el certificado: sigue pareciendo cifra, el realce es un filo naranja al pasar */
+  .cred .dato a.dato-enlace{color:inherit;text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px;transition:border-color .3s,color .3s}
+  .cred .dato a.dato-enlace:hover,.cred .dato a.dato-enlace:focus-visible{border-color:var(--naranja);color:var(--naranja-tinta)}
 
   /* ---------- tabla de catálogo ---------- */
   .tabla{width:100%;border-collapse:collapse;border-top:1px solid var(--hair-fuerte);font-size:15px}
@@ -557,8 +560,19 @@
     }
   }
   .cierre .arcos{position:absolute;right:0;bottom:0;width:240px;height:240px;pointer-events:none}
-  .cierre .arcos circle{fill:none;stroke:#ffffff;stroke-opacity:.32;stroke-width:1;vector-effect:non-scaling-stroke}
-  @media (min-width:900px){ .cierre .arcos{width:560px;height:560px} }
+  /* grosor en unidades del viewBox (200 → 240 px o 560 px) para que siga siendo 1 px sin non-scaling-stroke:
+     con ese vector-effect el guion no respeta pathLength y el trazo al entrar no funcionaría */
+  .cierre .arcos circle{fill:none;stroke:#ffffff;stroke-opacity:.32;stroke-width:.84}
+  @media (min-width:900px){ .cierre .arcos{width:560px;height:560px} .cierre .arcos circle{stroke-width:.36} }
+  /* trazo del cuarto visible al entrar en pantalla: estado inicial completo; la clase .traza la pone el JS */
+  @media (prefers-reduced-motion:no-preference){
+    .cierre .arcos circle{stroke-dasharray:1;stroke-dashoffset:0}
+    .cierre.traza .arcos circle{animation:traza-arco 1.2s cubic-bezier(.2,.7,.2,1) both}
+    .cierre.traza .arcos circle:nth-child(2){animation-delay:.08s}
+    .cierre.traza .arcos circle:nth-child(3){animation-delay:.16s}
+    .cierre.traza .arcos circle:nth-child(4){animation-delay:.24s}
+    @keyframes traza-arco{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+  }
   .cierre .marco{position:relative;z-index:1;padding-top:48px;padding-bottom:150px}
   @media (min-width:900px){ .cierre .marco{padding-top:72px;padding-bottom:76px} }
   .cierre .cierre-txt{max-width:640px}
@@ -604,6 +618,20 @@
   .cal .sellos .caja{background:var(--sello-fondo);border:1px solid var(--hair);padding:8px 10px}
   .cal .sellos img{height:64px;width:auto}
   .cal .bloque p.sellos-nota{font-size:12.5px;margin-top:8px}
+  .cal .bloque p.sellos-nota + p.sellos-nota{margin-top:10px}
+  /* sello ICDQ enlazado: realce leve de la caja y del sello al pasar o enfocar */
+  .cal .sellos .caja--enlace{transition:border-color .3s}
+  .cal .sellos .caja--enlace:has(a:hover),.cal .sellos .caja--enlace:has(a:focus-visible){border-color:var(--naranja)}
+  .cal .sellos a.cert-sello{display:block;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+  .cal .sellos a.cert-sello:hover,.cal .sellos a.cert-sello:focus-visible{transform:scale(1.02)}
+  .cal .sellos a.cert-sello:focus-visible{outline-offset:6px}
+  .cal a.cert-txt{
+    display:inline-flex;align-items:center;gap:6px;color:var(--tinta);
+    font-family:var(--f-mono);font-size:12px;font-weight:500;text-decoration:none;
+    border-bottom:1px solid var(--naranja);padding:3px 0 2px;
+  }
+  .cal a.cert-txt svg{width:12px;height:12px;flex:none}
+  .cal a.cert-txt:hover{color:var(--naranja-tinta)}
 
   /* ---------- contacto ---------- */
   .con .grid > div{grid-column:1 / -1}
@@ -703,6 +731,25 @@
 
   .salto{position:absolute;left:-999px;top:0;background:var(--tinta);color:var(--papel);padding:10px 14px;z-index:100}
   .salto:focus{left:16px;top:8px}
+
+  /* ---------- acercamiento de fotos al pasar el ratón (fichas, sistemas, proceso, sectores, galería, quiénes somos) ----------
+     El marco que recorta es el que ya fija la proporción; donde el pie de foto va debajo (galería, proceso, quiénes somos)
+     se le da fondo y capa propia para que el borde inferior de la foto no se mueva al crecer. Solo con puntero y sin reducción de movimiento. */
+  @media (hover:hover) and (prefers-reduced-motion:no-preference){
+    .serv .foto,.serv .foto-sec,.sis .foto-celda,.proc .paso,.sect .intro,.gal figure,.qs .valores figure{overflow:hidden}
+    .serv .foto img,.serv .foto-sec img,.sis .foto-celda img,.proc .paso img,.sect .intro img,.gal figure img,.qs .valores figure img{
+      transition:transform .6s cubic-bezier(.2,.7,.2,1)
+    }
+    .serv .foto:hover img,.serv .foto:focus-within img,
+    .serv .foto-sec:hover img,.serv .foto-sec:focus-within img,
+    .sis .foto-celda:hover img,.sis .foto-celda:focus-within img,
+    .proc .paso:hover img,.proc .paso:focus-within img,
+    .sect .intro:hover img,.sect .intro:focus-within img,
+    .gal figure:hover img,.gal figure:focus-within img,
+    .qs .valores figure:hover img,.qs .valores figure:focus-within img{transform:scale(1.04)}
+    .pie-foto{z-index:1}
+    .gal figcaption,.proc .paso .cuerpo,.qs .valores .pie-foto{position:relative;z-index:1;background:var(--papel)}
+  }
 </style>
 <script>
 document.documentElement.lang='es';
@@ -836,8 +883,8 @@ document.documentElement.lang='es';
         </div>
         <div>
           <span class="lbl">Gestión ambiental</span>
-          <div class="dato mono">ISO 14001</div>
-          <p>Certificación UNE-EN ISO 14001:2015 (sello ICDQ, en <a href="#calidad">Calidad</a>).</p>
+          <div class="dato mono"><a class="dato-enlace" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener" aria-label="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)">ISO 14001</a></div>
+          <p>Gestión ambiental certificada por ICDQ · n.º 1455/26 · vigente hasta 2029.</p>
         </div>
       </div>
     </div>
@@ -1223,11 +1270,12 @@ document.documentElement.lang='es';
 
   <!-- ===== BANDA DE CIERRE COMERCIAL ===== -->
   <section class="cierre" aria-labelledby="h-cierre">
+    <!-- cada círculo empieza en las 9 y recorre el cuarto visible (hasta las 12) en la primera unidad de pathLength="4" -->
     <svg class="arcos" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-      <circle cx="200" cy="200" r="70"/>
-      <circle cx="200" cy="200" r="112"/>
-      <circle cx="200" cy="200" r="154"/>
-      <circle cx="200" cy="200" r="196"/>
+      <circle cx="200" cy="200" r="70" pathLength="4" transform="rotate(180 200 200)"/>
+      <circle cx="200" cy="200" r="112" pathLength="4" transform="rotate(180 200 200)"/>
+      <circle cx="200" cy="200" r="154" pathLength="4" transform="rotate(180 200 200)"/>
+      <circle cx="200" cy="200" r="196" pathLength="4" transform="rotate(180 200 200)"/>
     </svg>
     <div class="marco">
       <div class="cierre-txt">
@@ -1298,11 +1346,12 @@ document.documentElement.lang='es';
         <div class="bloque">
           <span class="lbl">07.2</span>
           <h3>Responsabilidad medioambiental</h3>
-          <p>Certificación de gestión ambiental según la norma UNE-EN ISO 14001:2015.</p>
+          <p>Sistema de gestión ambiental certificado según UNE-EN ISO 14001:2015 por ICDQ, entidad acreditada por ENAC.</p>
           <div class="sellos">
-            <div class="caja"><img src="../img/cert-icdq-iso14001.png" alt="Sello ICDQ de certificación UNE-EN ISO 14001:2015" width="297" height="202" loading="lazy"></div>
+            <div class="caja caja--enlace"><a class="cert-sello" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener" aria-label="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)"><img src="../img/cert-icdq-iso14001.png" alt="Sello ICDQ de certificación UNE-EN ISO 14001:2015" width="297" height="202" loading="lazy"></a></div>
           </div>
-          <p class="sellos-nota">ICDQ · UNE-EN ISO 14001:2015</p>
+          <p class="sellos-nota">Certificado n.º 1455/26 · Instalación de pavimentos industriales · Vigente hasta marzo de 2029</p>
+          <p class="sellos-nota"><a class="cert-txt" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener">Ver el certificado (PDF, 1,2 MB)<svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M6 2.5H2.5v9h9V8M8.5 2.5h3v3M11.5 2.5 6.5 7.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="square"/></svg></a></p>
         </div>
         <div class="bloque">
           <span class="lbl">07.3</span>
@@ -1793,6 +1842,24 @@ document.documentElement.lang='es';
       dibujaArco();
     }
     programa();
+  })();
+
+  /* trazo de los arcos de la banda de cierre al entrar en pantalla: una sola vez, y nunca si ya están a la vista al cargar */
+  (function(){
+    var sec=document.querySelector('.cierre');
+    if(!sec||!sec.querySelector('.arcos')||!('IntersectionObserver' in window))return;
+    var mq=window.matchMedia?window.matchMedia('(prefers-reduced-motion: reduce)'):null;
+    if(mq&&mq.matches)return;
+    var r=sec.getBoundingClientRect();
+    if(r.bottom>0&&r.top<window.innerHeight)return;
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting)return;
+        e.target.classList.add('traza');
+        io.unobserve(e.target);
+      });
+    },{threshold:.35});
+    io.observe(sec);
   })();
 
   /* tema */

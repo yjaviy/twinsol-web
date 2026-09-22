@@ -277,6 +277,9 @@
   .cred .valor{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,3.2vw,2.6rem);line-height:1;display:block;margin-bottom:.35rem;white-space:nowrap}
   .cred .valor small{font-size:.6em;font-weight:600;letter-spacing:.03em;margin-left:.25em}
   .cred .desc{color:var(--pizarra);font-size:.95rem;margin:0}
+  /* la cifra ISO 14001 enlaza al certificado: sigue pareciendo cifra, realce solo en hover/foco */
+  .cred a.valor{text-decoration:none;color:inherit;width:max-content;transition:color .2s}
+  .cred a.valor:hover,.cred a.valor:focus-visible{color:var(--naranja)}
   @media (max-width:899px){
     .cred-in>div:nth-child(2n){padding-left:1rem;border-right:0}
     .cred-in>div:nth-child(-n+2){border-bottom:1px solid var(--acero)}
@@ -442,13 +445,39 @@
   .calidad ul li{padding:.35rem 0;border-top:1px solid var(--acero)}
   .sellos{display:grid;grid-template-columns:1fr;gap:1.5rem;margin-top:clamp(2rem,4vw,3rem);padding:1.5rem 0;border-top:1px solid var(--acero);border-bottom:1px solid var(--acero);align-items:center}
   .sellos-cajas{display:flex;flex-wrap:wrap;gap:1rem;align-items:stretch}
-  .sellos-cajas span{display:flex;align-items:center;background:#fff;border:1px solid var(--acero);padding:.6rem .9rem}
+  .sellos-cajas span,.sellos-cajas a{display:flex;align-items:center;background:#fff;border:1px solid var(--acero);padding:.6rem .9rem}
   .sellos-cajas img{height:86px;width:auto}
-  .sellos .nota{color:var(--pizarra);font-size:.95rem;margin:0;max-width:40ch}
+  /* el sello ICDQ es un enlace al certificado (PDF en pestaña nueva): realce sutil, sin subrayado */
+  .sellos-cajas a{text-decoration:none;transition:border-color .3s,box-shadow .3s,transform .3s}
+  .sellos-cajas a:hover,.sellos-cajas a:focus-visible{border-color:var(--pizarra);box-shadow:0 2px 10px rgba(20,24,29,.12)}
+  @media (hover:hover) and (prefers-reduced-motion:no-preference){
+    .sellos-cajas a:hover,.sellos-cajas a:focus-visible{transform:scale(1.02)}
+  }
+  .sellos-texto{max-width:44ch}
+  .sellos .nota{color:var(--pizarra);font-size:.95rem;margin:0;max-width:44ch}
+  .ver-cert{
+    display:inline-flex;align-items:center;gap:.45em;margin-top:.75rem;font-size:.95rem;font-weight:600;
+    text-decoration:none;border-bottom:1px solid var(--acero);padding-bottom:.1em;transition:border-color .2s
+  }
+  .ver-cert svg{width:13px;height:13px;flex:none}
+  .ver-cert:hover,.ver-cert:focus-visible{border-bottom-color:var(--naranja)}
   @media (min-width:900px){
     .calidad{grid-template-columns:repeat(3,1fr)}
     .sellos{grid-template-columns:220px 1fr 1fr}
     .sellos-cajas img{height:96px}
+  }
+
+  /* ==================== EFECTOS MENORES: acercamiento de fotos ==================== */
+  /* La proporción la fija la propia <img> (aspect-ratio), así que el recorte se hace en ella con clip-path:
+     el inset compensa la escala (1 - 1/1.04)/2 y la caja visible no cambia ni desplaza el pie de foto. */
+  @media (hover:hover) and (prefers-reduced-motion:no-preference){
+    .linea-serv figure img,.obras figure img,.empresa figure img,.tira figure img{
+      clip-path:inset(0);transition:transform .6s cubic-bezier(.2,.7,.2,1),clip-path .6s cubic-bezier(.2,.7,.2,1)
+    }
+    .linea-serv figure:hover img,.linea-serv figure:focus-within img,
+    .obras figure:hover img,.obras figure:focus-within img,
+    .empresa figure:hover img,.empresa figure:focus-within img,
+    .tira figure:hover img,.tira figure:focus-within img{transform:scale(1.04);clip-path:inset(1.923%)}
   }
 
   /* ==================== CONTACTO ==================== */
@@ -612,8 +641,8 @@
         <p class="desc">Obras en España, Centroeuropa, Sudamérica y Oriente Medio para industria y logística.</p>
       </div>
       <div>
-        <span class="valor">ISO<small>14001</small></span>
-        <p class="desc">Gestión ambiental certificada UNE-EN ISO 14001:2015. Sistema de calidad interno con revisión anual.</p>
+        <a class="valor" href="docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener" aria-label="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)" title="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)">ISO<small>14001</small></a>
+        <p class="desc">Gestión ambiental certificada por ICDQ · n.º 1455/26 · vigente hasta 2029. Sistema de calidad interno con revisión anual.</p>
       </div>
     </div>
   </section>
@@ -1056,9 +1085,12 @@
         <span class="cota">Sellos</span>
         <div class="sellos-cajas">
           <span><img src="img/cert-aenor-iqnet.png" alt="Sellos AENOR Empresa Registrada, AENOR Gestión Ambiental e IQNet" width="548" height="232" loading="lazy"></span>
-          <span><img src="img/cert-icdq-iso14001.png" alt="Sello ICDQ de certificación UNE-EN ISO 14001:2015" width="297" height="202" loading="lazy"></span>
+          <a href="docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener" aria-label="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)"><img src="img/cert-icdq-iso14001.png" alt="Sello ICDQ de certificación UNE-EN ISO 14001:2015" width="297" height="202" loading="lazy"></a>
         </div>
-        <p class="nota">Certificación de gestión ambiental UNE-EN ISO 14001:2015 y sellos de empresa registrada.</p>
+        <div class="sellos-texto">
+          <p class="nota">Sistema de gestión ambiental certificado según UNE-EN ISO 14001:2015 por ICDQ, entidad acreditada por ENAC. Certificado n.º 1455/26, para la instalación de pavimentos industriales, vigente hasta marzo de 2029.</p>
+          <a class="ver-cert" href="docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener">Ver el certificado (PDF, 1,2 MB)<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"/><path d="M15 3h6v6M10 14 21 3"/></svg></a>
+        </div>
       </div>
     </div>
   </section>
