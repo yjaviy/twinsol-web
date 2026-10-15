@@ -43,6 +43,29 @@ Wix no permite importar HTML, así que la vía limpia es alojar esta web fuera y
 4. **Quitar** la etiqueta `<meta name="robots" content="noindex, nofollow">` del `<head>` para que Google indexe la web nueva.
 5. **Dar de baja** el plan Premium de Wix cuando la nueva esté sirviendo (mantener el dominio y el correo si están contratados ahí).
 
+## Preparación para producción (herramientas/produccion.py)
+
+Las dos finalistas (`index.html` = Planimetría, `nave/index.html` = Nave) ya están preparadas con:
+
+- **Fuentes propias** en `fonts/` (subconjunto latin, 396 KB en total): nada se carga desde Google.
+- **Metadatos** para buscadores y para compartir (canónica, Open Graph con `img/og.jpg` de 1200×630, Twitter card), icono para iOS y datos estructurados de la empresa (JSON-LD con NIF, dirección y teléfono).
+- **Páginas de salto** para las URL antiguas del Wix (`galeria`, `quienes-somos`, `pavimentos-sin-juntas`, `project-2`, `project-3`, `project-4`, `impermeabilizaciones`, `politica-de-calidad`, `responsabilidadmedioambiental`, `seguridad`), que llevan a la sección correspondiente de la web nueva. Las dos finalistas comparten los mismos nombres de ancla.
+- `404.html` propia.
+
+Mientras la web esté en previsualización se regenera con:
+
+```bash
+python herramientas/produccion.py --base https://yjaviy.github.io/twinsol-web/
+```
+
+El día del cambio de dominio, con la propuesta elegida ya copiada a `index.html`:
+
+```bash
+python herramientas/produccion.py --base https://www.twinsoldecor.com/ --produccion --dominio www.twinsoldecor.com
+```
+
+Eso quita el `noindex`, genera `sitemap.xml`, `robots.txt` (que excluye las carpetas de propuestas) y el fichero `CNAME` para GitHub Pages. Después: DNS en Arsys (A 185.199.108.153 / .109 / .110 / .111 y CNAME www → yjaviy.github.io), activar HTTPS en Pages, conectar el formulario y dar de alta la propiedad en Search Console.
+
 ## Si el cliente prefiere seguir en Wix
 
 No se puede pegar este HTML en Wix. Habría que reconstruir el diseño a mano en el editor de Wix (o Wix Studio) usando esta página como maqueta: mismas fotos (`img/`), mismos textos, misma paleta y las fuentes (están en Google Fonts, que Wix incluye). El elemento "Insertar HTML" de Wix mete un iframe por bloque: no sirve para toda la página.
