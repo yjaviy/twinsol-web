@@ -537,6 +537,14 @@
   .campo [aria-invalid="true"] { border-color: var(--error); border-bottom-color: var(--error); }
   .error { margin: .4rem 0 0; font-size: .88rem; font-weight: 600; color: var(--error); }
   .error:empty { display: none; }
+  .info-basica { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--linea); font-size: .88rem; line-height: 1.45; color: var(--txt-2); }
+  .info-basica .ib-t { font-family: var(--f-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--acento-txt); margin: 0 0 .5rem; }
+  .info-basica dl { margin: 0; display: grid; gap: .35rem; }
+  .info-basica dl div { display: grid; grid-template-columns: 7.4rem minmax(0, 1fr); gap: .6rem; }
+  .info-basica dt { font-weight: 600; color: var(--txt); }
+  .info-basica dd { margin: 0; }
+  .info-basica a { color: var(--acento-txt); font-weight: 600; }
+  @media (max-width: 480px) { .info-basica dl div { grid-template-columns: 1fr; gap: .1rem; } }
   .consent { margin-top: 1.2rem; }
   .consent label { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: .8rem; align-items: start; font-size: .92rem; color: var(--txt); cursor: pointer; }
   .consent input { width: 22px; height: 22px; margin: .15rem 0 0; accent-color: var(--naranja-tinta); }
@@ -1107,15 +1115,26 @@
           </div>
           <div class="campo ancho"><label for="c-mensaje">Mensaje <span class="req" aria-hidden="true">*</span></label><textarea id="c-mensaje" name="mensaje" required aria-describedby="e-mensaje" placeholder="Tipo de instalación, superficie aproximada y uso previsto."></textarea><p class="error" id="e-mensaje"></p></div>
         </div>
+        <div class="info-basica">
+            <p class="ib-t">Información básica sobre protección de datos</p>
+            <dl>
+              <div><dt>Responsable</dt><dd>TWINSOL DECOR, S.L. · NIF B19310671 · Calle Alcolea, 39, 19174 Torrejón del Rey (Guadalajara) · info@twinsoldecor.com</dd></div>
+              <div><dt>Finalidad</dt><dd>Atender su consulta o solicitud de presupuesto y responderle. No se usan sus datos para enviarle publicidad.</dd></div>
+              <div><dt>Legitimación</dt><dd>Medidas precontractuales a petición suya y, si escribe en nombre de una empresa, interés legítimo en la relación con esa empresa.</dd></div>
+              <div><dt>Destinatarios</dt><dd>No se ceden datos a terceros salvo obligación legal. Acceden a ellos, como encargados del tratamiento, los proveedores del formulario, del alojamiento y del correo.</dd></div>
+              <div><dt>Derechos</dt><dd>Acceso, rectificación, supresión, oposición, limitación y portabilidad, escribiendo a info@twinsoldecor.com. Puede reclamar ante la Agencia Española de Protección de Datos.</dd></div>
+              <div><dt>Más información</dt><dd><a href="#privacidad">Política de privacidad</a></dd></div>
+            </dl>
+        </div>
         <div class="consent">
           <label for="c-consentimiento">
-            <input type="checkbox" id="c-consentimiento" name="consentimiento" required aria-describedby="e-consentimiento">
-            <span>He leído la <a href="#privacidad">información sobre privacidad</a> y acepto que TWINSOL DECOR S.L. trate mis datos para responder a esta solicitud. <span class="req" aria-hidden="true">*</span></span>
+            <input type="checkbox" id="c-consentimiento" name="lectura_proteccion_datos" required aria-describedby="e-consentimiento">
+            <span>He leído la información básica sobre protección de datos y la <a href="#privacidad">política de privacidad</a>. <span class="req" aria-hidden="true">*</span></span>
           </label>
           <p class="error" id="e-consentimiento"></p>
         </div>
         <div class="form-pie">
-          <small><span class="req" aria-hidden="true">*</span> Nombre, correo electrónico, mensaje y la casilla de consentimiento son obligatorios.</small>
+          <small><span class="req" aria-hidden="true">*</span> Nombre, correo electrónico, mensaje y la casilla de lectura de la información sobre protección de datos son obligatorios.</small>
           <button class="btn btn-acento" type="submit" id="c-enviar">Solicitar presupuesto
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </button>
@@ -1191,7 +1210,7 @@
     </details>
 
     <div class="pie-bajo">
-      <span>© 2026 TWINSOL DECOR S.L.</span>
+      <span>© 2026 TWINSOL DECOR S.L. · NIF B19310671</span>
       <span class="pie-legal"><a href="#aviso-legal">Aviso legal</a><a href="#privacidad">Privacidad</a><a href="#cookies">Cookies</a><a href="#arriba">Volver arriba</a></span>
     </div>
   </div>
@@ -1496,7 +1515,7 @@
       { id: 'c-nombre', err: 'e-nombre', msg: 'Indique su nombre.' },
       { id: 'c-email', err: 'e-email', msg: 'Indique un correo electrónico válido.' },
       { id: 'c-mensaje', err: 'e-mensaje', msg: 'Escriba su mensaje.' },
-      { id: 'c-consentimiento', err: 'e-consentimiento', msg: 'Debe aceptar el tratamiento de sus datos para enviar la solicitud.' }
+      { id: 'c-consentimiento', err: 'e-consentimiento', msg: 'Para enviar su solicitud debe confirmar que ha leído la información sobre protección de datos.' }
     ];
     function valido(el) {
       if (el.type === 'checkbox') { return el.checked; }
