@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Twinsol Decor · Pavimentos continuos industriales</title>
-<meta name="description" content="TWINSOL DECOR: especialistas en pavimentos de hormigón sin juntas y alta planimetría, revestimientos continuos, restauración de soleras y pavimentos artísticos. Torrejón del Rey, Guadalajara.">
+<meta name="description" content="TWINSOL DECOR: especialistas en pavimentos de hormigón sin juntas de corte y alta planimetría, revestimientos continuos y restauración de soleras. Torrejón del Rey, Guadalajara.">
 <meta property="og:title" content="TWINSOL DECOR · Pavimentos continuos industriales">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
@@ -13,7 +13,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta property="og:url" content="https://yjaviy.github.io/twinsol-web/nave/">
 <meta property="og:site_name" content="TWINSOL DECOR">
-<meta property="og:description" content="Especialistas en pavimentos continuos industriales: soleras de hormigón sin juntas reforzadas con fibra de acero y alta planimetría, revestimientos continuos, restauración de soleras y pavimentos artísticos.">
+
 <meta property="og:locale" content="es_ES">
 <meta property="og:image" content="https://yjaviy.github.io/twinsol-web/img/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -41,6 +41,7 @@
     --papel: #FFFFFF;          /* secciones y superficies blancas */
     --niebla-3: #C9D3DF;       /* hairlines sobre claro */
     --naranja: #E8631A;        /* acento de marca (del arco del logo) */
+    --naranja-rgb: 232, 99, 26; /* el mismo naranja, para velos (huecos de texto) */
     --naranja-2: #F07A38;      /* hover */
     --naranja-claro: #F58B4C;  /* naranja legible como texto sobre marino */
     --naranja-tinta: #A63C08;  /* naranja legible como texto sobre claro */
@@ -131,6 +132,9 @@
   p { margin: 0 0 1em; }
   p:last-child { margin-bottom: 0; }
   em.acento { font-style: normal; color: var(--acento-txt); }
+  /* Huecos a la espera de los textos del cliente: se leen como sitios para texto, no como errores */
+  mark.hueco { background: rgba(var(--naranja-rgb), .2); color: inherit; font-style: normal; padding: .05em .3em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .oscuro mark.hueco { background: rgba(var(--naranja-rgb), .32); }
 
   /* La monoespaciada queda para datos y códigos: pies de foto, códigos de ficha y teléfono */
   figcaption, .ficha-code, .mono {
@@ -347,6 +351,31 @@
   .sub-linea p { font-size: .95rem; color: var(--txt-2); }
   .sub-linea p:last-child { color: var(--txt); }
 
+  /* ---------- Alta tolerancia de nivelación: las normas (ficha técnica a todo el ancho dentro de la línea de hormigón) ---------- */
+  .svc-normas { margin-top: .5rem; padding-top: 1.6rem; border-top: 1px solid var(--linea); }
+  @media (min-width: 960px) { .svc-normas { grid-column: 1 / -1; margin-top: 0; padding-top: 2.2rem; } }
+  .svc-normas .etq { display: block; color: var(--acento-txt); margin-bottom: .6rem; }
+  .svc-normas h4 { font-family: var(--f-titular); font-stretch: 110%; font-weight: 600; font-size: clamp(1.2rem, 1.8vw, 1.5rem); line-height: 1.15; margin: 0 0 .6rem; }
+  .svc-normas > p { max-width: 62ch; }
+  table.normas { width: 100%; border-collapse: collapse; margin-top: 1.4rem; border-top: 2px solid var(--txt); font-size: .95rem; }
+  table.normas th, table.normas td { text-align: left; vertical-align: top; padding: .8rem 1.4rem .8rem 0; border-bottom: 1px solid var(--linea); }
+  table.normas thead th { font-family: var(--f-cuerpo); font-weight: 700; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--txt-2); padding-top: .7rem; padding-bottom: .7rem; }
+  table.normas tbody th { font-family: var(--f-mono); font-size: .82rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--acento-txt); white-space: nowrap; padding-top: .95rem; }
+  table.normas tbody th small { display: block; font-size: .7rem; letter-spacing: .08em; color: var(--txt-2); margin-top: .2rem; }
+  table.normas td:nth-child(2) { white-space: nowrap; }
+  table.normas td:last-child { padding-right: 0; }
+  @media (max-width: 639px) {
+    /* En estrecho cada norma es un bloque: código, origen y definición apilados */
+    table.normas, table.normas tbody, table.normas tr, table.normas th, table.normas td { display: block; }
+    table.normas thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    table.normas tr { padding: .9rem 0; border-bottom: 1px solid var(--linea); }
+    table.normas th, table.normas td { padding: 0; border: 0; }
+    table.normas tbody th { padding-top: 0; margin-bottom: .3rem; }
+    table.normas td:nth-child(2) { font-size: .85rem; color: var(--txt-2); margin-bottom: .3rem; }
+  }
+  .normas-clase { margin-top: 2.2rem; display: grid; gap: 1rem 3rem; }
+  @media (min-width: 960px) { .normas-clase { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } .normas-clase ul.tec { margin-top: 0; } }
+
   /* ---------- Proceso de obra (dentro de Servicios) ---------- */
   .proceso { margin-top: clamp(3.5rem, 8vw, 7rem); padding-top: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--linea); }
   .proceso-cab { display: grid; gap: 2rem; align-items: center; margin-bottom: clamp(2rem, 4vw, 3rem); }
@@ -514,6 +543,28 @@
   .cert-enlace:hover, .cert-enlace:focus-visible { box-shadow: inset 0 -2px 0 currentColor; }
   .cert-enlace svg { width: 13px; height: 13px; flex: none; }
 
+  /* ---------- Medio ambiente: certificado (datos reales) + ejes del enfoque (textos del cliente) ---------- */
+  .ambiente { display: grid; gap: 2.5rem; }
+  @media (min-width: 960px) { .ambiente { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; } }
+  .ambiente > * { min-width: 0; }
+  .cert { border-top: 2px solid var(--txt); padding-top: 1.4rem; }
+  .cert .etq { display: block; color: var(--acento-txt); margin-bottom: .6rem; }
+  .cert h3 { margin-bottom: 1.2rem; }
+  .cert .sello { display: inline-flex; margin-bottom: 1.4rem; }
+  .cert dl { margin: 0; border-top: 1px solid var(--linea); }
+  .cert dl div { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: .8rem; padding: .65rem 0; border-bottom: 1px solid var(--linea); font-size: .95rem; }
+  .cert dt { font-family: var(--f-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--acento-txt); padding-top: .3rem; }
+  .cert dd { margin: 0; }
+  .cert .cert-enlace { margin-top: 1.3rem; }
+  @media (max-width: 420px) { .cert dl div { grid-template-columns: 1fr; gap: .1rem; } }
+  .ejes { display: grid; border-top: 2px solid var(--txt); }
+  @media (min-width: 640px) { .ejes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .eje { padding: 1.6rem 1.5rem 1.8rem 0; border-bottom: 1px solid var(--linea); min-width: 0; }
+  @media (min-width: 640px) { .eje:nth-child(even) { padding-left: 1.5rem; padding-right: 0; border-left: 1px solid var(--linea); } }
+  .eje .etq { display: block; color: var(--acento-txt); margin-bottom: .9rem; }
+  .eje h3 { font-size: clamp(1.15rem, 1.6vw, 1.4rem); margin-bottom: .6rem; }
+  .eje p { color: var(--txt-2); font-size: .95rem; }
+
   /* ---------- Contacto ---------- */
   .contacto { display: grid; gap: 2.5rem; }
   @media (min-width: 960px) { .contacto { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 6vw, 6rem); } }
@@ -615,6 +666,7 @@
         <li><a href="#obras">Obras</a></li>
         <li><a href="#empresa">Empresa</a></li>
         <li><a href="#calidad">Calidad</a></li>
+        <li><a href="#medio-ambiente">Medio ambiente</a></li>
         <li class="solo-ancho"><a class="nav-tel" href="tel:+34648710497" aria-label="Llamar al +34 648 710 497">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v3a3 3 0 0 1-3 3A15 15 0 0 1 3 6a3 3 0 0 1 3-3z"/></svg>
           +34 648 710 497</a></li>
@@ -697,9 +749,9 @@
       <div class="cabecera-sec">
         <div>
           <p class="kicker">Servicios</p>
-          <h2 id="h-servicios" class="mayor">Cuatro líneas de servicio, <em class="acento">un solo responsable</em> del pavimento.</h2>
+          <h2 id="h-servicios" class="mayor">Tres líneas de servicio, <em class="acento">un solo responsable</em> del pavimento.</h2>
         </div>
-        <p class="sec">Diseño, planificación e implantación de soluciones específicas para cada caso, asumiendo la responsabilidad integral del pavimento: desde la solera de hormigón hasta el revestimiento final, la restauración y el acabado artístico.</p>
+        <p class="sec">Diseño, planificación e implantación de soluciones específicas para cada caso, asumiendo la responsabilidad integral del pavimento: desde la solera de hormigón hasta el revestimiento final y la restauración.</p>
       </div>
 
       <div class="svc-lista">
@@ -710,8 +762,8 @@
             <figcaption><b>Ejecución</b> Extendido con laser screed</figcaption>
           </figure>
           <div>
-            <span class="num">Línea 01 / 04</span>
-            <h3>Pavimentos de hormigón sin juntas y alta tolerancia</h3>
+            <span class="num">Línea 01 / 03</span>
+            <h3>Pavimentos de hormigón sin juntas de corte y alta tolerancia</h3>
             <p class="sec">Diseño y ejecución de soleras de hormigón con prestaciones especiales. Especialistas en alta planimetría y en pavimentos sin juntas reforzados con fibra de acero.</p>
             <p>Servicio integral: diseño, planificación y elección de materiales con un equipo de técnicos experimentados.</p>
             <ul class="tec" role="list" aria-label="Sistemas propios">
@@ -720,6 +772,36 @@
               <li>TWINSOL PLAN-XT</li>
               <li>Juntas de dilatación</li>
             </ul>
+          </div>
+
+          <!-- Alta tolerancia de nivelación: estructura definitiva. Las normas y los cuatro factores son los que citó el cliente;
+               los textos explicativos (marcados como hueco) los redacta él. No añadir valores ni tolerancias. -->
+          <div class="svc-normas" id="normas">
+            <span class="etq">Alta tolerancia de nivelación</span>
+            <h4>Alta tolerancia de nivelación: las normas</h4>
+            <p class="sec"><mark class="hueco">[TEXTO DEL CLIENTE: por qué la alta planimetría se define por el cumplimiento de normas y cuáles aplica Twinsol, 2-3 frases]</mark></p>
+            <table class="normas">
+              <caption class="oculto-visual">Normas de planimetría de soleras de hormigón</caption>
+              <thead><tr><th scope="col">Norma</th><th scope="col">Origen</th><th scope="col">Qué define</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">ASTM E1155M</th><td>Estados Unidos</td><td>Planimetría de soleras de hormigón (números FF/FL). <mark class="hueco">[CLIENTE: confirmar o ampliar, 1 frase]</mark></td></tr>
+                <tr><th scope="row">TR34<small>The Concrete Society</small></th><td>Reino Unido</td><td>Categorías FM (movimiento libre) y DM (movimiento definido) de la solera. <mark class="hueco">[CLIENTE: confirmar o ampliar, 1 frase]</mark></td></tr>
+                <tr><th scope="row">DIN 15185</th><td>Alemania</td><td>Soleras para pasillos estrechos; de las más restrictivas. <mark class="hueco">[CLIENTE: confirmar o ampliar, 1 frase]</mark></td></tr>
+                <tr><th scope="row">VDMA<small>Guía</small></th><td>Alemania</td><td>Soleras para carretillas de pasillo estrecho; de las más restrictivas. <mark class="hueco">[CLIENTE: confirmar o ampliar, 1 frase]</mark></td></tr>
+              </tbody>
+            </table>
+            <div class="normas-clase">
+              <div>
+                <h4>Cómo se elige la clase de planimetría</h4>
+                <p class="sec"><mark class="hueco">[TEXTO DEL CLIENTE: cómo se determina en proyecto la clase de planimetría de la solera a partir de estos cuatro factores, 2-3 frases]</mark></p>
+              </div>
+              <ul class="tec" role="list" aria-label="Factores que determinan la clase de planimetría">
+                <li>Tipo de maquinaria de manipulación de cargas</li>
+                <li>Velocidad estimada de circulación</li>
+                <li>Tipo de tránsito: definido o aleatorio</li>
+                <li>Altura máxima de operación: la altura del último nivel de la estantería</li>
+              </ul>
+            </div>
           </div>
         </article>
 
@@ -730,7 +812,7 @@
             <figcaption><b>Revestimiento</b> Resina en pasillo industrial</figcaption>
           </figure>
           <div>
-            <span class="num">Línea 02 / 04</span>
+            <span class="num">Línea 02 / 03</span>
             <h3>Revestimientos continuos</h3>
             <p class="sec">Diseño y aplicación de revestimientos finales para uso industrial y comercial.</p>
             <ul class="tec" role="list" aria-label="Sistemas de revestimiento">
@@ -741,12 +823,6 @@
               <li>Morteros reforzados con fibras para altas solicitaciones</li>
               <li>Revestimientos de pintura con resinas</li>
             </ul>
-            <div class="sub-linea">
-              <span class="etq">Línea complementaria</span>
-              <h4 id="impermeabilizaciones">Impermeabilizaciones poliméricas</h4>
-              <p>Resinas acrílicas, poliuretano y poliureas, en aplicación en frío o proyección en caliente: una membrana continua adherida al soporte.</p>
-              <p>Cubiertas metálicas y superficies cementosas · cubiertas transitables y de tráfico rodado · cubiertas invertidas · cubiertas y terrazas con acabado cerámico · cubetos, balsas y aljibes · estructuras de obra civil · depósitos metálicos y de hormigón · tuberías.</p>
-            </div>
           </div>
         </article>
 
@@ -757,7 +833,7 @@
             <figcaption><b>Restauración</b> Junta reparada en solera existente</figcaption>
           </figure>
           <div>
-            <span class="num">Línea 03 / 04</span>
+            <span class="num">Línea 03 / 03</span>
             <h3>Restauración de soleras · Sistema Twin Cure</h3>
             <p class="sec">Restauración de soleras manteniendo la operatividad de su empresa. Una solución definitiva a un problema recurrente.</p>
             <p>Restauración de planimetrías y nivelación con morteros autonivelantes predosificados de altas prestaciones mecánicas (base cementosa, rápido fraguado) y resinas sintéticas para corregir planimetrías o superficies deterioradas.</p>
@@ -765,24 +841,6 @@
               <li>Juntas</li>
               <li>Fisuras</li>
               <li>Desgaste</li>
-            </ul>
-          </div>
-        </article>
-
-        <!-- 04 -->
-        <article class="svc" id="artisticos">
-          <figure class="svc-media">
-            <div class="foto"><img src="../img/terrazo-ondas.jpg" alt="Hall con terrazo continuo in situ de resinas en ondas verdes, azules y blancas" width="900" height="598" loading="lazy"></div>
-            <figcaption><b>Artístico</b> Terrazo continuo in situ</figcaption>
-          </figure>
-          <div>
-            <span class="num">Línea 04 / 04</span>
-            <h3>Pavimentos continuos artísticos</h3>
-            <p class="sec">Un sello único para enriquecer espacios públicos, comerciales, corporativos o privados.</p>
-            <ul class="tec" role="list" aria-label="Acabados artísticos">
-              <li>Terrazo continuo in situ de resinas: exclusivo y artesanal, para espacios de alta concurrencia, hostelería, tiendas o viviendas; belleza, resistencia y bajo mantenimiento</li>
-              <li>Pavimentos artísticos en formato grafiti o arte urbano: morteros cementosos, resinas epoxi o poliuretano con materiales del grafiti</li>
-              <li>Pavimentos continuos de hormigón: acabado sobrio, con estilo, en interior y exterior</li>
             </ul>
           </div>
         </article>
@@ -840,7 +898,7 @@
       <div>
         <div class="sistemas-cab">
           <p class="kicker">Sistemas propios</p>
-          <h2 id="h-sistemas">Tres sistemas propios y sus juntas.</h2>
+          <h2 id="h-sistemas">Sistemas propios para cada solera.</h2>
           <p class="sec tras-h2">Los sistemas de la línea de pavimentos de hormigón. Las prestaciones de cada obra se definen en proyecto, según el uso previsto de la instalación.</p>
         </div>
         <div class="fichas">
@@ -874,6 +932,21 @@
             <div>
               <h3>Juntas de dilatación</h3>
               <p>Diseño y ejecución de las juntas de dilatación del pavimento.</p>
+            </div>
+          </article>
+          <!-- Dos entradas nuevas pedidas por el cliente; sus textos están pendientes -->
+          <article class="ficha">
+            <span class="ficha-code">Losas</span>
+            <div>
+              <h3>Losas estructurales</h3>
+              <p><mark class="hueco">[TEXTO DEL CLIENTE: losas estructurales, en qué consisten y para qué instalaciones, 1-2 frases]</mark></p>
+            </div>
+          </article>
+          <article class="ficha">
+            <span class="ficha-code">Innovación</span>
+            <div>
+              <h3>Soluciones innovadoras</h3>
+              <p><mark class="hueco">[TEXTO DEL CLIENTE: soluciones innovadoras dentro del segmento de pavimentos técnicos, 1-2 frases]</mark></p>
             </div>
           </article>
         </div>
@@ -954,7 +1027,7 @@
           <p class="kicker">Obras</p>
           <h2 id="h-obras" class="mayor">Obras ejecutadas.</h2>
         </div>
-        <p class="sec">Una selección de las cuatro líneas: hormigón, revestimientos, restauración y pavimentos artísticos.</p>
+        <p class="sec">Una selección de las tres líneas: hormigón, revestimientos y restauración.</p>
       </div>
       <div class="galeria">
         <!-- Obra destacada. PENDIENTE DEL CLIENTE: localidad, superficie (m²), sector del cliente y año de 3-4 obras
@@ -971,33 +1044,26 @@
           <div class="foto"><img src="../img/logistica-cajas.jpg" alt="Centro logístico en actividad con carretillas y palés sobre la solera" width="1300" height="867" loading="lazy"></div>
           <figcaption><b>Hormigón</b> Centro logístico en actividad</figcaption>
         </figure>
-        <figure>
-          <div class="foto"><img src="../img/hormigon-pulido-interior.jpg" alt="Interior con hormigón pulido continuo y un sofá" width="1600" height="1066" loading="lazy"></div>
-          <figcaption><b>Artístico</b> Hormigón pulido, interior</figcaption>
-        </figure>
+        <!-- Retícula de 6 columnas: destacada (6) · 3+3 · 2+2+2 · 2+2+2. En estrecho, 2 columnas con número par de piezas. -->
         <figure>
           <div class="foto"><img src="../img/sala-verde.jpg" alt="Sala limpia con revestimiento continuo de color verde" width="800" height="600" loading="lazy"></div>
           <figcaption><b>Revestimiento</b> Sala limpia</figcaption>
         </figure>
         <figure>
-          <div class="foto"><img src="../img/terrazo-azul.jpg" alt="Terrazo continuo azul con círculos de color" width="900" height="556" loading="lazy"></div>
-          <figcaption><b>Artístico</b> Terrazo in situ</figcaption>
-        </figure>
-        <figure class="ancha">
           <div class="foto"><img src="../img/pulido-restauracion.jpg" alt="Operarios puliendo y restaurando una solera existente" width="1400" height="1046" loading="lazy"></div>
           <figcaption><b>Restauración</b> Pulido de solera existente</figcaption>
-        </figure>
-        <figure class="ancha">
-          <div class="foto"><img src="../img/exterior-muelles.jpg" alt="Explanada exterior de hormigón con muelles de carga" width="1400" height="788" loading="lazy"></div>
-          <figcaption><b>Hormigón</b> Explanada exterior y muelles de carga</figcaption>
-        </figure>
-        <figure>
-          <div class="foto"><img src="../img/tienda-terrazo.jpg" alt="Local comercial con terrazo continuo en el suelo y grafiti en la pared" width="1400" height="996" loading="lazy"></div>
-          <figcaption><b>Artístico</b> Terrazo, local comercial</figcaption>
         </figure>
         <figure>
           <div class="foto"><img src="../img/nave-columnas.jpg" alt="Nave con ventanales y solera reflectante" width="1400" height="1050" loading="lazy"></div>
           <figcaption><b>Hormigón</b> Solera reflectante, nave con ventanales</figcaption>
+        </figure>
+        <figure>
+          <div class="foto"><img src="../img/restauracion-nave.jpg" alt="Nave industrial durante la restauración de su solera" width="1400" height="786" loading="lazy"></div>
+          <figcaption><b>Restauración</b> Solera en restauración, nave</figcaption>
+        </figure>
+        <figure>
+          <div class="foto"><img src="../img/exterior-muelles.jpg" alt="Explanada exterior de hormigón con muelles de carga" width="1400" height="788" loading="lazy"></div>
+          <figcaption><b>Hormigón</b> Explanada exterior y muelles de carga</figcaption>
         </figure>
         <figure>
           <div class="foto"><img src="../img/racks-naranja-azul.jpg" alt="Estanterías naranjas y azules con líneas amarillas pintadas en la solera" width="900" height="674" loading="lazy"></div>
@@ -1063,7 +1129,7 @@
         </div>
         <div class="pilar">
           <h3>Medio ambiente</h3>
-          <p class="sec">Responsabilidad medioambiental y certificación de gestión ambiental según UNE-EN ISO 14001:2015.</p>
+          <p class="sec">Responsabilidad medioambiental y sistema de gestión ambiental certificado según UNE-EN ISO 14001:2015. <a class="cert-enlace" href="#medio-ambiente">Ver el apartado de medio ambiente</a></p>
         </div>
         <div class="pilar">
           <h3>Seguridad laboral</h3>
@@ -1079,7 +1145,57 @@
       <div class="sellos">
         <div class="sello"><img src="../img/cert-aenor-iqnet.png" alt="Sellos AENOR Empresa Registrada, AENOR Gestión Ambiental e IQNet" width="548" height="232" loading="lazy"></div>
         <div class="sello"><a class="sello-enlace" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener" aria-label="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)"><img class="sobre-blanco" src="../img/cert-icdq-iso14001.png" alt="Sello ICDQ de certificación UNE-EN ISO 14001:2015" width="297" height="202" loading="lazy"></a></div>
-        <p class="sellos-nota">Sellos AENOR Empresa Registrada, AENOR Gestión Ambiental e IQNet. Sistema de gestión ambiental certificado según UNE-EN ISO 14001:2015 por ICDQ, entidad acreditada por ENAC. Certificado n.º 1455/26, para la instalación de pavimentos industriales, vigente hasta marzo de 2029. <a class="cert-enlace" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener">Ver el certificado (PDF, 1,2 MB)<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"/></svg></a></p>
+        <p class="sellos-nota">Sellos AENOR Empresa Registrada, AENOR Gestión Ambiental e IQNet, y sello ICDQ del sistema de gestión ambiental certificado según UNE-EN ISO 14001:2015 (los datos del certificado, en <a class="cert-enlace" href="#medio-ambiente">Medio ambiente</a>). <a class="cert-enlace" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener">Ver el certificado (PDF, 1,2 MB)<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"/></svg></a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MEDIO AMBIENTE (apartado propio pedido por el cliente; datos del certificado reales, textos de enfoque pendientes) ===== -->
+  <section class="seccion oscuro" id="medio-ambiente" aria-labelledby="h-medio-ambiente">
+    <div class="wrap">
+      <div class="cabecera-sec">
+        <div>
+          <p class="kicker">Medio ambiente</p>
+          <h2 id="h-medio-ambiente" class="mayor"><mark class="hueco">[TITULAR DEL CLIENTE: enfoque medioambiental, 5-9 palabras]</mark></h2>
+        </div>
+        <p class="sec"><mark class="hueco">[TEXTO DEL CLIENTE: enfoque medioambiental de la empresa, 2-3 frases]</mark></p>
+      </div>
+      <div class="ambiente">
+        <div class="cert">
+          <span class="etq">Certificación</span>
+          <h3>Gestión ambiental certificada</h3>
+          <div class="sello"><a class="sello-enlace" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener" aria-label="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)"><img class="sobre-blanco" src="../img/cert-icdq-iso14001.png" alt="Sello ICDQ de certificación UNE-EN ISO 14001:2015" width="297" height="202" loading="lazy"></a></div>
+          <dl>
+            <div><dt>Norma</dt><dd>UNE-EN ISO 14001:2015</dd></div>
+            <div><dt>Entidad</dt><dd>ICDQ Instituto de Certificación, acreditado por ENAC</dd></div>
+            <div><dt>Certificado</dt><dd>N.º 1455/26</dd></div>
+            <div><dt>Alcance</dt><dd>Instalación de pavimentos industriales</dd></div>
+            <div><dt>Vigencia</dt><dd>Hasta el 23/03/2029</dd></div>
+          </dl>
+          <a class="cert-enlace" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener">Ver el certificado (PDF, 1,2 MB)<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"/></svg></a>
+        </div>
+        <div class="ejes">
+          <div class="eje">
+            <span class="etq">Eje 1</span>
+            <h3><mark class="hueco">[EJE 1: título, 2-4 palabras]</mark></h3>
+            <p><mark class="hueco">[EJE 1: texto, 2-3 frases]</mark></p>
+          </div>
+          <div class="eje">
+            <span class="etq">Eje 2</span>
+            <h3><mark class="hueco">[EJE 2: título, 2-4 palabras]</mark></h3>
+            <p><mark class="hueco">[EJE 2: texto, 2-3 frases]</mark></p>
+          </div>
+          <div class="eje">
+            <span class="etq">Eje 3</span>
+            <h3><mark class="hueco">[EJE 3: título, 2-4 palabras]</mark></h3>
+            <p><mark class="hueco">[EJE 3: texto, 2-3 frases]</mark></p>
+          </div>
+          <div class="eje">
+            <span class="etq">Eje 4</span>
+            <h3><mark class="hueco">[EJE 4: título, 2-4 palabras]</mark></h3>
+            <p><mark class="hueco">[EJE 4: texto, 2-3 frases]</mark></p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1107,10 +1223,9 @@
           <div class="campo ancho"><label for="c-linea">Línea de servicio</label>
             <select id="c-linea" name="linea">
               <option value="">Sin especificar</option>
-              <option value="hormigon">Pavimentos de hormigón sin juntas y alta tolerancia</option>
+              <option value="hormigon">Pavimentos de hormigón sin juntas de corte y alta tolerancia</option>
               <option value="revestimientos">Revestimientos continuos</option>
               <option value="restauracion">Restauración de soleras</option>
-              <option value="artisticos">Pavimentos continuos artísticos</option>
             </select>
           </div>
           <div class="campo ancho"><label for="c-mensaje">Mensaje <span class="req" aria-hidden="true">*</span></label><textarea id="c-mensaje" name="mensaje" required aria-describedby="e-mensaje" placeholder="Tipo de instalación, superficie aproximada y uso previsto."></textarea><p class="error" id="e-mensaje"></p></div>
@@ -1156,7 +1271,7 @@
           <span class="marca-sub">DECOR S.L.</span>
         </span>
         <p class="pie-lema" lang="en">building quality floors.</p>
-        <p class="pie-desc">Tecnología en pavimentos industriales y comerciales. Pavimentos sin juntas, revestimientos continuos, restauración de soleras y pavimentos artísticos.</p>
+        <p class="pie-desc">Tecnología en pavimentos industriales y comerciales. Pavimentos sin juntas de corte, revestimientos continuos y restauración de soleras.</p>
       </div>
       <div>
         <h2 class="pie-tit">Oficina central</h2>
@@ -1177,6 +1292,7 @@
           <li><a href="#obras">Obras</a></li>
           <li><a href="#empresa">Quiénes somos</a></li>
           <li><a href="#calidad">Calidad y seguridad</a></li>
+          <li><a href="#medio-ambiente">Medio ambiente</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
       </div>
@@ -1578,7 +1694,7 @@
  "url": "https://yjaviy.github.io/twinsol-web/",
  "logo": "https://yjaviy.github.io/twinsol-web/icon-512.png",
  "image": "https://yjaviy.github.io/twinsol-web/img/og.jpg",
- "description": "Especialistas en pavimentos continuos industriales: soleras de hormigón sin juntas reforzadas con fibra de acero y alta planimetría, revestimientos continuos, restauración de soleras y pavimentos artísticos.",
+ "description": "Especialistas en pavimentos continuos industriales: soleras de hormigón sin juntas reforzadas con fibra de acero y alta planimetría, revestimientos continuos y restauración de soleras.",
  "email": "info@twinsoldecor.com",
  "telephone": "+34648710497",
  "address": {

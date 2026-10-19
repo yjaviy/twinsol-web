@@ -28,7 +28,7 @@ EMPRESA = {
     "telefono": "+34648710497",
     "telefono2": "+34616052200",
     "email": "info@twinsoldecor.com",
-    "descripcion": "Especialistas en pavimentos continuos industriales: soleras de hormigón sin juntas reforzadas con fibra de acero y alta planimetría, revestimientos continuos, restauración de soleras y pavimentos artísticos.",
+    "descripcion": "Especialistas en pavimentos continuos industriales: soleras de hormigón sin juntas reforzadas con fibra de acero y alta planimetría, revestimientos continuos y restauración de soleras.",
 }
 
 # URL antiguas del Wix (sin barra final) -> ancla de la web nueva
@@ -37,11 +37,11 @@ REDIRECCIONES = {
     "pavimentos-sin-juntas": "hormigon",
     "quienes-somos": "empresa",
     "project-2": "revestimientos",          # Revestimientos continuos
-    "impermeabilizaciones": "impermeabilizaciones",
-    "project-3": "artisticos",              # Pavimentos artísticos
+    "impermeabilizaciones": "revestimientos",   # la sublínea desaparece en la web definitiva
+    "project-3": "servicios",               # Pavimentos artísticos: línea suprimida por el cliente
     "project-4": "restauracion",            # Restauración de soleras (Twin Cure)
     "politica-de-calidad": "calidad",
-    "responsabilidadmedioambiental": "calidad",
+    "responsabilidadmedioambiental": "medio-ambiente",   # sección propia en la web definitiva (Nave)
     "seguridad": "calidad",
 }
 
