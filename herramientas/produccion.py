@@ -267,6 +267,7 @@ TITULOS = {
     "obras": "la galería de obras", "hormigon": "pavimentos de hormigón sin juntas", "empresa": "quiénes somos",
     "revestimientos": "revestimientos continuos", "impermeabilizaciones": "impermeabilizaciones poliméricas",
     "artisticos": "pavimentos artísticos", "restauracion": "restauración de soleras", "calidad": "calidad y seguridad",
+    "servicios": "nuestros servicios", "medio-ambiente": "medio ambiente",
 }
 
 
