@@ -144,7 +144,9 @@ def empaquetar(dest, forzar_https):
     print(f"Paquete en {dest}: {total // 1024} KB, https {'forzado' if forzar_https else 'NO forzado'}")
 
 
-def subir(dest):
+def conectar():
+    """Abre la sesión sFTP con los datos de .notas/arsys.env. Devuelve (transport, sftp, carpeta remota)."""
+    import hashlib, base64
     import paramiko
     env = {}
     ruta_env = os.path.join(RAIZ, ".notas", "arsys.env")
@@ -154,11 +156,42 @@ def subir(dest):
         if "=" in linea and not linea.startswith("#"):
             k, v = linea.split("=", 1)
             env[k.strip()] = v.strip()
-    host, user, pw = env["ARSYS_HOST"], env["ARSYS_USER"], env["ARSYS_PASS"]
+    host, user, pw = env.get("ARSYS_HOST", ""), env.get("ARSYS_USER", ""), env.get("ARSYS_PASS", "")
+    if not host or not user or not pw:
+        raise SystemExit("En .notas/arsys.env faltan ARSYS_HOST, ARSYS_USER o ARSYS_PASS.")
     remoto = env.get("ARSYS_DIR", "/").rstrip("/") or "/"
     t = paramiko.Transport((host, int(env.get("ARSYS_PORT", "22"))))
     t.connect(username=user, password=pw)
-    sftp = paramiko.SFTPClient.from_transport(t)
+    # Huella del servidor: la primera vez se apunta en arsys.env; si después cambia, se para
+    huella = "SHA256:" + base64.b64encode(hashlib.sha256(t.get_remote_server_key().asbytes()).digest()).decode().rstrip("=")
+    esperada = env.get("ARSYS_FINGERPRINT", "")
+    if esperada and esperada != huella:
+        t.close()
+        raise SystemExit(f"La huella del servidor ({huella}) no coincide con ARSYS_FINGERPRINT: no se sube nada.")
+    if not esperada:
+        print(f"Huella del servidor sFTP: {huella}  (añade ARSYS_FINGERPRINT={huella} a .notas/arsys.env)")
+    return t, paramiko.SFTPClient.from_transport(t), remoto
+
+
+def listar():
+    """Muestra qué hay en la carpeta remota (y un nivel por debajo) sin tocar nada."""
+    import stat
+    t, sftp, remoto = conectar()
+    print(f"Contenido de {remoto}:")
+    for e in sorted(sftp.listdir_attr(remoto), key=lambda e: e.filename):
+        tipo = "d" if stat.S_ISDIR(e.st_mode) else "-"
+        print(f"  {tipo} {e.st_size:>9}  {e.filename}")
+        if tipo == "d":
+            try:
+                hijos = sorted(sftp.listdir(remoto.rstrip('/') + "/" + e.filename))
+            except IOError:
+                hijos = ["(sin acceso)"]
+            print("      " + ", ".join(hijos[:15]) + (" ..." if len(hijos) > 15 else "") if hijos else "      (vacía)")
+    sftp.close(); t.close()
+
+
+def subir(dest):
+    t, sftp, remoto = conectar()
     n = 0
     for base, carpetas, ficheros in os.walk(dest):
         rel = os.path.relpath(base, dest).replace("\\", "/")
@@ -171,15 +204,19 @@ def subir(dest):
             sftp.put(os.path.join(base, f), rdir + "/" + f)
             n += 1
     sftp.close(); t.close()
-    print(f"Subidos {n} ficheros a {host}:{remoto}")
+    print(f"Subidos {n} ficheros a {remoto}")
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--http", action="store_true", help="no forzar https (hasta que Arsys emita el SSL)")
+    ap.add_argument("--listar", action="store_true", help="solo listar la carpeta remota por sFTP, sin empaquetar ni subir")
     ap.add_argument("--subir", action="store_true", help="subir por sFTP con .notas/arsys.env")
     ap.add_argument("--dest", default=os.path.join(RAIZ, "dist-arsys"))
     a = ap.parse_args()
+    if a.listar:
+        listar()
+        return
     empaquetar(a.dest, not a.http)
     if a.subir:
         subir(a.dest)

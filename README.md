@@ -45,7 +45,12 @@ Genera `dist-arsys/` (ignorado por git) con la web como raíz del dominio: `inde
 
 `formulario.php` (fuente en `herramientas/arsys/`) recibe el formulario por POST, valida, descarta robots (campo trampa `web` y tiempo mínimo de 3 s con el campo `t`), limita a 5 envíos por hora y dirección con un contador anónimo en `.envios/` (hash con sal, nunca la IP en claro) y manda el correo a `info@twinsoldecor.com` con `Reply-To` del visitante. No guarda copia de los envíos ni incluye la IP en el correo. La web lo llama por `fetch`; en GitHub Pages, `localhost` o `file:` el envío se simula.
 
-Subida por sFTP (credenciales en `.notas/arsys.env`, fuera de git: `ARSYS_HOST`, `ARSYS_USER`, `ARSYS_PASS`, `ARSYS_DIR`):
+Subida por sFTP (credenciales en `.notas/arsys.env`, fuera de git: `ARSYS_HOST` = IP del hosting 217.76.130.116, porque `ftp.twinsoldecor.com` no existe mientras el DNS esté en Wix; `ARSYS_USER`, `ARSYS_PASS`, `ARSYS_DIR` y, tras la primera conexión, `ARSYS_FINGERPRINT`). Antes de subir, `--listar` muestra lo que hay en la carpeta remota sin tocar nada:
+
+```bash
+python herramientas/empaquetar_arsys.py --listar
+```
+
 
 ```bash
 python herramientas/empaquetar_arsys.py --http --subir
@@ -56,7 +61,7 @@ Orden del día del cambio (antes del 28/11/2026, que es cuando vence el Wix):
 1. Mirar por sFTP qué hay en la raíz del hosting y guardarlo aparte si tiene algo.
 2. Subir `dist-arsys/` y probar la web en la URL de previsualización que da Arsys (o editando el fichero `hosts`): página, formulario real (que llegue el correo a `info@`), redirecciones antiguas, 404.
    Comprobaciones del hosting: `GET /img/` debe dar 403 (si da 500, Arsys no admite `Options` en `.htaccess`: quitar la línea `Options -Indexes`); subir un `ip.php` temporal con `<?php echo $_SERVER['REMOTE_ADDR'];` y visitarlo desde dos redes (oficina y móvil): si sale la misma IP hay un proxy delante y el límite por dirección del formulario contaría a todos como uno (habría que leer la última IP de `X-Forwarded-For` en `formulario.php`); borrar `ip.php` después.
-3. En el panel de Arsys apuntar el dominio y `www` al hosting (solo los registros de la web; los `MX` y el resto del correo no se tocan).
+3. DNS. Los nameservers del dominio son hoy los de Wix (`ns6/ns7.wixdns.net`): toda la zona, incluido el correo, vive en Wix. La zona que Arsys tiene preparada ("Entradas DNS" del panel) ya está completa: `twinsoldecor.com` y `www` apuntan al hosting (A 217.76.130.116), MX `mx.serviciodecorreo.es`, SPF, DKIM, DMARC, autodiscover. Así que el cambio es: (a) en Wix, exportar o anotar todos los registros de la zona actual y comparar con la de Arsys (la viva usa MX `smtp-02.servidoresdns.net`; copiar a Arsys cualquier TXT de verificación u otro registro que falte); (b) en el panel de Arsys, sección Dominios > "Servidores DNS", pasar el dominio a los servidores DNS de Arsys. Con eso la web y el correo quedan en Arsys; propaga en unas horas. No tocar nada del correo por separado.
 4. Activar el certificado SSL en el panel; cuando esté emitido, volver a empaquetar sin `--http` y subir el `.htaccess`.
    Después `curl -sI https://www.twinsoldecor.com/` debe dar 200: si da 301 sobre sí misma, el SSL termina en un proxy que no manda `X-Forwarded-Proto`; volver al `.htaccess` de `--http` y ajustar la condición.
 5. Comprobar `https://www.twinsoldecor.com`, `http://twinsoldecor.com` (debe redirigir) y dos URL antiguas; dar de alta la propiedad en Search Console y enviar `sitemap.xml`.
