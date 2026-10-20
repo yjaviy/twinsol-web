@@ -605,6 +605,8 @@
   .form-pie small { color: var(--txt-2); max-width: 40ch; }
   .form-ok { margin-top: 1.4rem; padding: 1rem 1.2rem; background: var(--marino); color: var(--nieve); }
   .form-ok:empty { margin: 0; padding: 0; }
+  .form-ok.form-error { border-left: 3px solid var(--naranja); }
+  .hp { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
   .form-ok b { font-family: var(--f-titular); font-stretch: 110%; font-weight: 600; display: block; margin-bottom: .2rem; }
 
   /* ---------- Pie ---------- */
@@ -1227,7 +1229,9 @@
           <li><span class="etq">Teléfono</span><div><a class="mono" href="tel:+34648710497">+34 648 710 497</a><br><a class="mono" href="tel:+34616052200">+34 616 052 200</a><small>Fax 949 31 82 07</small></div></li>
         </ul>
       </div>
-      <form class="form" id="form-contacto" novalidate aria-labelledby="h-form">
+      <form class="form" id="form-contacto" action="formulario.php" method="post" novalidate aria-labelledby="h-form">
+        <div class="hp" aria-hidden="true"><label for="c-web">No rellene este campo</label><input type="text" id="c-web" name="web" tabindex="-1" autocomplete="off"></div>
+        <input type="hidden" name="t" id="c-t" value="">
         <h3 id="h-form" class="oculto-visual">Formulario de solicitud de presupuesto</h3>
         <div class="form-grid">
           <div class="campo"><label for="c-nombre">Nombre <span class="req" aria-hidden="true">*</span></label><input type="text" id="c-nombre" name="nombre" autocomplete="name" required aria-describedby="e-nombre"><p class="error" id="e-nombre"></p></div>
@@ -1250,7 +1254,7 @@
               <div><dt>Responsable</dt><dd>TWINSOL DECOR, S.L. · NIF B19310671 · Calle Alcolea, 39, 19174 Torrejón del Rey (Guadalajara) · info@twinsoldecor.com</dd></div>
               <div><dt>Finalidad</dt><dd>Atender su consulta o solicitud de presupuesto y responderle. No se usan sus datos para enviarle publicidad.</dd></div>
               <div><dt>Legitimación</dt><dd>Medidas precontractuales a petición suya (art. 6.1.b RGPD) y, si escribe en nombre de una empresa, interés legítimo en la relación con esa empresa (art. 19 LOPDGDD).</dd></div>
-              <div><dt>Destinatarios</dt><dd>No se ceden datos a terceros salvo obligación legal. Acceden a ellos, como encargados del tratamiento, la empresa que desarrolla y aloja la web (BAMOIL 13, S.L.) y el proveedor del correo (Arsys Internet, S.L.U.), ambos en la Unión Europea.</dd></div>
+              <div><dt>Destinatarios</dt><dd>No se ceden datos a terceros salvo obligación legal. Accede a ellos, como encargado del tratamiento, el proveedor que aloja la web y el correo (Arsys Internet, S.L.U.), en España.</dd></div>
               <div><dt>Conservación</dt><dd>Mientras se atiende la consulta y, como máximo, 12 meses después; si se formaliza un encargo, los plazos de la normativa mercantil y fiscal.</dd></div>
               <div><dt>Derechos</dt><dd>Acceso, rectificación, supresión, oposición, limitación y portabilidad, escribiendo a info@twinsoldecor.com. Puede reclamar ante la Agencia Española de Protección de Datos (www.aepd.es).</dd></div>
               <div><dt>Más información</dt><dd><a href="#privacidad">Política de privacidad</a></dd></div>
@@ -1265,7 +1269,7 @@
         </div>
         <div class="form-pie">
           <small><span class="req" aria-hidden="true">*</span> Nombre, correo electrónico, mensaje y la casilla de lectura de la información sobre protección de datos son obligatorios.</small>
-          <button class="btn btn-acento" type="submit" id="c-enviar">Solicitar presupuesto
+          <button class="btn btn-acento" type="submit" id="c-enviar"><span id="c-enviar-txt">Solicitar presupuesto</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </button>
         </div>
@@ -1398,7 +1402,7 @@
       <tr>
         <td><b>Formulario de contacto</b></td>
         <td>Nombre; empresa (opcional); correo electrónico; teléfono (opcional); mensaje; constancia de haber leído la información sobre protección de datos (casilla); dirección IP y fecha y hora del envío.</td>
-        <td>Los facilita usted al enviar el formulario. La dirección IP y la fecha y hora las anota automáticamente el servidor al recibir el envío, por seguridad, en su registro técnico de acceso; no se incluyen en el correo que recibe la empresa.</td>
+        <td>Los facilita usted al enviar el formulario. La dirección IP y la fecha y hora las anota automáticamente el servidor al recibir el envío, por seguridad, en su registro técnico de acceso; no se incluyen en el correo que recibe la empresa. Para limitar los envíos abusivos, el formulario guarda además durante una hora un contador de envíos por dirección en forma de código irreversible (resumen con clave), sin la dirección IP en claro.</td>
       </tr>
       <tr>
         <td><b>Navegación por el sitio web</b></td>
@@ -1438,34 +1442,30 @@
 
   <h4>2.5. Plazos de conservación</h4>
   <ul>
-    <li><b>Datos del formulario de contacto:</b> el nombre, la empresa, el correo, el teléfono y el mensaje se conservan en el buzón de correo de la empresa mientras se atiende la consulta; se eliminan en la revisión periódica del buzón y, como máximo, a los <b>12 meses</b> desde que se atiende. El servicio que entrega el formulario no guarda copia de los envíos. La dirección IP y la fecha y hora del envío solo constan en el registro técnico del servidor y se eliminan a los 30 días. Si la consulta da lugar a un encargo, los datos pasan a la documentación del encargo y se conservan durante los plazos de la normativa mercantil y fiscal (con carácter general, seis años conforme al artículo 30 del Código de Comercio y cuatro años a efectos tributarios) y, bloqueados, durante los plazos de prescripción de las acciones legales (artículo 32 de la LOPDGDD).</li>
-    <li><b>Registros técnicos del servidor:</b> se conservan <b>30 días</b> desde la conexión y después se eliminan.</li>
+    <li><b>Datos del formulario de contacto:</b> el nombre, la empresa, el correo, el teléfono y el mensaje se conservan en el buzón de correo de la empresa mientras se atiende la consulta; se eliminan en la revisión periódica del buzón y, como máximo, a los <b>12 meses</b> desde que se atiende. El servicio que entrega el formulario no guarda copia de los envíos. La dirección IP y la fecha y hora del envío solo constan en el registro técnico del servidor, con el plazo indicado más abajo; el contador de envíos se elimina a la hora. Si la consulta da lugar a un encargo, los datos pasan a la documentación del encargo y se conservan durante los plazos de la normativa mercantil y fiscal (con carácter general, seis años conforme al artículo 30 del Código de Comercio y cuatro años a efectos tributarios) y, bloqueados, durante los plazos de prescripción de las acciones legales (artículo 32 de la LOPDGDD).</li>
+    <li><b>Registros técnicos del servidor:</b> los conserva el proveedor de alojamiento (Arsys) durante el plazo previsto en sus condiciones de servicio para la seguridad del alojamiento, que no supera los <b>12 meses</b>; después se eliminan.</li>
     <li><b>Ejercicio de derechos y reclamaciones:</b> los datos necesarios para acreditarlos se conservan bloqueados durante el plazo de prescripción de las acciones correspondientes (artículo 32 de la LOPDGDD).</li>
   </ul>
 
   <h4>2.6. Destinatarios y encargados del tratamiento</h4>
   <p>Dentro de TWINSOL DECOR, S.L., solo accede a sus datos el personal que atiende las solicitudes de información y presupuesto.</p>
   <p><b>No cedemos sus datos a terceros</b>, salvo obligación legal (requerimientos de juzgados, fuerzas de seguridad o administraciones públicas) o cuando sea necesario para formalizar y ejecutar un encargo (entidades bancarias para el cobro y asesoría contable y fiscal, en su caso).</p>
-  <p><b>Encargados del tratamiento.</b> Para prestar el servicio web contamos con dos proveedores que acceden a datos por cuenta de TWINSOL DECOR, S.L., con contrato de encargo conforme al artículo 28 del RGPD, que les obliga a tratarlos solo según nuestras instrucciones, con medidas de seguridad y confidencialidad:</p>
+  <p><b>Encargado del tratamiento.</b> Para prestar el servicio web contamos con un proveedor que accede a datos por cuenta de TWINSOL DECOR, S.L., con contrato de encargo conforme al artículo 28 del RGPD (incluido en sus condiciones de contratación), que le obliga a tratarlos solo según nuestras instrucciones, con medidas de seguridad y confidencialidad:</p>
   <div class="tabla"><table>
     <thead><tr><th>Encargado</th><th>Servicio y datos a los que accede</th><th>Ubicación</th></tr></thead>
     <tbody>
       <tr>
-        <td><b>BAMOIL 13, S.L.</b><br><span style="color:var(--muted)">NIF B86856028, Madrid</span></td>
-        <td>Desarrollo, alojamiento y mantenimiento técnico del sitio web y del servicio que entrega el formulario de contacto. Administra el servidor, que anota los registros técnicos de acceso (apartado 2.2) y reenvía cada envío del formulario al correo de la empresa sin guardar copia. Utiliza como subencargado de infraestructura a <b>Hetzner Online GmbH</b> (Alemania), en cuyo centro de datos está el servidor.</td>
-        <td>España (servidor en Alemania, Unión Europea)</td>
-      </tr>
-      <tr>
         <td><b>Arsys Internet, S.L.U.</b><br><span style="color:var(--muted)">Logroño (La Rioja)</span></td>
-        <td>Registro del dominio y alojamiento del correo de la empresa, incluido el buzón info@twinsoldecor.com en el que se reciben y responden las consultas. Accede a los datos del formulario que llegan al buzón y a las respuestas.</td>
+        <td>Alojamiento del sitio web y del formulario de contacto: su servidor anota los registros técnicos de acceso (apartado 2.2) y entrega cada envío del formulario al buzón de la empresa sin guardar copia. Registro del dominio y alojamiento del correo de la empresa, incluido el buzón info@twinsoldecor.com en el que se reciben y responden las consultas.</td>
         <td>España (Unión Europea)</td>
       </tr>
     </tbody>
   </table></div>
-  <p>Si alguno de estos proveedores cambia, actualizaremos esta política.</p>
+  <p>El desarrollo y el mantenimiento técnico del sitio web los realiza BAMOIL 13, S.L. (Madrid), que no trata datos personales: no recibe los envíos del formulario ni accede al buzón de correo; accede únicamente a los ficheros de la web para mantenerla, bajo compromiso de confidencialidad.</p>
+  <p>Si el proveedor cambia, actualizaremos esta política.</p>
 
   <h4>2.7. Transferencias internacionales</h4>
-  <p><b>No se realizan transferencias internacionales de datos.</b> TWINSOL DECOR, S.L. trata sus datos en España y todos sus encargados tratan los datos en la Unión Europea (España y Alemania). Además, las fuentes tipográficas y todos los recursos de la página se sirven desde el propio dominio twinsoldecor.com, por lo que la mera visita al sitio web no envía datos a terceros distintos de los encargados indicados en el apartado 2.6 (no se usan fuentes, mapas, vídeos ni analítica de terceros).</p>
+  <p><b>No se realizan transferencias internacionales de datos.</b> TWINSOL DECOR, S.L. trata sus datos en España y su encargado (Arsys) los trata también en España, en la Unión Europea. Además, las fuentes tipográficas y todos los recursos de la página se sirven desde el propio dominio twinsoldecor.com, por lo que la mera visita al sitio web no envía datos a terceros distintos del encargado indicado en el apartado 2.6 (no se usan fuentes, mapas, vídeos ni analítica de terceros).</p>
 
   <h4>2.8. Derechos y cómo ejercerlos</h4>
   <p>Usted tiene derecho a:</p>
@@ -1490,7 +1490,7 @@
   <p>El sitio web se dirige a empresas y a personas mayores de 18 años. Si es menor de 18 años, no utilice el formulario de contacto. No tratamos conscientemente datos de menores; si tenemos conocimiento de haberlos recibido, los eliminaremos. Los padres o tutores pueden comunicárnoslo en info@twinsoldecor.com.</p>
 
   <h4>2.12. Seguridad</h4>
-  <p>TWINSOL DECOR, S.L. aplica las medidas técnicas y organizativas adecuadas al riesgo del tratamiento (artículo 32 del RGPD): el sitio web y el envío del formulario usan conexión cifrada (HTTPS), el acceso a las consultas está limitado al personal que las atiende y los encargados están sujetos a contratos con obligaciones de seguridad y confidencialidad. Los datos del formulario no se almacenan en el sitio web: se reenvían al correo de la empresa y solo queda el registro técnico de 30 días descrito en el apartado 2.5.</p>
+  <p>TWINSOL DECOR, S.L. aplica las medidas técnicas y organizativas adecuadas al riesgo del tratamiento (artículo 32 del RGPD): el sitio web y el envío del formulario usan conexión cifrada (HTTPS), el acceso a las consultas está limitado al personal que las atiende y el encargado está sujeto a obligaciones contractuales de seguridad y confidencialidad. Los datos del formulario no se almacenan en el sitio web: se entregan al correo de la empresa y solo quedan los registros técnicos descritos en el apartado 2.5.</p>
 
   <h4>2.13. Actualizaciones de esta política</h4>
   <p>Esta política puede actualizarse por cambios normativos, en los proveedores o en el funcionamiento del sitio web. La versión vigente es la publicada en el sitio web, con la fecha de su última actualización. Si el cambio afectara de forma relevante a un tratamiento en curso, lo haremos constar de forma destacada en el sitio web.</p>
@@ -1828,9 +1828,11 @@
     abrirLegalSiToca(window.location.hash);
   }
 
-  // Formulario: envío simulado con validación visible
+  // Formulario: validación visible y envío a formulario.php (simulado en la previsualización)
   var form = document.getElementById('form-contacto');
   var ok = document.getElementById('form-ok');
+  var cargado = Date.now();
+  var campoT = document.getElementById('c-t');
   if (form && ok) {
     var reglas = [
       { id: 'c-nombre', err: 'e-nombre', msg: 'Indique su nombre.' },
@@ -1867,17 +1869,42 @@
         if (!bien && !primero) { primero = el; }
       });
       if (primero) { primero.focus(); return; }
-      var titulo = document.createElement('b');
-      titulo.textContent = 'Solicitud recibida';
-      var texto = document.createElement('span');
-      texto.textContent = 'Gracias. Nos pondremos en contacto con usted en el correo indicado.';
-      ok.textContent = '';
-      ok.appendChild(titulo);
-      ok.appendChild(texto);
       var enviar = document.getElementById('c-enviar');
+      var etiqueta = document.getElementById('c-enviar-txt') || enviar;
+      var textoBoton = etiqueta.textContent;
       enviar.setAttribute('disabled', 'disabled');
-      enviar.textContent = 'Solicitud recibida';
-      ok.focus();
+      etiqueta.textContent = 'Enviando…';
+      function mostrar(bien, titulo, texto) {
+        ok.textContent = '';
+        var b = document.createElement('b'); b.textContent = titulo;
+        var s = document.createElement('span'); s.textContent = texto;
+        ok.appendChild(b); ok.appendChild(s);
+        ok.classList.toggle('form-error', !bien);
+        if (bien) {
+          etiqueta.textContent = 'Solicitud recibida';
+          Array.prototype.forEach.call(form.querySelectorAll('input, textarea, select'), function (el) { el.disabled = true; });
+        } else {
+          enviar.removeAttribute('disabled');
+          etiqueta.textContent = textoBoton;
+        }
+        ok.focus();
+      }
+      // En la previsualización (GitHub Pages, local) no hay PHP: el envío se simula
+      var simular = location.protocol === 'file:' || /github\.io$/.test(location.hostname) || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+      if (simular) {
+        mostrar(true, 'Solicitud recibida', 'Gracias. Nos pondremos en contacto con usted en el correo indicado. (En esta previsualización el envío es simulado.)');
+        return;
+      }
+      // segundos que ha tardado en rellenar el formulario (no la hora del visitante)
+      if (campoT) { campoT.value = String(Math.floor((Date.now() - cargado) / 1000)); }
+      var datos = new FormData(form);
+      fetch(form.getAttribute('action') || 'formulario.php', { method: 'POST', body: datos, headers: { 'Accept': 'application/json', 'X-Requested-With': 'fetch' } })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok && j && j.ok, j: j || {} }; }).catch(function () { return { ok: false, j: {} }; }); })
+        .then(function (res) {
+          if (res.ok) { mostrar(true, 'Solicitud recibida', res.j.mensaje || 'Gracias. Nos pondremos en contacto con usted en el correo indicado.'); }
+          else { mostrar(false, 'No se ha podido enviar', res.j.mensaje || 'Inténtelo de nuevo o escríbanos a info@twinsoldecor.com.'); }
+        })
+        .catch(function () { mostrar(false, 'No se ha podido enviar', 'Compruebe su conexión o escríbanos a info@twinsoldecor.com.'); });
     });
   }
 })();

@@ -33,17 +33,36 @@ El cliente pidió que la web se inspire en la de la matriz del grupo sin copiarl
 
 Todo el texto sale de la web actual; no hay cifras ni clientes inventados. Hay una contradicción que conviene confirmar con el cliente: los textos dicen "en proceso de certificación ISO 9001 / OHSAS 18001" pero los sellos AENOR e ICDQ de su web muestran ISO 9001 e ISO 14001:2015.
 
-## Pasar a producción (cuando el cliente dé el OK)
+## Pasar a producción: hosting de Arsys (decidido el 20/10/2026)
 
-Wix no permite importar HTML, así que la vía limpia es alojar esta web fuera y apuntarle el dominio:
+La empresa ya paga en Arsys un **Hosting Avanzado Linux** para `twinsoldecor.com` (Apache + PHP, sFTP, SSL incluido) junto con el dominio y el correo, así que la web definitiva (`nave/`) se sirve desde ahí: sin coste nuevo, sin servidor a nombre del desarrollador y con el formulario entregando el correo desde el propio hosting. Ese hosting aloja también el buzón `info@`: **no se cancela nunca**.
 
-1. **Alojar** (gratis): GitHub Pages (este repo), Cloudflare Pages o Netlify. También vale cualquier servidor con nginx.
-2. **Dominio**: en el panel de Wix (o donde esté registrado `twinsoldecor.com`) cambiar el DNS: registro `A` a las IP de GitHub Pages (185.199.108.153 / .109 / .110 / .111) y `CNAME www → <usuario>.github.io`. Añadir el fichero `CNAME` con `www.twinsoldecor.com` y activar *Enforce HTTPS*. Si el correo `info@twinsoldecor.com` va por Wix, se dejan los registros `MX` como están: solo cambia la web.
-3. **Formulario de contacto**: ahora el envío es simulado (muestra confirmación sin mandar nada). Para que llegue al correo sin servidor: crear una clave gratuita en [Web3Forms](https://web3forms.com) o [Formspree](https://formspree.io) y cambiar el `action` del `<form>` por su URL (dos líneas, marcadas con un comentario `PRODUCCIÓN` en el HTML).
-4. **Quitar** la etiqueta `<meta name="robots" content="noindex, nofollow">` del `<head>` para que Google indexe la web nueva.
-5. **Dar de baja** el plan Premium de Wix cuando la nueva esté sirviendo (mantener el dominio y el correo si están contratados ahí).
+```bash
+python herramientas/empaquetar_arsys.py --http
+```
 
-## Preparación para producción (herramientas/produccion.py)
+Genera `dist-arsys/` (ignorado por git) con la web como raíz del dominio: `index.html` (rutas sin `../`, canónica `https://www.twinsoldecor.com/`, sin `noindex`), `img/`, `fonts/` (solo las de Nave), `docs/`, iconos, `formulario.php`, `.htaccess` (301 de las diez URL antiguas del Wix a su sección, caché, cabeceras, bloqueo de ficheros internos), `404.html`, `sitemap.xml` y `robots.txt`. Sin `--http` el `.htaccess` fuerza además `https://www.`: solo cuando Arsys haya emitido el certificado, si no la web entra en bucle.
+
+`formulario.php` (fuente en `herramientas/arsys/`) recibe el formulario por POST, valida, descarta robots (campo trampa `web` y tiempo mínimo de 3 s con el campo `t`), limita a 5 envíos por hora y dirección con un contador anónimo en `.envios/` (hash con sal, nunca la IP en claro) y manda el correo a `info@twinsoldecor.com` con `Reply-To` del visitante. No guarda copia de los envíos ni incluye la IP en el correo. La web lo llama por `fetch`; en GitHub Pages, `localhost` o `file:` el envío se simula.
+
+Subida por sFTP (credenciales en `.notas/arsys.env`, fuera de git: `ARSYS_HOST`, `ARSYS_USER`, `ARSYS_PASS`, `ARSYS_DIR`):
+
+```bash
+python herramientas/empaquetar_arsys.py --http --subir
+```
+
+Orden del día del cambio (antes del 28/11/2026, que es cuando vence el Wix):
+
+1. Mirar por sFTP qué hay en la raíz del hosting y guardarlo aparte si tiene algo.
+2. Subir `dist-arsys/` y probar la web en la URL de previsualización que da Arsys (o editando el fichero `hosts`): página, formulario real (que llegue el correo a `info@`), redirecciones antiguas, 404.
+   Comprobaciones del hosting: `GET /img/` debe dar 403 (si da 500, Arsys no admite `Options` en `.htaccess`: quitar la línea `Options -Indexes`); subir un `ip.php` temporal con `<?php echo $_SERVER['REMOTE_ADDR'];` y visitarlo desde dos redes (oficina y móvil): si sale la misma IP hay un proxy delante y el límite por dirección del formulario contaría a todos como uno (habría que leer la última IP de `X-Forwarded-For` en `formulario.php`); borrar `ip.php` después.
+3. En el panel de Arsys apuntar el dominio y `www` al hosting (solo los registros de la web; los `MX` y el resto del correo no se tocan).
+4. Activar el certificado SSL en el panel; cuando esté emitido, volver a empaquetar sin `--http` y subir el `.htaccess`.
+   Después `curl -sI https://www.twinsoldecor.com/` debe dar 200: si da 301 sobre sí misma, el SSL termina en un proxy que no manda `X-Forwarded-Proto`; volver al `.htaccess` de `--http` y ajustar la condición.
+5. Comprobar `https://www.twinsoldecor.com`, `http://twinsoldecor.com` (debe redirigir) y dos URL antiguas; dar de alta la propiedad en Search Console y enviar `sitemap.xml`.
+6. Cuando venza el Wix no hay que hacer nada más (la renovación ya está cancelada).
+
+## Previsualización en GitHub Pages (herramientas/produccion.py)
 
 Las dos finalistas (`index.html` = Planimetría, `nave/index.html` = Nave) ya están preparadas con:
 
@@ -58,13 +77,7 @@ Mientras la web esté en previsualización se regenera con:
 python herramientas/produccion.py --base https://yjaviy.github.io/twinsol-web/
 ```
 
-El día del cambio de dominio, con la propuesta elegida ya copiada a `index.html`:
-
-```bash
-python herramientas/produccion.py --base https://www.twinsoldecor.com/ --produccion --dominio www.twinsoldecor.com
-```
-
-Eso quita el `noindex`, genera `sitemap.xml`, `robots.txt` (que excluye las carpetas de propuestas) y el fichero `CNAME` para GitHub Pages. Después: DNS en Arsys (A 185.199.108.153 / .109 / .110 / .111 y CNAME www → yjaviy.github.io), activar HTTPS en Pages, conectar el formulario y dar de alta la propiedad en Search Console.
+La opción `--produccion --dominio` (sitemap, robots y `CNAME` para servir desde GitHub Pages) queda como alternativa por si algún día el hosting de Arsys dejara de existir; la vía decidida es la del apartado anterior.
 
 ## Si el cliente prefiere seguir en Wix
 
