@@ -79,7 +79,13 @@ ExpiresByType application/pdf "access plus 1 month"
 ExpiresByType text/html "access plus 0 seconds"
 </IfModule>
 
+# El subdominio de previsualización (nueva.twinsoldecor.com) no debe indexarse
+<IfModule mod_setenvif.c>
+SetEnvIfNoCase Host ^nueva\\. PREVIA
+</IfModule>
+
 <IfModule mod_headers.c>
+Header set X-Robots-Tag "noindex, nofollow" env=PREVIA
 Header set X-Content-Type-Options "nosniff"
 Header set Referrer-Policy "strict-origin-when-cross-origin"
 Header set X-Frame-Options "SAMEORIGIN"
