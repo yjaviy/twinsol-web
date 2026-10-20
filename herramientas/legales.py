@@ -69,7 +69,8 @@ def main():
   .legal-texto .legal-aviso { border-left: 2px solid var(--naranja); padding-left: .8rem; }
   .legal-texto .legal-fecha { font-size: .8rem; color: var(--nieve-2); margin-top: .8rem; }
 """
-        html = html.replace("</style>", css + "</style>", 1)
+        k = html.rfind("</style>")
+        html = html[:k] + css + html[k:]
     io.open(PAGINA, "w", encoding="utf-8", newline="\n").write(html)
     print("textos legales inyectados en", PAGINA, "| tamaño", os.path.getsize(PAGINA) // 1024, "KB")
 
