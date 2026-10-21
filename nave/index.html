@@ -338,6 +338,7 @@
     .svc:nth-child(even) { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
     .svc:nth-child(even) .svc-media { order: 2; }
     .svc-media { position: sticky; top: 100px; }
+    #hormigon .svc-media { position: static; } /* su fila de normas ocupa las dos columnas: la foto pegajosa se deslizaba encima */
     .svc-media figcaption { position: absolute; left: 0; bottom: 0; background: var(--fondo); padding: .6rem 1rem 0 0; max-width: 90%; }
   }
   .num { display: block; font-family: var(--f-mono); font-size: .82rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--acento-txt); margin-bottom: 1.2rem; }

@@ -13,11 +13,30 @@ from PIL import Image
 CHROME = r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 
 
-def chrome(url, salida, ancho, alto, perfil):
-    subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--no-sandbox",
-                    f"--user-data-dir={perfil}", "--virtual-time-budget=9000",
-                    f"--window-size={ancho},{alto}", f"--screenshot={salida}", url],
+def chrome(url, salida, ancho, alto, perfil=None):
+    """Captura `url` en `salida`. Chrome vuelve enseguida (se desprende del proceso) y escribe el PNG unos
+    segundos después, así que se espera a que el fichero exista y deje de crecer. Perfil nuevo por captura:
+    si dos lanzamientos comparten perfil, el segundo se pega al primero y no captura nada."""
+    import shutil, tempfile, time
+    propio = tempfile.mkdtemp(prefix="chrome-captura-")
+    if os.path.exists(salida):
+        os.remove(salida)
+    subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--no-sandbox", "--no-first-run",
+                    "--disable-extensions", "--allow-file-access-from-files", f"--user-data-dir={propio}",
+                    "--virtual-time-budget=8000", f"--window-size={ancho},{alto}", f"--screenshot={salida}", url],
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=180)
+    t0, previo = time.time(), -1
+    while time.time() - t0 < 120:
+        if os.path.exists(salida) and os.path.getsize(salida) > 1000:
+            actual = os.path.getsize(salida)
+            if actual == previo:
+                break
+            previo = actual
+        time.sleep(0.5)
+    else:
+        raise SystemExit(f"Chrome no ha escrito {salida} en 120 s")
+    time.sleep(0.3)
+    shutil.rmtree(propio, ignore_errors=True)
 
 
 def recortar_final(im):
