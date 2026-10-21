@@ -250,6 +250,7 @@
   .hero .kicker { color: var(--nieve); }
   .hero .lead { margin-top: 1.4rem; color: var(--nieve); max-width: 52ch; }
   .hero-acciones { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+  @media (max-width: 560px) { .hero-acciones .btn { flex: 1 1 auto; justify-content: center; } }
   .hero-nota { border-left: 3px solid var(--naranja); padding: .3rem 0 .3rem 1.2rem; max-width: 34ch; color: var(--nieve); }
   .hero-nota p { font-size: 1.05rem; line-height: 1.45; font-weight: 500; }
   .hero-nota .mono { color: var(--nieve); display: block; margin-top: .8rem; }
@@ -328,6 +329,7 @@
 
   /* ---------- Servicios ---------- */
   .svc-lista { display: grid; gap: clamp(3rem, 7vw, 6rem); }
+  @media (max-width: 959px) { .svc-lista { gap: 5rem; } } /* apilado: la foto va antes del rótulo, hace falta más aire entre líneas */
   .svc { display: grid; gap: 1.8rem; align-items: start; }
   .svc-media { margin: 0; position: relative; }
   .svc-media img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
@@ -338,7 +340,7 @@
     .svc:nth-child(even) { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
     .svc:nth-child(even) .svc-media { order: 2; }
     .svc-media { position: sticky; top: 100px; }
-    #hormigon .svc-media { position: static; } /* su fila de normas ocupa las dos columnas: la foto pegajosa se deslizaba encima */
+    #hormigon .svc-media { position: relative; top: auto; } /* su fila de normas ocupa las dos columnas: la foto pegajosa se deslizaba encima; relative (no static) para que el pie absoluto siga anclado a la foto */
     .svc-media figcaption { position: absolute; left: 0; bottom: 0; background: var(--fondo); padding: .6rem 1rem 0 0; max-width: 90%; }
   }
   .num { display: block; font-family: var(--f-mono); font-size: .82rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--acento-txt); margin-bottom: 1.2rem; }
@@ -353,10 +355,10 @@
   .sub-linea p:last-child { color: var(--txt); }
 
   /* ---------- Alta tolerancia de nivelación: las normas (ficha técnica a todo el ancho dentro de la línea de hormigón) ---------- */
-  .svc-normas { margin-top: .5rem; padding-top: 1.6rem; border-top: 1px solid var(--linea); }
-  @media (min-width: 960px) { .svc-normas { grid-column: 1 / -1; margin-top: 0; padding-top: 2.2rem; } }
+  .svc-normas { margin-top: 0; padding-top: 1.6rem; }
+  @media (min-width: 960px) { .svc-normas { grid-column: 1 / -1; padding-top: 2.2rem; border-top: 1px solid var(--linea); } }
   .svc-normas .etq { display: block; color: var(--acento-txt); margin-bottom: .6rem; }
-  .svc-normas h4 { font-family: var(--f-titular); font-stretch: 110%; font-weight: 600; font-size: clamp(1.2rem, 1.8vw, 1.5rem); line-height: 1.15; margin: 0 0 .6rem; }
+  .svc-normas h4 { font-family: var(--f-titular); font-stretch: 110%; font-weight: 600; font-size: clamp(1.2rem, 1.8vw, 1.5rem); line-height: 1.15; margin: 0 0 .6rem; text-wrap: balance; }
   .svc-normas > p { max-width: 62ch; }
   table.normas { width: 100%; border-collapse: collapse; margin-top: 1.4rem; border-top: 2px solid var(--txt); font-size: .95rem; }
   table.normas th, table.normas td { text-align: left; vertical-align: top; padding: .8rem 1.4rem .8rem 0; border-bottom: 1px solid var(--linea); }
@@ -379,6 +381,7 @@
 
   /* ---------- Proceso de obra (dentro de Servicios) ---------- */
   .proceso { margin-top: clamp(3.5rem, 8vw, 7rem); padding-top: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--linea); }
+  @media (max-width: 959px) { .proceso { border-top: 0; padding-top: 0; margin-top: clamp(3rem, 7vw, 6rem); } } /* a una columna la lista ya cierra con su raya */
   .proceso-cab { display: grid; gap: 2rem; align-items: center; margin-bottom: clamp(2rem, 4vw, 3rem); }
   @media (min-width: 1000px) { .proceso-cab { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 5rem); } }
   .proceso-foto { margin: 0; }
@@ -396,7 +399,7 @@
   .paso h4 { font-family: var(--f-titular); font-stretch: 110%; font-weight: 600; font-size: clamp(1.2rem, 1.8vw, 1.5rem); line-height: 1.15; margin: 0 0 .6rem; }
   .paso p { color: var(--txt-2); font-size: .98rem; }
   .resultado { display: grid; gap: .6rem 2.5rem; padding-top: 1.6rem; border-top: 1px solid var(--linea); }
-  @media (min-width: 1000px) { .resultado { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 0 2.5rem; align-items: baseline; } }
+  @media (min-width: 1000px) { .resultado { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 2.5rem; align-items: baseline; } .resultado p { grid-column: 2 / -1; } }
   .resultado .etq { color: var(--acento-txt); display: block; margin-bottom: .5rem; }
   .resultado h4 { font-family: var(--f-titular); font-stretch: 110%; font-weight: 600; font-size: clamp(1.2rem, 1.8vw, 1.5rem); line-height: 1.15; margin: 0; }
   .resultado p { max-width: 70ch; }
@@ -434,7 +437,7 @@
   @media (min-width: 640px) { .sector-listas { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 2.5rem; } }
   .sector-grupo h3 { font-size: 1.1rem; margin-bottom: .8rem; padding-bottom: .6rem; border-bottom: 2px solid var(--txt); }
   .sector-grupo ul { list-style: none; margin: 0; padding: 0; }
-  @media (min-width: 640px) { .sector-grupo ul.dos { columns: 2; column-gap: 2rem; } }
+  @media (min-width: 640px) { .sector-grupo ul.dos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; } }
   .sector-grupo li { padding: .35rem 0; border-bottom: 1px solid var(--linea); break-inside: avoid; font-size: .98rem; }
   /* Tarjetas de foto con velo marino y nombre al pie */
   .sector-fotos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: clamp(2.5rem, 5vw, 4rem); }
@@ -443,7 +446,8 @@
   .sector-fotos img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
   .sector-fotos figure::after { content: ""; position: absolute; inset: 0; pointer-events: none;
     background: linear-gradient(180deg, rgba(var(--marino-rgb), 0) 42%, rgba(var(--marino-rgb), .86) 74%, rgba(var(--marino-rgb), .97) 100%); }
-  .sector-fotos figcaption { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; display: block; padding: .9rem 1rem 1rem; color: var(--nieve); font-size: .72rem; }
+  .sector-fotos figcaption { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; display: grid; gap: 0; grid-template-rows: auto minmax(4.8em, auto); padding: .9rem 1rem 1rem; color: var(--nieve); font-size: .72rem; } /* la fila del subtítulo reserva 3 líneas (2 desde 900 px): los títulos de una misma fila quedan a la misma altura */
+  @media (min-width: 900px) { .sector-fotos figcaption { grid-template-rows: auto minmax(3.2em, auto); } }
   .sector-fotos figcaption b { display: block; margin-bottom: .25rem; color: var(--naranja-claro); font-family: var(--f-cuerpo); font-weight: 700; font-size: .95rem; letter-spacing: .01em; text-transform: none; }
 
   /* ---------- Obras ---------- */
@@ -452,6 +456,7 @@
   .sangre img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 65%; }
   @media (min-width: 760px) { .sangre img { aspect-ratio: 21 / 8; } }
   .sangre figcaption { position: absolute; left: 0; bottom: 0; background: var(--fondo); padding: .8rem 1.4rem .8rem var(--gut); max-width: 92%; }
+  @media (max-width: 759px) { .sangre figcaption { right: 0; max-width: none; } }
   .galeria { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
   @media (min-width: 760px) { .galeria { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1.2rem; } }
   .galeria figure { margin: 0; grid-column: span 1; min-width: 0; overflow: hidden; }
@@ -497,8 +502,10 @@
   @media (min-width: 960px) { .somos { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; } }
   .somos-txt p { max-width: 64ch; }
   .cita-grande { font-family: var(--f-titular); font-stretch: 110%; font-weight: 500; font-size: clamp(1.3rem, 2.1vw, 1.9rem); line-height: 1.22; max-width: 26ch; margin: 2.2rem 0; padding-left: 1.3rem; border-left: 3px solid var(--naranja); }
-  .valores-linea { margin: 2rem 0 0; padding-top: 1.3rem; border-top: 2px solid var(--txt); font-family: var(--f-titular); font-stretch: 110%; font-weight: 600; font-size: 1.05rem; line-height: 1.7; }
-  .valores-linea i { font-style: normal; color: var(--acento-txt); padding: 0 .35em; }
+  .valores-linea { margin: 2rem 0 0; padding-top: 1.3rem; border-top: 2px solid var(--txt); font-family: var(--f-titular); font-stretch: 110%; font-weight: 600; font-size: 1.05rem; line-height: 1.7; display: flex; flex-wrap: wrap; column-gap: 1.2em; overflow: hidden; }
+  /* La barra va delante de cada valor; la del primero de cada fila queda fuera del borde izquierdo y la recorta overflow: hidden */
+  .valores-linea span:not(.oculto-visual) { margin-left: -1.2em; }
+  .valores-linea span:not(.oculto-visual)::before { content: "/"; content: "/" / ""; display: inline-block; width: 1.2em; text-align: center; color: var(--acento-txt); }
   .valores-nota { margin-top: .6rem; font-size: .95rem; color: var(--txt-2); }
   .valores-nota a { color: var(--acento-txt); font-weight: 600; }
   /* Foto recortada con el arco de la marca: borde superior en arco asimétrico + trazo fino naranja */
@@ -533,7 +540,7 @@
   .sello { background: var(--papel); border: 1px solid var(--linea); padding: .9rem 1.2rem; display: flex; align-items: center; }
   .sello img.sobre-blanco { mix-blend-mode: multiply; }
   .sello img { max-height: 92px; width: auto; }
-  .sellos-nota { flex: 0 0 100%; color: var(--txt-2); font-size: .88rem; max-width: 70ch; }
+  .sellos-nota { flex: 0 0 100%; align-self: center; color: var(--txt-2); font-size: .88rem; max-width: 70ch; }
   /* El sello ICDQ abre el certificado (PDF) en pestaña nueva: realce sutil del marco y de la imagen */
   .sello { transition: border-color .3s, box-shadow .3s; }
   .sello-enlace { display: flex; align-items: center; text-decoration: none; }
@@ -573,8 +580,9 @@
   .datos li { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 1rem; padding: .9rem 0; border-bottom: 1px solid var(--linea); }
   .datos .etq { color: var(--txt-2); padding-top: .3rem; font-size: .72rem; }
   .datos a { text-decoration: none; font-weight: 600; overflow-wrap: anywhere; display: inline-block; padding: .15rem 0; }
+  .datos a.mono { padding: 0; line-height: 1.7rem; vertical-align: top; } /* mismo paso de línea que el cuerpo */
   .datos a:hover { color: var(--acento-txt); }
-  .datos small { color: var(--txt-2); display: block; font-size: .85rem; }
+  .datos small { color: var(--txt-2); display: block; font-size: .85rem; line-height: 1.7rem; }
   .form { background: var(--sup); padding: clamp(1.4rem, 3vw, 2.5rem); border-top: 3px solid var(--naranja); }
   .form-grid { display: grid; gap: 1.1rem; }
   @media (min-width: 640px) { .form-grid { grid-template-columns: 1fr 1fr; } .form-grid .ancho { grid-column: 1 / -1; } }
@@ -590,7 +598,7 @@
   .error { margin: .4rem 0 0; font-size: .88rem; font-weight: 600; color: var(--error); }
   .error:empty { display: none; }
   .info-basica { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--linea); font-size: .88rem; line-height: 1.45; color: var(--txt-2); }
-  .info-basica .ib-t { font-family: var(--f-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--acento-txt); margin: 0 0 .5rem; }
+  .info-basica .ib-t { font-family: var(--f-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--acento-txt); margin: 0 0 .5rem; text-wrap: balance; }
   .info-basica dl { margin: 0; display: grid; gap: .35rem; }
   .info-basica dl div { display: grid; grid-template-columns: 7.4rem minmax(0, 1fr); gap: .6rem; }
   .info-basica dt { font-weight: 600; color: var(--txt); }
@@ -603,7 +611,7 @@
   .consent a { color: var(--acento-txt); font-weight: 600; }
   .campo textarea { min-height: 150px; resize: vertical; }
   .form-pie { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; margin-top: 1.4rem; }
-  .form-pie small { color: var(--txt-2); max-width: 40ch; }
+  .form-pie small { color: var(--txt-2); flex: 1 1 20rem; }
   .form-ok { margin-top: 1.4rem; padding: 1rem 1.2rem; background: var(--marino); color: var(--nieve); }
   .form-ok:empty { margin: 0; padding: 0; }
   .form-ok.form-error { border-left: 3px solid var(--naranja); }
@@ -623,7 +631,7 @@
   .pie ul { list-style: none; margin: 0; padding: 0; }
   .pie li { font-size: .95rem; }
   .pie li, .pie-legal a { padding: .3rem 0; }
-  .pie li a, .pie-legal a { display: inline-block; padding-block: .15rem; }
+  .pie li a, .pie li .pie-dir, .pie-legal a { display: inline-block; padding-block: .15rem; }
   .pie a { text-decoration: none; }
   .pie a:hover { color: var(--nieve); }
   .pie-bajo { margin-top: 2.5rem; padding-top: 1.2rem; border-top: 1px solid var(--marino-3); display: flex; flex-wrap: wrap; gap: .6rem 2rem; justify-content: space-between; align-items: center; font-size: .85rem; }
@@ -755,7 +763,7 @@
       </div>
       <div class="dato">
         <a class="cifra" href="../docs/certificado-iso-14001-twinsol-decor.pdf" target="_blank" rel="noopener" title="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)" aria-label="Abrir el certificado UNE-EN ISO 14001:2015 en una pestaña nueva (PDF, 1,2 MB)">ISO 14001</a>
-        <p>gestión ambiental certificada por ICDQ · n.º 1455/26 · vigente hasta 2029</p>
+        <p>gestión ambiental certificada por ICDQ&nbsp;· n.º&nbsp;1455/26&nbsp;· vigente hasta 2029</p>
       </div>
     </div>
   </section>
@@ -1122,7 +1130,7 @@
         <p>Bienvenidos a TWINSOL DECOR, especialista en construcción de pavimentos de alta tolerancia. Contamos con <strong>más de 30 años de experiencia</strong> avalados por el grupo pionero y referente europeo en la producción de pavimentos sin juntas y alta planimetría, con resultados reconocidos en el ámbito nacional e internacional.</p>
         <p>Construimos pavimentos de calidad, <strong>optimizando sus prestaciones y minimizando los costes de mantenimiento</strong> a través de la innovación en el diseño, la mejora continua de procesos y equipos específicamente diseñados, entregando un producto personalizado y adaptado a cada necesidad.</p>
         <p>Nuestro equipo asiste a proyectos de pavimentación industrial y comercial en España, Centroeuropa, Sudamérica y Oriente Medio.</p>
-        <p class="valores-linea"><span class="oculto-visual">Valores: </span>Integridad<i aria-hidden="true">/</i> Experiencia<i aria-hidden="true">/</i> Excelencia<i aria-hidden="true">/</i> Innovación<i aria-hidden="true">/</i> Trabajo en equipo</p>
+        <p class="valores-linea"><span class="oculto-visual">Valores: </span><span>Integridad</span> <span>Experiencia</span> <span>Excelencia</span> <span>Innovación</span> <span>Trabajo en equipo</span></p>
         <p class="valores-nota">Con compromiso con la salud y la seguridad y preocupación por el medio ambiente: véase <a href="#calidad">Calidad, medio ambiente y seguridad laboral</a>.</p>
       </div>
       <figure class="arco-foto">
@@ -1296,8 +1304,7 @@
       <div>
         <h2 class="pie-tit">Oficina central</h2>
         <ul role="list">
-          <li>Calle Alcolea n.º 39</li>
-          <li>19174 Torrejón del Rey (Guadalajara)</li>
+          <li><span class="pie-dir">Calle Alcolea n.º 39<br>19174 Torrejón del Rey (Guadalajara)</span></li>
           <li><a href="mailto:info@twinsoldecor.com">info@twinsoldecor.com</a></li>
           <li><a href="tel:+34648710497">+34 648 710 497</a> · <a href="tel:+34616052200">+34 616 052 200</a></li>
         </ul>
