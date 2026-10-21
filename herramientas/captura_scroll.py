@@ -64,8 +64,9 @@ def main():
     prefijo = os.path.abspath(sys.argv[2])
     tamanos = (sys.argv[3] if len(sys.argv) > 3 else "1440x900,1024x768,390x844").split(",")
     os.makedirs(os.path.dirname(prefijo), exist_ok=True)
-    for f in glob.glob(prefijo + "-*x*-*.png"):
-        os.remove(f)
+    for tam in tamanos:
+        for f in glob.glob(prefijo + f"-{tam.lower()}-*.png"):
+            os.remove(f)
     carpeta = os.path.dirname(entrada)
     nombre = os.path.basename(entrada)
     salidas = []
@@ -80,14 +81,15 @@ def main():
                     'iframe{border:0;display:block}</style></head><body>'
                     f'<iframe id="f" src="{nombre}" width="{ancho}" height="{alto}"></iframe>'
                     '<script>document.getElementById("f").addEventListener("load",function(){'
-                    f'var w=this.contentWindow;setTimeout(function(){{w.scrollTo(0,{y});}},800);setTimeout(function(){{w.scrollTo(0,{y});}},2500);}});</script>'
+                    f'var w=this.contentWindow;function ir(){{try{{w.document.documentElement.style.scrollBehavior="auto";}}catch(e){{}}'
+                    f'w.scrollTo({{top:{y},left:0,behavior:"instant"}});}}setTimeout(ir,800);setTimeout(ir,2500);}});</script>'
                     '</body></html>')
                 s = f"{prefijo}-{ancho}x{alto}-{n + 1:02d}.png"
                 chrome("file:///" + ifr.replace("\\", "/"), s, max(600, ancho), alto, perfil)
                 os.remove(ifr)
                 im = Image.open(s).convert("RGB").crop((0, 0, ancho, alto))
                 # Fin de página: la captura es igual que la anterior (el scroll ya no avanza)
-                if salidas and salidas[-1][0].startswith(f"{prefijo}-{ancho}x{alto}-") and list(im.getdata()) == salidas[-1][1]:
+                if y > alto and salidas and salidas[-1][0].startswith(f"{prefijo}-{ancho}x{alto}-") and list(im.getdata()) == salidas[-1][1]:
                     os.remove(s)
                     break
                 banda = Image.new("RGB", (ancho, 28), "#111")
